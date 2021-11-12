@@ -318,7 +318,7 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 		}
 	}
 
-	for (int i = x - 1; i > 0; i--) {
+	for (int i = x - 1; i >= 0; i--) {
 		Position* pos;
 		pos = new Position(i, y);
 		if (posToPiece[i][y] == nullptr) {
@@ -348,7 +348,7 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 		}
 	}
 
-	for (int j = y - 1; j > 0; j--) {
+	for (int j = y - 1; j >= 0; j--) {
 		Position* pos;
 		pos = new Position(x, j);
 		if (posToPiece[x][j] == nullptr) {
@@ -399,7 +399,7 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 
 	meetObstacle = false;
 
-	for (int i = x - 1; i > 0; i--) {
+	for (int i = x - 1; i >= 0; i--) {
 		Position* pos;
 		pos = new Position(i, y);
 		if (posToPiece[i][y] == nullptr) {
@@ -449,7 +449,7 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 
 	meetObstacle = false;
 
-	for (int j = y - 1; j > 0; j--) {
+	for (int j = y - 1; j >= 0; j--) {
 		Position* pos;
 		pos = new Position(x, j);
 		if (posToPiece[x][j] == nullptr) {
