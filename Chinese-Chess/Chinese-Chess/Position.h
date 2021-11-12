@@ -8,6 +8,10 @@ private:
 	int y;
 
 public:
+	Position(int x, int y) {
+		setX(x);
+		setY(y);
+	}
 	int getX() { return x; };
 	int getY() { return y; };
 	void setX(int x) { this->x = x; };
