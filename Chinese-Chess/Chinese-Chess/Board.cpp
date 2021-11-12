@@ -303,6 +303,37 @@ vector<Position*> Board::checkForHorse(Piece* piece, vector<Position*>& position
 	return positions;
 }
 
+std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position*>& positions)
+{
+	int x = piece->getPos()->getX();
+	int y = piece->getPos()->getY();
+	int playerIndex = piece->getPlayerIndex();
+	if (playerIndex == 0) {
+		for (int j = y + 1; j < height; j++) {
+			if (posToPiece[x][j] != nullptr) {
+				Piece* piece = posToPiece[x][j];
+				if (piece->getType() == pieceType::GENERAL) {
+					Position* pos = new Position(x, j);
+					positions.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+	else {
+		for (int j = y - 1; j >= 0; j--) {
+			if (posToPiece[x][j] != nullptr) {
+				Piece* piece = posToPiece[x][j];
+				if (piece->getType() == pieceType::GENERAL) {
+					Position* pos = new Position(x, j);
+					positions.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+}
+
 vector<Position*> Board::checkForChariot(Piece* piece)
 {
 	vector<Position*> avaliablePlace;
