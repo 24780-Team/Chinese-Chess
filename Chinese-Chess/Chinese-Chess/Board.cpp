@@ -307,7 +307,7 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 {
 	vector<Position*> avaliablePlace;
 	int x = piece->getPos()->getX();
-	int y = piece->getPos()->getX();
+	int y = piece->getPos()->getY();
 	int playerIndex = piece->getPlayerIndex();
 	for (int i = x + 1; i < width; i++) {
 		Position* pos;
@@ -376,7 +376,7 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 {
 	vector<Position*> avaliablePlace;
 	int x = piece->getPos()->getX();
-	int y = piece->getPos()->getX();
+	int y = piece->getPos()->getY();
 	int playerIndex = piece->getPlayerIndex();
 	bool meetObstacle = false;
 
