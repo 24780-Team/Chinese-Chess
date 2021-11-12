@@ -122,18 +122,6 @@ vector<Position*> Horse::getAvaliablePlace(int width, int height)
 	return avaliablePlace;
 }
 
-vector<Position*> Chariot::getAvaliablePlace(int width, int height)
-{
-	vector<Position*> avaliablePlace;
-	return avaliablePlace;
-}
-
-vector<Position*> Cannon::getAvaliablePlace(int width, int height)
-{
-	vector<Position*> avaliablePlace;
-	return avaliablePlace;
-}
-
 vector<Position*> Soldier::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;

@@ -94,7 +94,6 @@ public:
 	Chariot(int x, int y, int playerIndex, int pieceIndex) :Piece(x, y, playerIndex, pieceIndex) {
 		this->type = pieceType::CHARIOT;
 	};
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
 
 class Cannon : public Piece {
@@ -102,7 +101,6 @@ public:
 	Cannon(int x, int y, int playerIndex, int pieceIndex) :Piece(x, y, playerIndex, pieceIndex) {
 		this->type = pieceType::CANNON;
 	};
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
 
 class Soldier : public Piece {
