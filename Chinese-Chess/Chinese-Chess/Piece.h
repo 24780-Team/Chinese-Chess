@@ -5,7 +5,7 @@
 
 using namespace std;
 
-enum pieceType {BASE, GENERAL, ADVISOR, ELEPHANT, HORSE, CHARIOT, CANNON, SOLDIER};
+enum class pieceType {BASE, GENERAL, ADVISOR, ELEPHANT, HORSE, CHARIOT, CANNON, SOLDIER};
 
 class Piece {
 protected:
@@ -13,7 +13,7 @@ protected:
 	int playerIndex;
 	int pieceIndex;
 	bool isCrossRiver;
-	vector<int[]> steps;
+	vector<vector<int>> steps;
 	pieceType type;
 public:
 	Piece(int x, int y, int playerIndex, int pieceIndex) {
@@ -21,7 +21,7 @@ public:
 		this->playerIndex = playerIndex;
 		this->pieceIndex = pieceIndex;
 		this->isCrossRiver = false;
-		this->type = BASE;
+		this->type = pieceType::BASE;
 	}
 	Position* getPos() { return pos; };
 	void setPos(Position* pos) { this->pos = pos; };
@@ -41,7 +41,7 @@ public:
 		steps.push_back({ -1, 0 });
 		steps.push_back({ 0, 1 });
 		steps.push_back({ 0, -1 });
-		this->type = GENERAL;
+		this->type = pieceType::GENERAL;
 	};
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
@@ -54,7 +54,7 @@ public:
 		steps.push_back({ -1, 1 });
 		steps.push_back({ 1, -1 });
 		steps.push_back({ -1, -1 });
-		this->type = ADVISOR;
+		this->type = pieceType::ADVISOR;
 	};
 	virtual bool onBoard(Position* pos);
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
@@ -67,7 +67,7 @@ public:
 		steps.push_back({ -2, 2 });
 		steps.push_back({ 2, -2 });
 		steps.push_back({ -2, -2 });
-		this->type = ELEPHANT;
+		this->type = pieceType::ELEPHANT;
 	};
 	virtual bool onBoard(Position* pos);
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
@@ -84,7 +84,7 @@ public:
 		steps.push_back({ -2, -1 });
 		steps.push_back({ 1, -2 });
 		steps.push_back({ 2, -1 });
-		this->type = HORSE;
+		this->type = pieceType::HORSE;
 	};
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
@@ -92,7 +92,7 @@ public:
 class Chariot : public Piece {
 public:
 	Chariot(int x, int y, int playerIndex, int pieceIndex) :Piece(x, y, playerIndex, pieceIndex) {
-		this->type = CHARIOT;
+		this->type = pieceType::CHARIOT;
 	};
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
@@ -100,7 +100,7 @@ public:
 class Cannon : public Piece {
 public:
 	Cannon(int x, int y, int playerIndex, int pieceIndex) :Piece(x, y, playerIndex, pieceIndex) {
-		this->type = CANNON;
+		this->type = pieceType::CANNON;
 	};
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
@@ -111,7 +111,7 @@ public:
 		steps.push_back({ 0, 1 });
 		steps.push_back({ 1, 0 });
 		steps.push_back({ -1, 0 });
-		this->type = SOLDIER;
+		this->type = pieceType::SOLDIER;
 	};
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 };
