@@ -62,9 +62,17 @@ void Game::setPiece(Position* pos, Piece* piece) {
     board->setPiece(pos, piece);
 }
 
-void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
+void Game::repentPrevTurn()
 {
     return;
+}
+
+void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
+{
+    for (auto pos : avaliablePlaces) {
+        cout << "(" << pos->getX() << "," << pos->getY() << ") ";
+    }
+    cout << endl;
 }
 
 void Game::draw()

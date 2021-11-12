@@ -270,12 +270,15 @@ vector<Position*> Board::checkForElephant(Piece* piece, vector<Position*>& posit
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
 	
-	for (auto iter = positions.begin(); iter != positions.end(); iter++) {
+	for (auto iter = positions.begin(); iter != positions.end();) {
 		Position* pos = *iter;
 		int dx = pos->getX() - currX;
 		int dy = pos->getY() - currY;
 		if (posToPiece[currX + dx / 2][currY + dy / 2] != nullptr) {
-			positions.erase(iter);
+			iter = positions.erase(iter);
+		}
+		else {
+			iter++;
 		}
 	}
 	return positions;
@@ -286,12 +289,15 @@ vector<Position*> Board::checkForHorse(Piece* piece, vector<Position*>& position
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
 
-	for (auto iter = positions.begin(); iter != positions.end(); iter++) {
+	for (auto iter = positions.begin(); iter != positions.end();) {
 		Position* pos = *iter;
 		int dx = pos->getX() - currX;
 		int dy = pos->getY() - currY;
 		if (posToPiece[currX + dx / 2][currY + dy / 2] != nullptr) {
-			positions.erase(iter);
+			iter = positions.erase(iter);
+		}
+		else {
+			iter++;
 		}
 	}
 	return positions;
