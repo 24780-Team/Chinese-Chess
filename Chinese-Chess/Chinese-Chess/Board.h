@@ -19,10 +19,10 @@ class Board {
         void initializeCannon(int& index);
         void initializeSoldier(int& index);
 
-        std::vector<Position*> getAvaliblePlacesElephant(Piece* piece, std::vector<Position*>& positions);
-        std::vector<Position*> getAvaliblePlacesHorse(Piece* piece, std::vector<Position*>& positions);
-        std::vector<Position*> getAvaliblePlacesChariot(Piece* piece);
-        std::vector<Position*> getAvaliblePlacesCannon(Piece* piece);
+        std::vector<Position*> checkForElephant(Piece* piece, std::vector<Position*>& positions);
+        std::vector<Position*> checkForHorse(Piece* piece, std::vector<Position*>& positions);
+        std::vector<Position*> checkForChariot(Piece* piece);
+        std::vector<Position*> checkForCannon(Piece* piece);
 
     
     public:

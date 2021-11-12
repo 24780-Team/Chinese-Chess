@@ -71,16 +71,16 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 	// Handle four special cases
 	switch (piece->getType()) {
 	case pieceType::ELEPHANT:
-		positions = getAvaliblePlacesElephant(piece, positions);
+		positions = checkForElephant(piece, positions);
 		break;
 	case pieceType::HORSE:
-		positions = getAvaliblePlacesHorse(piece, positions);
+		positions = checkForHorse(piece, positions);
 		break;
 	case pieceType::CHARIOT:
-		positions = getAvaliblePlacesChariot(piece);
+		positions = checkForChariot(piece);
 		break;
 	case pieceType::CANNON:
-		positions = getAvaliblePlacesCannon(piece);
+		positions = checkForCannon(piece);
 		break;
 	}
 
@@ -265,7 +265,7 @@ void Board::initializeSoldier(int& index)
 	}
 }
 
-vector<Position*> Board::getAvaliblePlacesElephant(Piece* piece, vector<Position*>& positions)
+vector<Position*> Board::checkForElephant(Piece* piece, vector<Position*>& positions)
 {
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
@@ -281,7 +281,7 @@ vector<Position*> Board::getAvaliblePlacesElephant(Piece* piece, vector<Position
 	return positions;
 }
 
-vector<Position*> Board::getAvaliblePlacesHorse(Piece* piece, vector<Position*>& positions)
+vector<Position*> Board::checkForHorse(Piece* piece, vector<Position*>& positions)
 {
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
@@ -297,12 +297,180 @@ vector<Position*> Board::getAvaliblePlacesHorse(Piece* piece, vector<Position*>&
 	return positions;
 }
 
-vector<Position*> Board::getAvaliblePlacesChariot(Piece* piece)
+vector<Position*> Board::checkForChariot(Piece* piece)
 {
-	return std::vector<Position*>();
+	vector<Position*> avaliablePlace;
+	int x = piece->getPos()->getX();
+	int y = piece->getPos()->getX();
+	int playerIndex = piece->getPlayerIndex();
+	for (int i = x + 1; i < width; i++) {
+		Position* pos;
+		pos = new Position(i, y);
+		if (posToPiece[i][y] == nullptr) {
+			avaliablePlace.push_back(pos);
+		}
+		else {
+			Piece* piece = posToPiece[i][y];
+			if (piece->getPlayerIndex() != playerIndex) {
+				avaliablePlace.push_back(pos);
+			}
+			break;
+		}
+	}
+
+	for (int i = x - 1; i > 0; i--) {
+		Position* pos;
+		pos = new Position(i, y);
+		if (posToPiece[i][y] == nullptr) {
+			avaliablePlace.push_back(pos);
+		}
+		else {
+			Piece* piece = posToPiece[i][y];
+			if (piece->getPlayerIndex() != playerIndex) {
+				avaliablePlace.push_back(pos);
+			}
+			break;
+		}
+	}
+
+	for (int j = y + 1; j < height; j++) {
+		Position* pos;
+		pos = new Position(x, j);
+		if (posToPiece[x][j] == nullptr) {
+			avaliablePlace.push_back(pos);
+		}
+		else {
+			Piece* piece = posToPiece[x][j];
+			if (piece->getPlayerIndex() != playerIndex) {
+				avaliablePlace.push_back(pos);
+			}
+			break;
+		}
+	}
+
+	for (int j = y - 1; j > 0; j--) {
+		Position* pos;
+		pos = new Position(x, j);
+		if (posToPiece[x][j] == nullptr) {
+			avaliablePlace.push_back(pos);
+		}
+		else {
+			Piece* piece = posToPiece[x][j];
+			if (piece->getPlayerIndex() != playerIndex) {
+				avaliablePlace.push_back(pos);
+			}
+			break;
+		}
+	}
+
+	return avaliablePlace;
 }
 
-vector<Position*> Board::getAvaliblePlacesCannon(Piece* piece)
+vector<Position*> Board::checkForCannon(Piece* piece)
 {
-	return std::vector<Position*>();
+	vector<Position*> avaliablePlace;
+	int x = piece->getPos()->getX();
+	int y = piece->getPos()->getX();
+	int playerIndex = piece->getPlayerIndex();
+	bool meetObstacle = false;
+
+	for (int i = x + 1; i < width; i++) {
+		Position* pos;
+		pos = new Position(i, y);
+		if (posToPiece[i][y] == nullptr) {
+			if (meetObstacle == false) {
+				avaliablePlace.push_back(pos);
+			}
+		}
+		else {
+			if (meetObstacle == false) {
+				meetObstacle = true;
+				continue;
+			}
+			else {
+				Piece* piece = posToPiece[i][y];
+				if (piece->getPlayerIndex() != playerIndex) {
+					avaliablePlace.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+
+	meetObstacle = false;
+
+	for (int i = x - 1; i > 0; i--) {
+		Position* pos;
+		pos = new Position(i, y);
+		if (posToPiece[i][y] == nullptr) {
+			if (!meetObstacle) {
+				avaliablePlace.push_back(pos);
+			}
+		}
+		else {
+			if (!meetObstacle) {
+				meetObstacle = true;
+				continue;
+			}
+			else {
+				Piece* piece = posToPiece[i][y];
+				if (piece->getPlayerIndex() != playerIndex) {
+					avaliablePlace.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+
+	meetObstacle = false;
+
+	for (int j = y + 1; j < height; j++) {
+		Position* pos;
+		pos = new Position(x, j);
+		if (posToPiece[x][j] == nullptr) {
+			if (!meetObstacle) {
+				avaliablePlace.push_back(pos);
+			}
+		}
+		else {
+			if (!meetObstacle) {
+				meetObstacle = true;
+				continue;
+			}
+			else {
+				Piece* piece = posToPiece[x][j];
+				if (piece->getPlayerIndex() != playerIndex) {
+					avaliablePlace.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+
+	meetObstacle = false;
+
+	for (int j = y - 1; j > 0; j--) {
+		Position* pos;
+		pos = new Position(x, j);
+		if (posToPiece[x][j] == nullptr) {
+			if (!meetObstacle) {
+				avaliablePlace.push_back(pos);
+			}
+		}
+		else {
+			if (!meetObstacle) {
+				meetObstacle = true;
+				continue;
+			}
+			else {
+				Piece* piece = posToPiece[x][j];
+				if (piece->getPlayerIndex() != playerIndex) {
+					avaliablePlace.push_back(pos);
+				}
+				break;
+			}
+		}
+	}
+
+	return avaliablePlace;
 }
