@@ -27,9 +27,7 @@ vector<Position*> General::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest;
-		dest->setX(pos->getX() + step[0]);
-		dest->setY(pos->getY() + step[1]);
+		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -72,9 +70,7 @@ vector<Position*> Advisor::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest;
-		dest->setX(pos->getX() + step[0]);
-		dest->setY(pos->getY() + step[1]);
+		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -102,9 +98,7 @@ vector<Position*> Elephant::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest;
-		dest->setX(pos->getX() + step[0]);
-		dest->setY(pos->getY() + step[1]);
+		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -118,9 +112,7 @@ vector<Position*> Horse::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest;
-		dest->setX(pos->getX() + step[0]);
-		dest->setY(pos->getY() + step[1]);
+		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -133,33 +125,12 @@ vector<Position*> Horse::getAvaliablePlace(int width, int height)
 vector<Position*> Chariot::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
-	for (int i = 0; i < width; i++) {
-		Position* dest;
-		if (i == pos->getY()) {
-			continue;
-		}
-		dest->setX(pos->getX());
-		dest->setY(i);
-		avaliablePlace.push_back(dest);
-	}
-
-	for (int j = 0; j < height; j++) {
-		Position* dest;
-		if (j == pos->getX()) {
-			continue;
-		}
-		dest->setX(j);
-		dest->setY(pos->getY());
-		avaliablePlace.push_back(dest);
-	}
 	return avaliablePlace;
 }
 
 vector<Position*> Cannon::getAvaliablePlace(int width, int height)
 {
 	vector<Position*> avaliablePlace;
-
-
 	return avaliablePlace;
 }
 
@@ -168,7 +139,7 @@ vector<Position*> Soldier::getAvaliablePlace(int width, int height)
 	vector<Position*> avaliablePlace;
 	if (isCrossRiver) {
 		for (auto step : steps) {
-			Position* dest;
+			Position* dest = new Position(0, 0);
 			if (playerIndex == 0) {
 				dest->setX(pos->getX() + step[0]);
 				dest->setY(pos->getY() + step[1]);
@@ -185,7 +156,7 @@ vector<Position*> Soldier::getAvaliablePlace(int width, int height)
 		}
 	}
 	else {
-		Position* dest;
+		Position* dest = new Position(0, 0);
 		if (playerIndex == 0) {
 			dest->setX(pos->getX() + steps[0][0]);
 			dest->setY(pos->getY() + steps[0][1]);
