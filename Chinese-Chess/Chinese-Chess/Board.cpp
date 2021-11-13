@@ -332,6 +332,7 @@ std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position
 			}
 		}
 	}
+	return positions;
 }
 
 vector<Position*> Board::checkForChariot(Piece* piece)

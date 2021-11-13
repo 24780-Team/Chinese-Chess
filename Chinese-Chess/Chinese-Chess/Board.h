@@ -21,6 +21,7 @@ class Board {
 
         std::vector<Position*> checkForElephant(Piece* piece, std::vector<Position*>& positions);
         std::vector<Position*> checkForHorse(Piece* piece, std::vector<Position*>& positions);
+        std::vector<Position*> checkForGeneral(Piece* piece, std::vector<Position*>& positions);
         std::vector<Position*> checkForChariot(Piece* piece);
         std::vector<Position*> checkForCannon(Piece* piece);
 
