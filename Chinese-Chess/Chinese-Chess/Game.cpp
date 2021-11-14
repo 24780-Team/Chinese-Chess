@@ -23,38 +23,65 @@ bool Game::nextTurn() {
     cout << endl;
     cout << "Round " << round << endl;
 
-    int playIndex = currPlayer->getIndex();
+    int playerIndex = currPlayer->getIndex();
     cout << "Current Player: " << currPlayer->getName() << endl;
-    Position *pos = getPosition();
-    Piece *piece = board->getPiece(pos);
+    vector<Position*> placesOfPieces = board->getPlacesOfPieces(playerIndex);
+    showAvaliablePlaces(placesOfPieces);
 
-    vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
-    showAvaliablePlaces(avaliablePlaces);
+    bool isSamePlace = true;
+    while (isSamePlace) {
+        Position* pos = getPosition(placesOfPieces);
+        Piece* piece = board->getPiece(pos);
 
-    pos = getPosition();
-    setPiece(pos, piece);
+        vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
+        showAvaliablePlaces(avaliablePlaces);
+
+        Position *otherPos = getPosition(avaliablePlaces);
+        if (otherPos != pos) {
+            setPiece(otherPos, piece);
+            isSamePlace = false;
+        }
+        else {
+            cout << "The piece was put down, please select again.\n" << endl;
+        }
+    }
 
     if (getWinner() != -1) {
         return true;
     }
 
     
-    if (playIndex == 1) {
+    if (playerIndex == 1) {
         round += 1;
     }
-    currPlayer = players[1 - playIndex];
+    currPlayer = players[1 - playerIndex];
     return false;
 }
 
-Position* Game::getPosition()
+Position* Game::getPosition(vector<Position*> positions)
 {
     int x, y;
-    cout << "Input a position:" << endl;
-    cout << "x = ";
-    cin >> x;
-    cout << "y = ";
-    cin >> y;
-    Position* pos = new Position(x, y);
+    bool isValidInput = false;
+    Position* pos = nullptr;
+
+    while (!isValidInput) {
+        cout << "Input a position:" << endl;
+        cout << "x = ";
+        cin >> x;
+        cout << "y = ";
+        cin >> y;
+        for (auto it = positions.begin(); it != positions.end(); it++)
+        {
+            if ((*it)->getX() == x && (*it)->getY() == y) {
+                pos = *it;
+                isValidInput = true;
+                break;
+            }
+        }
+        if (!isValidInput) {
+            cout << "Not a valid position.\n" << endl;
+        }
+    }
     return pos;
 }
 
@@ -69,6 +96,7 @@ void Game::repentPrevTurn()
 
 void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
 {
+    cout << "Avaliable positions are:" << endl;
     for (auto pos : avaliablePlaces) {
         cout << "(" << pos->getX() << "," << pos->getY() << ") ";
     }

@@ -21,9 +21,6 @@ Board::Board() {
 	initializeChariot(index);
 	initializeCannon(index);
 	initializeSoldier(index);
-
-	general0Alive = true;
-	general1Alive = true;
 }
 
 Piece* Board::getPiece(Position* pos)
@@ -33,7 +30,7 @@ Piece* Board::getPiece(Position* pos)
 	return posToPiece[x][y];
 }
 
-void Board::setPiece(Position* pos, Piece* piece)
+Piece* Board::setPiece(Position* pos, Piece* piece)
 {
 
 	Position *prevPos = piece->getPos();
@@ -48,18 +45,20 @@ void Board::setPiece(Position* pos, Piece* piece)
 	posToPiece[prevX][prevY] = nullptr;
 
 	if (otherPiece == nullptr) {
-		return;
+		return nullptr;
 	}
-	if (otherPiece->getType() == pieceType::GENERAL) {
-		if (piece->getPlayerIndex() == 1) general0Alive = false;
-		else general1Alive = false;
-	}
-	delete otherPiece;
-}
 
-void Board::addPiece(Piece* piece)
-{
-	return;
+	int playerIndex = piece->getPlayerIndex();
+	int otherPieceIndex = otherPiece->getPieceIndex();
+	if (playerIndex == 0) {
+		player1Alive.erase(otherPieceIndex);
+		player1Dead[otherPieceIndex] = otherPiece;
+	}
+	else {
+		player0Alive.erase(otherPieceIndex);
+		player0Dead[otherPieceIndex] = otherPiece;
+	}
+	return otherPiece;
 }
 
 vector<Position*> Board::getAvaliblePlaces(Piece* piece)
@@ -95,13 +94,17 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 
 		avaliblePlaces.push_back(pos);
 	}
+	avaliblePlaces.push_back(piece->getPos());
 	return avaliblePlaces;
 }
 
 int Board::getWinner()
 {
-	if (!general0Alive) return 0;
-	if (!general0Alive) return 1;
+	// General of player0 is dead
+	if (player0Dead.find(general0Index) != player0Dead.end()) return 0;
+
+	// General of player1 is dead
+	if (player1Dead.find(general1Index) != player1Dead.end()) return 1;
 	return -1;
 }
 
@@ -141,6 +144,22 @@ void Board::draw()
 	}
 }
 
+vector<Position*> Board::getPlacesOfPieces(int playerIndex)
+{
+	vector<Position*> places;
+	if (playerIndex == 0) {
+		for (auto v : player0Alive) {
+			places.push_back(v.second->getPos());
+		}
+	}
+	else {
+		for (auto v : player1Alive) {
+			places.push_back(v.second->getPos());
+		}
+	}
+	return places;
+}
+
 void Board::initializeGeneral(int& index)
 {
 	Position* pos;
@@ -148,13 +167,17 @@ void Board::initializeGeneral(int& index)
 
 	pos = new Position(4, 0);
 	piece = new General(4, 0, 0, index);
-	index += 1;
+
+	player0Alive[index] = piece;
 	posToPiece[4][0] = piece;
+	index += 1;
 	
 	pos = new Position(4, 9);
 	piece = new General(4, 9, 1, index);
-	index += 1;
+
+	player1Alive[index] = piece;
 	posToPiece[4][9] = piece;
+	index += 1;
 }
 
 void Board::initializeAdvisor(int& index)
@@ -165,13 +188,17 @@ void Board::initializeAdvisor(int& index)
 	for (int i = -1; i <= 1; i += 2) {
 		pos = new Position(4 + i, 0);
 		piece = new Advisor(4 + i, 0, 0, index);
-		index += 1;
+
+		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
+		index += 1;
 
 		pos = new Position(4 + i, 9);
 		piece = new Advisor(4 + i, 9, 1, index);
-		index += 1;
+
+		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
+		index += 1;
 	}
 }
 
@@ -183,13 +210,17 @@ void Board::initializeElephant(int& index)
 	for (int i = -2; i <= 2; i += 4) {
 		pos = new Position(4 + i, 0);
 		piece = new Elephant(4 + i, 0, 0, index);
-		index += 1;
+
+		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
+		index += 1;
 
 		pos = new Position(4 + i, 9);
 		piece = new Elephant(4 + i, 9, 1, index);
-		index += 1;
+
+		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
+		index += 1;
 	}
 }
 
@@ -201,13 +232,17 @@ void Board::initializeHorse(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 0);
 		piece = new Horse(4 + i, 0, 0, index);
-		index += 1;
+		
+		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
+		index += 1;
 
 		pos = new Position(4 + i, 9);
 		piece = new Horse(4 + i, 9, 1, index);
-		index += 1;
+		
+		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
+		index += 1;
 	}
 }
 
@@ -219,13 +254,17 @@ void Board::initializeChariot(int& index)
 	for (int i = -4; i <= 4; i += 8) {
 		pos = new Position(4 + i, 0);
 		piece = new Chariot(4 + i, 0, 0, index);
-		index += 1;
+
+		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
+		index += 1;
 
 		pos = new Position(4 + i, 9);
 		piece = new Chariot(4 + i, 9, 1, index);
-		index += 1;
+		
+		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
+		index += 1;
 	}
 }
 
@@ -237,13 +276,17 @@ void Board::initializeCannon(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 2);
 		piece = new Cannon(4 + i, 2, 0, index);
-		index += 1;
+		
+		player0Alive[index] = piece;
 		posToPiece[4 + i][2] = piece;
+		index += 1;
 
 		pos = new Position(4 + i, 7);
 		piece = new Cannon(4 + i, 7, 1, index);
-		index += 1;
+		
+		player1Alive[index] = piece;
 		posToPiece[4 + i][7] = piece;
+		index += 1;
 	}
 }
 
@@ -255,13 +298,17 @@ void Board::initializeSoldier(int& index)
 	for (int i = 0; i < 9; i += 2) {
 		pos = new Position(i, 3);
 		piece = new Soldier(i, 3, 0, index);
-		index += 1;
+		
+		player0Alive[index] = piece;
 		posToPiece[i][3] = piece;
+		index += 1;
 
 		pos = new Position(i, 6);
 		piece = new Soldier(i, 6, 1, index);
-		index += 1;
+		
+		player1Alive[index] = piece;
 		posToPiece[i][6] = piece;
+		index += 1;
 	}
 }
 

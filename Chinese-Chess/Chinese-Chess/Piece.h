@@ -23,9 +23,10 @@ public:
 		this->isCrossRiver = false;
 		this->type = pieceType::BASE;
 	}
-	Position* getPos() { return pos; };
-	void setPos(Position* pos) { this->pos = pos; };
-	int getPlayerIndex() { return playerIndex; };
+	Position* getPos() { return pos; }
+	void setPos(Position* pos) { this->pos = pos; }
+	int getPlayerIndex() { return playerIndex; }
+	int getPieceIndex() { return pieceIndex; }
 	pieceType getType() { return type; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
