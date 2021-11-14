@@ -28,6 +28,7 @@ public:
 	int getPlayerIndex() { return playerIndex; }
 	int getPieceIndex() { return pieceIndex; }
 	pieceType getType() { return type; };
+	int getPieceIndex() { return pieceIndex; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
 

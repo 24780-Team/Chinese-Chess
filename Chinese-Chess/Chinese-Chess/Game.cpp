@@ -3,6 +3,18 @@
 #include "Game.h"
 using namespace std;
 
+void Game::writeLog(int pieceIndex, Position* originPos, Position* newPos, int eliminatedPieceIndex)
+{
+    vector<int> log;
+    log.push_back(pieceIndex);
+    log.push_back(originPos->getX());
+    log.push_back(originPos->getY());
+    log.push_back(newPos->getX());
+    log.push_back(newPos->getY());
+    log.push_back(eliminatedPieceIndex);
+    backLog.push(log);
+}
+
 void Game::startGame() {
     board = new Board();
     for (int i = 0; i < 2; i++) {
@@ -45,6 +57,8 @@ bool Game::nextTurn() {
             cout << "The piece was put down, please select again.\n" << endl;
         }
     }
+
+    writeLog(piece->getPieceIndex(), originPos, newPos, eliminatedPieceIndex);
 
     if (getWinner() != -1) {
         return true;
