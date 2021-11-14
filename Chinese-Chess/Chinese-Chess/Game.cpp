@@ -41,30 +41,36 @@ bool Game::nextTurn() {
     showAvaliablePlaces(placesOfPieces);
 
     bool isSamePlace = true;
+    Piece* piece = nullptr;
+    Piece* eliminatedPiece = nullptr;
+    Position* originalPos = nullptr;
+    Position* newPos = nullptr;
+
     while (isSamePlace) {
-        Position* pos = getPosition(placesOfPieces);
-        Piece* piece = board->getPiece(pos);
+        originalPos = getPosition(placesOfPieces);
+        piece = board->getPiece(originalPos);
 
         vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
         showAvaliablePlaces(avaliablePlaces);
 
-        Position *otherPos = getPosition(avaliablePlaces);
-        if (otherPos != pos) {
-            setPiece(otherPos, piece);
+        newPos = getPosition(avaliablePlaces);
+        if (newPos != originalPos) {
+            eliminatedPiece = setPiece(newPos, piece);
             isSamePlace = false;
         }
         else {
             cout << "The piece was put down, please select again.\n" << endl;
         }
     }
-
-    writeLog(piece->getPieceIndex(), originPos, newPos, eliminatedPieceIndex);
+    
+    int eliminatedPieceIndex = -1;
+    if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
+    writeLog(piece->getPieceIndex(), originalPos, newPos, eliminatedPieceIndex);
 
     if (getWinner() != -1) {
         return true;
     }
 
-    
     if (playerIndex == 1) {
         round += 1;
     }
@@ -99,8 +105,8 @@ Position* Game::getPosition(vector<Position*> positions)
     return pos;
 }
 
-void Game::setPiece(Position* pos, Piece* piece) {
-    board->setPiece(pos, piece);
+Piece* Game::setPiece(Position* pos, Piece* piece) {
+    return board->setPiece(pos, piece);
 }
 
 void Game::repentPrevTurn()

@@ -30,7 +30,7 @@ class Game {
         int getWinner();
         bool nextTurn();
         Position* getPosition(std::vector<Position*> positions); // Need to be changed.
-        void setPiece(Position* pos, Piece* piece);
+        Piece* setPiece(Position* pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
 
         void showAvaliablePlaces(std::vector<Position*> avaliablePlaces); // Need to be changed.
