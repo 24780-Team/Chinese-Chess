@@ -27,6 +27,7 @@ public:
 	void setPos(Position* pos) { this->pos = pos; };
 	int getPlayerIndex() { return playerIndex; };
 	pieceType getType() { return type; };
+	int getPieceIndex() { return pieceIndex; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
 
