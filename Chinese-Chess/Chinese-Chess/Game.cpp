@@ -15,6 +15,22 @@ void Game::writeLog(int pieceIndex, Position* originPos, Position* newPos, int e
     backLog.push(log);
 }
 
+void Game::redo()
+{
+    if (!backLog.empty()) {
+        vector<int> log = backLog.top();
+        backLog.pop();
+        Piece* redoPiece = board->getAlivePieceByIndex(log[0]);
+        Position* originPos = new Position(log[1], log[2]);
+        Position* newPos = new Position(log[3], log[4]);
+        setPiece(originPos, redoPiece);
+        if (log[5] != -1) {
+            Piece* eliminatedPiece = board->getDeadPieceByIndex(log[5]);
+            setPiece(newPos, eliminatedPiece);
+        }
+    }
+}
+
 void Game::startGame() {
     board = new Board();
     for (int i = 0; i < 2; i++) {

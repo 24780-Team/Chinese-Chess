@@ -39,6 +39,8 @@ class Board {
         Piece* setPiece(Position* pos, Piece* piece);
         std::vector<Position*> getPlacesOfPieces(int playerIndex);
         std::vector<Position*> getAvaliblePlaces(Piece *piece);
+        Piece* getAlivePieceByIndex(int index);
+        Piece* getDeadPieceByIndex(int index);
         int getWinner();
 
         void draw(); // // Need to be changed.

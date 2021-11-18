@@ -24,6 +24,8 @@ class Game {
         */
         void writeLog(int pieceIndex, Position* originPos, Position* newPos, int eliminatedPieceIndex);
 
+        void redo();
+
     public:
         std::string getPlayerName(Player *player) { return player->getName(); }
         void startGame();

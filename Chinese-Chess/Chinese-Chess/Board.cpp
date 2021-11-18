@@ -98,6 +98,30 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 	return avaliblePlaces;
 }
 
+Piece* Board::getAlivePieceByIndex(int index)
+{
+	if (player0Alive.count(index) != 0) {
+		return player0Alive[index];
+	}
+	
+	if (player1Alive.count(index) != 0) {
+		return player1Alive[index];
+	}
+	return nullptr;
+}
+
+Piece* Board::getDeadPieceByIndex(int index)
+{
+	if (player0Alive.count(index) != 0) {
+		return player0Dead[index];
+	}
+
+	if (player1Alive.count(index) != 0) {
+		return player1Dead[index];
+	}
+	return nullptr;
+}
+
 int Board::getWinner()
 {
 	// General of player0 is dead

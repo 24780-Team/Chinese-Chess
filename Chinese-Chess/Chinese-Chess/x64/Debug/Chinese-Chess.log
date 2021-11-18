@@ -1,2 +1,6 @@
 ﻿  Board.cpp
+  Game.cpp
+  Piece.cpp
+  test.cpp
+  Generating Code...
   Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe
