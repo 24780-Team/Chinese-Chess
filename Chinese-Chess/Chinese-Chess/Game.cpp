@@ -83,7 +83,11 @@ bool Game::nextTurn() {
     if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
     writeLog(piece->getPieceIndex(), originalPos, newPos, eliminatedPieceIndex);
 
-    if (getWinner() != -1) {
+    int winner;
+    if ((winner = getWinner()) != -1) {
+        cout << endl;
+        cout << "Game End." << endl;
+        cout << getPlayerName(players[winner]) << " win!" << endl;
         return true;
     }
 
@@ -141,5 +145,7 @@ void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
 
 void Game::draw()
 {
-    board->draw();
+    //board->draw();
+    board->drawBoard();
+    board->drawPieces(mode);
 }

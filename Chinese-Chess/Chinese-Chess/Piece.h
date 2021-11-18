@@ -1,7 +1,16 @@
 #pragma once
 
-#include "Position.h"
 #include <vector>
+#include <sstream>
+#include <fstream>
+
+#include "ysglfontdata.h"
+#include "fssimplewindow.h"
+#include "StringPlus.h"
+#include "yspng.h"
+#include "DrawingUtilNG.h"
+
+#include "Position.h"
 
 using namespace std;
 
@@ -12,9 +21,13 @@ protected:
 	Position* pos;
 	int playerIndex;
 	int pieceIndex;
+	string pieceID;
 	bool isCrossRiver;
 	vector<vector<int>> steps;
 	pieceType type;
+	YsRawPngDecoder imgPIC;
+	YsRawPngDecoder imgCHN;
+
 public:
 	Piece(int x, int y, int playerIndex, int pieceIndex) {
 		this->pos = new Position(x, y);
@@ -23,6 +36,7 @@ public:
 		this->isCrossRiver = false;
 		this->type = pieceType::BASE;
 	}
+
 	Position* getPos() { return pos; }
 	void setPos(Position* pos) { this->pos = pos; }
 	int getPlayerIndex() { return playerIndex; }
@@ -30,8 +44,11 @@ public:
 	pieceType getType() { return type; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
+	void addImage(std::string pathPIC, std::string pathCHN);
 
-	void draw();
+	//// reads data from a file over-riding any existing data
+	//void load(std::ifstream& inFile);
+	void draw(int mode);
 };
 
 

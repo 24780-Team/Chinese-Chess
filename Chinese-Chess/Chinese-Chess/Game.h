@@ -2,9 +2,9 @@
 #include <string>
 #include <stack>
 #include <vector>
+
 #include "Player.h"
 #include "Board.h"
-
 
 class Game {
     private:
@@ -14,6 +14,7 @@ class Game {
         int round;
         int countdown;
         stack<vector<int>> backLog;
+        int mode = 1;
 
         /**
          * @brief record player's actions

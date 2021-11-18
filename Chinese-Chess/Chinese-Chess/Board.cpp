@@ -4,6 +4,12 @@
 
 using namespace std;
 
+#define boardMargin 50
+#define gridMargin 100
+#define boardSize 900
+#define gridSize 100
+#define pieceSize 80
+
 Board::Board() {
 	for (int i = 0; i < width; i++) {
 		vector<Piece*> pieces;
@@ -21,6 +27,9 @@ Board::Board() {
 	initializeChariot(index);
 	initializeCannon(index);
 	initializeSoldier(index);
+
+	//addPiece("redpieces.txt", 0, 0);
+	//addPiece("blackpieces.txt", 1, 16);
 }
 
 Piece* Board::getPiece(Position* pos)
@@ -59,6 +68,16 @@ Piece* Board::setPiece(Position* pos, Piece* piece)
 		player0Dead[otherPieceIndex] = otherPiece;
 	}
 	return otherPiece;
+}
+
+void Board::drawPieces(int mode)
+{
+	for (auto pair : player0Alive) {
+		pair.second->draw(mode);
+	}
+	for (auto pair : player1Alive) {
+		pair.second->draw(mode);
+	}
 }
 
 vector<Position*> Board::getAvaliblePlaces(Piece* piece)
@@ -125,10 +144,10 @@ Piece* Board::getDeadPieceByIndex(int index)
 int Board::getWinner()
 {
 	// General of player0 is dead
-	if (player0Dead.find(general0Index) != player0Dead.end()) return 0;
+	if (player0Dead.find(general0Index) != player0Dead.end()) return 1;
 
 	// General of player1 is dead
-	if (player1Dead.find(general1Index) != player1Dead.end()) return 1;
+	if (player1Dead.find(general1Index) != player1Dead.end()) return 0;
 	return -1;
 }
 
@@ -191,6 +210,7 @@ void Board::initializeGeneral(int& index)
 
 	pos = new Position(4, 0);
 	piece = new General(4, 0, 0, index);
+	piece->addImage("pieces/black_pic/general.png", "pieces/black_cn/general.png");
 
 	player0Alive[index] = piece;
 	posToPiece[4][0] = piece;
@@ -198,10 +218,14 @@ void Board::initializeGeneral(int& index)
 	
 	pos = new Position(4, 9);
 	piece = new General(4, 9, 1, index);
+	piece->addImage("pieces/red_pic/general.png", "pieces/red_cn/general.png");
 
 	player1Alive[index] = piece;
 	posToPiece[4][9] = piece;
 	index += 1;
+
+	general0Index = 0;
+	general1Index = 1;
 }
 
 void Board::initializeAdvisor(int& index)
@@ -212,6 +236,7 @@ void Board::initializeAdvisor(int& index)
 	for (int i = -1; i <= 1; i += 2) {
 		pos = new Position(4 + i, 0);
 		piece = new Advisor(4 + i, 0, 0, index);
+		piece->addImage("pieces/black_pic/advisor.png", "pieces/black_cn/advisor.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -219,6 +244,7 @@ void Board::initializeAdvisor(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Advisor(4 + i, 9, 1, index);
+		piece->addImage("pieces/red_pic/advisor.png", "pieces/red_cn/advisor.png");
 
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -234,6 +260,7 @@ void Board::initializeElephant(int& index)
 	for (int i = -2; i <= 2; i += 4) {
 		pos = new Position(4 + i, 0);
 		piece = new Elephant(4 + i, 0, 0, index);
+		piece->addImage("pieces/black_pic/elephant.png", "pieces/black_cn/elephant.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -241,6 +268,7 @@ void Board::initializeElephant(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Elephant(4 + i, 9, 1, index);
+		piece->addImage("pieces/red_pic/elephant.png", "pieces/red_cn/elephant.png");
 
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -256,6 +284,7 @@ void Board::initializeHorse(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 0);
 		piece = new Horse(4 + i, 0, 0, index);
+		piece->addImage("pieces/black_pic/horse.png", "pieces/black_cn/horse.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -263,6 +292,7 @@ void Board::initializeHorse(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Horse(4 + i, 9, 1, index);
+		piece->addImage("pieces/red_pic/horse.png", "pieces/red_cn/horse.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -278,6 +308,7 @@ void Board::initializeChariot(int& index)
 	for (int i = -4; i <= 4; i += 8) {
 		pos = new Position(4 + i, 0);
 		piece = new Chariot(4 + i, 0, 0, index);
+		piece->addImage("pieces/black_pic/chariot.png", "pieces/black_cn/chariot.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -285,6 +316,7 @@ void Board::initializeChariot(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Chariot(4 + i, 9, 1, index);
+		piece->addImage("pieces/red_pic/chariot.png", "pieces/red_cn/chariot.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -300,6 +332,7 @@ void Board::initializeCannon(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 2);
 		piece = new Cannon(4 + i, 2, 0, index);
+		piece->addImage("pieces/black_pic/cannon.png", "pieces/black_cn/cannon.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[4 + i][2] = piece;
@@ -307,6 +340,7 @@ void Board::initializeCannon(int& index)
 
 		pos = new Position(4 + i, 7);
 		piece = new Cannon(4 + i, 7, 1, index);
+		piece->addImage("pieces/red_pic/cannon.png", "pieces/red_cn/cannon.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][7] = piece;
@@ -322,6 +356,7 @@ void Board::initializeSoldier(int& index)
 	for (int i = 0; i < 9; i += 2) {
 		pos = new Position(i, 3);
 		piece = new Soldier(i, 3, 0, index);
+		piece->addImage("pieces/black_pic/soldier.png", "pieces/black_cn/soldier.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[i][3] = piece;
@@ -329,6 +364,7 @@ void Board::initializeSoldier(int& index)
 
 		pos = new Position(i, 6);
 		piece = new Soldier(i, 6, 1, index);
+		piece->addImage("pieces/red_pic/soldier.png", "pieces/red_cn/soldier.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[i][6] = piece;
@@ -583,3 +619,121 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 
 	return avaliablePlace;
 }
+
+void Board::drawBoard()
+{
+	// board background
+	glColor3ub(238, 197, 145);
+	glBegin(GL_QUADS);
+	glVertex2i(boardMargin, boardMargin);
+	glVertex2i(boardMargin, 3 * boardMargin + boardSize);
+	glVertex2i(boardMargin + boardSize, 3 * boardMargin + boardSize);
+	glVertex2i(boardMargin + boardSize, boardMargin);
+	glEnd();
+	glFlush();
+
+	// board grid
+	int lineWidth = 3;
+	// horizontal lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	for (int i = 0; i <= 9; i++) {
+		int x1 = gridMargin;
+		int y1 = gridMargin + gridSize * i;
+		int x2 = gridMargin + gridSize * 8;
+		int y2 = gridMargin + gridSize * i;
+		glVertex2i(x1, y1);
+		glVertex2i(x2, y2);
+	}
+	glEnd();
+	glFlush();
+
+	// vertical lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	for (int i = 0; i <= 8; i++) {
+		int x = gridMargin + gridSize * i;
+		int y1 = gridMargin;
+		int y2 = gridMargin + gridSize * 4;
+		int y3 = gridMargin + gridSize * 5;
+		int y4 = gridMargin + gridSize * 9;
+		if (i == 0 || i == 8) {
+			glVertex2i(x, y1);
+			glVertex2i(x, y4);
+		}
+		else {
+			glVertex2i(x, y1);
+			glVertex2i(x, y2);
+			glVertex2i(x, y3);
+			glVertex2i(x, y4);
+		}
+	}
+	glEnd();
+	glFlush();
+
+	// diagonal lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	int x1 = gridMargin + gridSize * 3;
+	int y1 = gridMargin;
+	int x2 = gridMargin + gridSize * 5;
+	int y2 = gridMargin + gridSize * 2;
+	int x3 = gridMargin + gridSize * 5;
+	int y3 = gridMargin;
+	int x4 = gridMargin + gridSize * 3;
+	int y4 = gridMargin + gridSize * 2;
+	glVertex2i(x1, y1);
+	glVertex2i(x2, y2);
+	glVertex2i(x3, y3);
+	glVertex2i(x4, y4);
+	glVertex2i(x1, y1 + 7 * gridSize);
+	glVertex2i(x2, y2 + 7 * gridSize);
+	glVertex2i(x3, y3 + 7 * gridSize);
+	glVertex2i(x4, y4 + 7 * gridSize);
+	glEnd();
+	glFlush();
+
+	// river 
+	glRasterPos2i(gridMargin + 3 * gridSize, gridMargin + 4.6 * gridSize);
+	glColor3ub(0, 0, 0);
+	string header = "The river";
+	const char* h = header.c_str();
+	YsGlDrawFontBitmap20x32(h);
+	glFlush();
+}
+
+//void Board::addPiece(const string filename, int playerIndex, int startIndex)
+//{
+//	ifstream inFile;
+//	string datafilename;
+//	int index = startIndex;
+//
+//	datafilename = filename;
+//	if (datafilename.find(".txt") == string::npos)
+//		datafilename += ".txt";     // allows user to omit extension
+//	inFile.open(datafilename);
+//
+//	if (inFile.is_open()) { // may not have found file
+//		string wholeLineString;
+//
+//		while (!inFile.eof()) {
+//			// read the whole line
+//			getline(inFile, wholeLineString);
+//			if (wholeLineString.find("Piece:") != string::npos) {
+//				Piece* newPiece = new Piece(0, 0, playerIndex, index);
+//				newPiece->load(inFile);
+//				if (playerIndex == 0)
+//					player0Alive[index] = (newPiece);
+//				else
+//					player0Alive[index] = (newPiece);
+//			}
+//			index += 1;
+//		}
+//		inFile.close();
+//	}
+//	else
+//		cout << "\nError reading file. Please check data and try again." << endl;
+//}

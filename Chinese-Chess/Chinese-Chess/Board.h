@@ -2,6 +2,12 @@
 #include <vector>
 #include <unordered_map>
 
+#include "ysglfontdata.h"
+#include "fssimplewindow.h"
+#include "StringPlus.h"
+#include "yspng.h"
+#include "DrawingUtilNG.h"
+
 #include "Piece.h"
 
 class Board {
@@ -32,6 +38,7 @@ class Board {
         std::vector<Position*> checkForChariot(Piece* piece);
         std::vector<Position*> checkForCannon(Piece* piece);
 
+        //void addPiece(const std::string filename, int playerIndex, int startIndex);
     
     public:
         Board();
@@ -43,5 +50,7 @@ class Board {
         Piece* getDeadPieceByIndex(int index);
         int getWinner();
 
-        void draw(); // // Need to be changed.
+        void draw(); // Need to be changed.
+        void drawBoard();
+        void drawPieces(int mode);
 };

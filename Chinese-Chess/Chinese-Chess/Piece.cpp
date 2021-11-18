@@ -1,7 +1,15 @@
-#include "Position.h"
-#include "Piece.h"
 #include <vector>
 
+#include "StringPlus.h"
+
+#include "Position.h"
+#include "Piece.h"
+
+#define boardMargin 50
+#define gridMargin 100
+#define boardSize 900
+#define gridSize 100
+#define pieceSize 80
 
 vector<Position*> Piece::getAvaliablePlace(int width, int height)
 {
@@ -18,8 +26,29 @@ bool Piece::onBoard(Position* pos)
 	}
 }
 
-void Piece::draw()
+void Piece::addImage(string pathPIC, string pathCHN)
 {
+	imgPIC.Decode(pathPIC.c_str());
+	imgCHN.Decode(pathCHN.c_str());
+	imgPIC.Flip();
+	imgCHN.Flip();
+}
+
+void Piece::draw(int mode)
+{
+	int x = pos->getX();
+	int y = pos->getY();
+	YsRawPngDecoder *png;
+	if (mode == 0) {
+		png = &imgPIC;
+	}
+	else {
+		png = &imgCHN;
+	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(gridMargin + gridSize * x - gridSize * 0.4, gridMargin + gridSize * y + pieceSize / 2);
+	glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
 }
 
 
@@ -160,3 +189,39 @@ vector<Position*> Soldier::getAvaliablePlace(int width, int height)
 	}
 	return avaliablePlace;
 }
+
+//
+//void Piece::load(ifstream& inFile)
+//{
+//	string wholeLineString;
+//	stringstream wholeLineStream;
+//	bool continueReading = true;
+//	int colonLocation;
+//
+//	// go through file
+//	while (!inFile.eof() && continueReading) {
+//		// read the whole line
+//		getline(inFile, wholeLineString);
+//
+//		// find the colon and prepare to read from stringstream after the colon
+//		if ((colonLocation = wholeLineString.find(":")) != string::npos)
+//			wholeLineStream.str(wholeLineString.substr(colonLocation + 1));
+//
+//		// when the find() function doesn't find it, string::npos is returned
+//		if (wholeLineString.find("pieceID") != string::npos) {
+//			pieceID = StringPlus::trim(
+//				wholeLineString.substr(colonLocation + 1));
+//		}
+//		else if (wholeLineString.find("x") != string::npos) {
+//			wholeLineStream >> loc.x;
+//		}
+//		else if (wholeLineString.find("y") != string::npos) {
+//			wholeLineStream >> loc.y;
+//		}
+//		else if (wholeLineString.find("Piece End") != string::npos) {
+//			continueReading = false;
+//		}
+//		wholeLineStream.clear(); // get ready for next line
+//	}
+//
+//}
