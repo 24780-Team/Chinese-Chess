@@ -220,6 +220,9 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 	case pieceType::CANNON:
 		positions = checkForCannon(piece);
 		break;
+	case pieceType::GENERAL:
+		positions = checkForGeneral(piece, positions);
+		break;
 	}
 
 	for (auto pos : positions) {
