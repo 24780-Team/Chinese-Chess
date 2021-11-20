@@ -66,7 +66,7 @@ bool Game::nextTurn() {
     Position* currentPos = board->getChooseLoc();
 
     if (!isChoosePiece) {
-        cout << "not choose Piece" << endl;
+        //cout << "not choose Piece" << endl;
         for (auto validPos : placesOfPieces) {
             if (currentPos != nullptr && *currentPos == *validPos) {
                 isChoosePiece = !isChoosePiece;
