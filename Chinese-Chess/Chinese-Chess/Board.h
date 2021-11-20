@@ -64,6 +64,14 @@ class Board {
         void drawBoard();
         void drawPieces(int mode);
 
+        void drawCurrentFrame();
+        // draw the choose frame
+        void drawChooseFrame(Position* theLoc);
+
+        void drawModeChooseFrame();
+
+
+
         bool isChooseLocationInBoard(int screenX, int screenY);
 
         void changeChooseState(int screenX, int screenY);
@@ -76,10 +84,7 @@ class Board {
             return chooseLoc;
         }
 
-        Position getChooseLocation(int screenX, int screenY);
-
-        // draw the choose frame
-        void drawChooseFrame(Position theLoc);
+        Position* getChooseLocation(int screenX, int screenY);
 
         bool isChooseLocationInChangePattern(int screenX, int screenY);
 };

@@ -44,6 +44,13 @@ public:
 	pieceType getType() { return type; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
+	void setCrossRiver() {
+		this->isCrossRiver = true;
+	}
+
+	bool crossRiver() {
+		return this->isCrossRiver;
+	}
 	void addImage(std::string pathPIC, std::string pathCHN);
 
 	//// reads data from a file over-riding any existing data

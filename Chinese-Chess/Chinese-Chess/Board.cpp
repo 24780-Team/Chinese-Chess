@@ -42,6 +42,17 @@ Piece* Board::getPiece(Position* pos)
 Piece* Board::setPiece(Position* pos, Piece* piece)
 {
 
+	if (piece->getType() == pieceType::SOLDIER && !piece->crossRiver()) {
+		int playerIndex = piece->getPlayerIndex();
+		if (playerIndex == 0 && pos->getY() > 4) {
+			piece->setCrossRiver();
+		}
+
+		if (playerIndex == 1 && pos->getY() < 5) {
+			piece->setCrossRiver();
+		}
+	}
+
 	Position *prevPos = piece->getPos();
 	int x = pos->getX();
 	int y = pos->getY();
@@ -80,6 +91,15 @@ void Board::drawPieces(int mode)
 	}
 }
 
+void Board::drawCurrentFrame()
+{
+	if (!isChoose) {
+		return;
+	}
+	drawChooseFrame(chooseLoc);
+	return;
+}
+
 bool Board::isChooseLocationInBoard(int screenX, int screenY)
 {
 	if (screenX >= boardMargin && screenX <= boardMargin + boardSize
@@ -92,29 +112,30 @@ bool Board::isChooseLocationInBoard(int screenX, int screenY)
 void Board::changeChooseState(int screenX, int screenY)
 {
 	if (isChooseLocationInBoard(screenX, screenY)) {
-		this->chooseLoc = &getChooseLocation(screenX, screenY);
-		isChoose = true;
+		this->chooseLoc = getChooseLocation(screenX, screenY);
+		this->isChoose = true;
 	}
 	else {
 		isChoose = false;
+		this->chooseLoc = nullptr;
 	}
 }
 
-Position Board::getChooseLocation(int screenX, int screenY)
+Position* Board::getChooseLocation(int screenX, int screenY)
 {
 	int x = (screenX - boardMargin) / gridSize;
 	int y = (screenY - boardMargin) / gridSize;
-	return Position(x, y);
+	return new Position(x, y);
 }
 
-void Board::drawChooseFrame(Position theLoc)
+void Board::drawChooseFrame(Position* theLoc)
 {
 	int lineWidth = 3;
 	glColor3ub(0, 0, 255);
 	glLineWidth(lineWidth);
 	glBegin(GL_LINES);
-	int centerX = gridMargin + theLoc.getX() * gridSize;
-	int centerY = gridMargin + theLoc.getY() * gridSize;
+	int centerX = gridMargin + theLoc->getX() * gridSize;
+	int centerY = gridMargin + theLoc->getY() * gridSize;
 	int corner1X = centerX - 45;
 	int corner1Y = centerY - 45;
 	int corner2X = centerX + 45;
@@ -145,6 +166,38 @@ void Board::drawChooseFrame(Position theLoc)
 
 	glEnd();
 	glFlush();
+}
+
+void Board::drawModeChooseFrame()
+{
+	glColor3ub(238, 197, 145);
+	glBegin(GL_QUADS);
+	int x1 = gridMargin + 9.5 * gridSize;
+	int x2 = gridMargin + 12.5 * gridSize;
+	int y1 = boardMargin + 4 * gridSize;
+	int y2 = boardMargin + 4.5 * gridSize;
+	glVertex2i(x1, y1);
+	glVertex2i(x1, y2);
+	glVertex2i(x2, y2);
+	glVertex2i(x2, y1);
+	glEnd();
+	glFlush();
+
+	glColor3ub(0, 0, 0);
+	glRasterPos2i(x1 + pieceSize / 8, y1 + pieceSize / 2);
+	string p1 = "change pattern";
+	const char* h1 = p1.c_str();
+	YsGlDrawFontBitmap20x32(h1);
+	glFlush();
+}
+
+bool Board::isChooseLocationInChangePattern(int screenX, int screenY)
+{
+	if (screenX >= gridMargin + 9.5 * gridSize && screenX <= gridMargin + 12.5 * gridSize
+		&& screenY >= boardMargin + 4 * gridSize && screenY <= boardMargin + 4.5 * gridSize) {
+		return true;
+	}
+	return false;
 }
 
 vector<Position*> Board::getAvaliblePlaces(Piece* piece)
@@ -180,7 +233,7 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 
 		avaliblePlaces.push_back(pos);
 	}
-	avaliblePlaces.push_back(piece->getPos());
+	/*avaliblePlaces.push_back(piece->getPos());*/
 	return avaliblePlaces;
 }
 

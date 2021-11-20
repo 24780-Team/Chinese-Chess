@@ -3,6 +3,9 @@
 #include <stack>
 #include <vector>
 
+#include "fssimplewindow.h"
+#include "ysglfontdata.h"
+
 #include "Player.h"
 #include "Board.h"
 
@@ -15,6 +18,9 @@ class Game {
         int countdown;
         stack<vector<int>> backLog;
         int mode = 1;
+        bool isChoosePiece = false;
+
+        Position* originalPos = nullptr;
 
         /**
          * @brief record player's actions

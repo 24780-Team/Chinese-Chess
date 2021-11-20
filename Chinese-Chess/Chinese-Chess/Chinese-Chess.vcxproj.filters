@@ -30,6 +30,24 @@
     <ClInclude Include="Player.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ysglfontdata.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="yspng.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="yssimplesound.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StringPlus.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fssimplewindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingUtilNG.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -45,6 +63,24 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Piece.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ysglfontdata.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="yspng.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="yssimplesound.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="yssimplesound_dsound.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingUtilNG.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fssimplewindow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

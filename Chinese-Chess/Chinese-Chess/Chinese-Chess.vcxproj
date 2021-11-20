@@ -140,17 +140,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="DrawingUtilNG.h" />
+    <ClInclude Include="fssimplewindow.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="StringPlus.h" />
+    <ClInclude Include="ysglfontdata.h" />
+    <ClInclude Include="yspng.h" />
+    <ClInclude Include="yssimplesound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="DrawingUtilNG.cpp" />
+    <ClCompile Include="fssimplewindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="ysglfontdata.c" />
+    <ClCompile Include="yspng.cpp" />
+    <ClCompile Include="yssimplesound.cpp" />
+    <ClCompile Include="yssimplesound_dsound.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

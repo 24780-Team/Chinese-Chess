@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <algorithm>
 #include "Game.h"
 using namespace std;
 
@@ -36,7 +36,7 @@ void Game::startGame() {
     for (int i = 0; i < 2; i++) {
         Player* player = new Player();
         player->setIndex(i);
-        player->setName();
+        //player->setName();
         players.push_back(player);
     }
     currPlayer = players[0];
@@ -48,40 +48,74 @@ int Game::getWinner() {
 }
 
 bool Game::nextTurn() {
-    cout << endl;
-    cout << "Round " << round << endl;
+    /*cout << endl;
+    cout << "Round " << round << endl;*/
+
+    int mouseEvent, leftButton, middleButton, rightButton;
+    int screenX, screenY;
 
     int playerIndex = currPlayer->getIndex();
-    cout << "Current Player: " << currPlayer->getName() << endl;
-    vector<Position*> placesOfPieces = board->getPlacesOfPieces(playerIndex);
-    showAvaliablePlaces(placesOfPieces);
+    /*cout << "Current Player: " << currPlayer->getName() << endl;*/
 
-    bool isSamePlace = true;
+    vector<Position*> placesOfPieces = board->getPlacesOfPieces(playerIndex);
+    /*showAvaliablePlaces(placesOfPieces);*/
+
     Piece* piece = nullptr;
     Piece* eliminatedPiece = nullptr;
-    Position* originalPos = nullptr;
-    Position* newPos = nullptr;
 
-    while (isSamePlace) {
-        originalPos = getPosition(placesOfPieces);
-        piece = board->getPiece(originalPos);
+    Position* currentPos = board->getChooseLoc();
 
-        vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
-        showAvaliablePlaces(avaliablePlaces);
-
-        newPos = getPosition(avaliablePlaces);
-        if (newPos != originalPos) {
-            eliminatedPiece = setPiece(newPos, piece);
-            isSamePlace = false;
-        }
-        else {
-            cout << "The piece was put down, please select again.\n" << endl;
+    if (!isChoosePiece) {
+        cout << "not choose Piece" << endl;
+        for (auto validPos : placesOfPieces) {
+            if (currentPos != nullptr && *currentPos == *validPos) {
+                isChoosePiece = !isChoosePiece;
+                originalPos = currentPos;
+                /*cout << "Choose a Piece" << currentPos->getX() << "  " << currentPos->getY() << endl;*/
+                break;
+            }
         }
     }
-    
-    int eliminatedPieceIndex = -1;
-    if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
-    writeLog(piece->getPieceIndex(), originalPos, newPos, eliminatedPieceIndex);
+    else {
+        /*cout << "choose a piece, ready to move" << endl;*/
+        piece = board->getPiece(originalPos);
+        vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
+        /*showAvaliablePlaces(avaliablePlaces);*/
+        bool validDest = false;
+
+        for (auto validPos : avaliablePlaces) {
+            if (currentPos != nullptr && *currentPos == *validPos) {
+                validDest = true;
+                break;
+            }
+        }
+        if (validDest) {
+            /*cout << "case1" << endl;*/
+            eliminatedPiece = setPiece(currentPos, piece);
+            int eliminatedPieceIndex = -1;
+            if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
+            writeLog(piece->getPieceIndex(), originalPos, currentPos, eliminatedPieceIndex);
+            originalPos = nullptr;
+            isChoosePiece = !isChoosePiece;
+            board->setIsChoose(false);
+
+            if (playerIndex == 1) {
+                round += 1;
+            }
+            currPlayer = players[1 - playerIndex];
+
+        }
+        else {
+            for (auto validPos : placesOfPieces) {
+                if (currentPos != nullptr && *currentPos == *validPos) {
+                    /*cout << "case 2, change piece" << endl;*/
+                    originalPos = currentPos;
+                    /*cout << "new Piece" << "Choose a Piece" << currentPos->getX() << "  " << currentPos->getY() << endl;*/
+                    break;
+                }
+            }
+        }
+    }
 
     int winner;
     if ((winner = getWinner()) != -1) {
@@ -91,50 +125,27 @@ bool Game::nextTurn() {
         return true;
     }
 
-    if (playerIndex == 1) {
-        round += 1;
+    mouseEvent = FsGetMouseEvent(leftButton, middleButton,
+        rightButton, screenX, screenY);
+
+    if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
+        board->changeChooseState(screenX, screenY);
+        if (board->isChooseLocationInChangePattern(screenX, screenY)) {
+            mode = 1 - mode;
+        }
     }
-    currPlayer = players[1 - playerIndex];
+
+    if (mouseEvent == FSMOUSEEVENT_RBUTTONDOWN) {
+        if (isChoosePiece) {
+            isChoosePiece = false;
+            originalPos = nullptr;
+            board->changeChooseState(-1, -1);
+        }
+    }
+
     return false;
 }
 
-Position* Game::getPosition(vector<Position*> positions)
-{
-    int x, y;
-    bool isValidInput = false;
-    Position* pos = nullptr;
-    int mouseEvent, leftButton, middleButton, rightButton;
-    int screenX, screenY;
-
-    while (!isValidInput) {
-        //cout << "Input a position:" << endl;
-        //cout << "x = ";
-        //cin >> x;
-        //cout << "y = ";
-        //cin >> y;
-        //for (auto it = positions.begin(); it != positions.end(); it++)
-        //{
-        //    if ((*it)->getX() == x && (*it)->getY() == y) {
-        //        pos = *it;
-        //        isValidInput = true;
-        //        break;
-        //    }
-        //}
-        //if (!isValidInput) {
-        //    cout << "Not a valid position.\n" << endl;
-        //}
-        mouseEvent = FsGetMouseEvent(leftButton, middleButton,
-            rightButton, screenX, screenY);
-
-        if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
-            board->changeChooseState(screenX, screenY);
-            if (board->isChooseLocationInChangePattern(screenX, screenY)) {
-                mode = 1 - mode;
-            }
-        }
-    }
-    return pos;
-}
 
 Piece* Game::setPiece(Position* pos, Piece* piece) {
     return board->setPiece(pos, piece);
@@ -156,7 +167,10 @@ void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
 
 void Game::draw()
 {
-    //board->draw();
     board->drawBoard();
     board->drawPieces(mode);
+    board->drawCurrentFrame();
+    board->drawModeChooseFrame();
 }
+
+
