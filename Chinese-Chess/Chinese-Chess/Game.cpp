@@ -103,23 +103,34 @@ Position* Game::getPosition(vector<Position*> positions)
     int x, y;
     bool isValidInput = false;
     Position* pos = nullptr;
+    int mouseEvent, leftButton, middleButton, rightButton;
+    int screenX, screenY;
 
     while (!isValidInput) {
-        cout << "Input a position:" << endl;
-        cout << "x = ";
-        cin >> x;
-        cout << "y = ";
-        cin >> y;
-        for (auto it = positions.begin(); it != positions.end(); it++)
-        {
-            if ((*it)->getX() == x && (*it)->getY() == y) {
-                pos = *it;
-                isValidInput = true;
-                break;
+        //cout << "Input a position:" << endl;
+        //cout << "x = ";
+        //cin >> x;
+        //cout << "y = ";
+        //cin >> y;
+        //for (auto it = positions.begin(); it != positions.end(); it++)
+        //{
+        //    if ((*it)->getX() == x && (*it)->getY() == y) {
+        //        pos = *it;
+        //        isValidInput = true;
+        //        break;
+        //    }
+        //}
+        //if (!isValidInput) {
+        //    cout << "Not a valid position.\n" << endl;
+        //}
+        mouseEvent = FsGetMouseEvent(leftButton, middleButton,
+            rightButton, screenX, screenY);
+
+        if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
+            board->changeChooseState(screenX, screenY);
+            if (board->isChooseLocationInChangePattern(screenX, screenY)) {
+                mode = 1 - mode;
             }
-        }
-        if (!isValidInput) {
-            cout << "Not a valid position.\n" << endl;
         }
     }
     return pos;

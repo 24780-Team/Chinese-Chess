@@ -39,6 +39,16 @@ class Board {
         std::vector<Position*> checkForCannon(Piece* piece);
 
         //void addPiece(const std::string filename, int playerIndex, int startIndex);
+
+        // used to show chosen location
+        bool isChoose;
+        Position *chooseLoc;
+
+        // used to show where the pieces can be moved to 
+        int rgbr = 135;
+        int rgbg = 205;
+        int rgbb = 235;
+        int update = -1;
     
     public:
         Board();
@@ -53,4 +63,23 @@ class Board {
         void draw(); // Need to be changed.
         void drawBoard();
         void drawPieces(int mode);
+
+        bool isChooseLocationInBoard(int screenX, int screenY);
+
+        void changeChooseState(int screenX, int screenY);
+
+        void setIsChoose(bool isChoose) {
+            this->isChoose = isChoose;
+        }
+
+        Position* getChooseLoc() {
+            return chooseLoc;
+        }
+
+        Position getChooseLocation(int screenX, int screenY);
+
+        // draw the choose frame
+        void drawChooseFrame(Position theLoc);
+
+        bool isChooseLocationInChangePattern(int screenX, int screenY);
 };

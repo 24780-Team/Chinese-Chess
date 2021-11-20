@@ -80,6 +80,73 @@ void Board::drawPieces(int mode)
 	}
 }
 
+bool Board::isChooseLocationInBoard(int screenX, int screenY)
+{
+	if (screenX >= boardMargin && screenX <= boardMargin + boardSize
+		&& screenY >= boardMargin && screenY <= 3 * boardMargin + boardSize) {
+		return true;
+	}
+	return false;
+}
+
+void Board::changeChooseState(int screenX, int screenY)
+{
+	if (isChooseLocationInBoard(screenX, screenY)) {
+		this->chooseLoc = &getChooseLocation(screenX, screenY);
+		isChoose = true;
+	}
+	else {
+		isChoose = false;
+	}
+}
+
+Position Board::getChooseLocation(int screenX, int screenY)
+{
+	int x = (screenX - boardMargin) / gridSize;
+	int y = (screenY - boardMargin) / gridSize;
+	return Position(x, y);
+}
+
+void Board::drawChooseFrame(Position theLoc)
+{
+	int lineWidth = 3;
+	glColor3ub(0, 0, 255);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	int centerX = gridMargin + theLoc.getX() * gridSize;
+	int centerY = gridMargin + theLoc.getY() * gridSize;
+	int corner1X = centerX - 45;
+	int corner1Y = centerY - 45;
+	int corner2X = centerX + 45;
+	int corner2Y = centerY - 45;
+	int corner3X = centerX - 45;
+	int corner3Y = centerY + 45;
+	int corner4X = centerX + 45;
+	int corner4Y = centerY + 45;
+	glVertex2i(corner1X, corner1Y);
+	glVertex2i(corner1X + 20, corner1Y);
+	glVertex2i(corner1X, corner1Y);
+	glVertex2i(corner1X, corner1Y + 20);
+
+	glVertex2i(corner2X, corner2Y);
+	glVertex2i(corner2X - 20, corner2Y);
+	glVertex2i(corner2X, corner2Y);
+	glVertex2i(corner2X, corner2Y + 20);
+
+	glVertex2i(corner3X, corner3Y);
+	glVertex2i(corner3X + 20, corner3Y);
+	glVertex2i(corner3X, corner3Y);
+	glVertex2i(corner3X, corner3Y - 20);
+
+	glVertex2i(corner4X, corner4Y);
+	glVertex2i(corner4X - 20, corner4Y);
+	glVertex2i(corner4X, corner4Y);
+	glVertex2i(corner4X, corner4Y - 20);
+
+	glEnd();
+	glFlush();
+}
+
 vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 {
 	vector<Position*> positions = piece->getAvaliablePlace(width, height);
