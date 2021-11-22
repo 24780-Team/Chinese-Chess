@@ -70,6 +70,9 @@ class Board {
 
         void drawModeChooseFrame();
 
+        void drawPlayerFrame(int currPlayerIndex);
+
+        void drawNodes(vector<Position*> avaliablePlaces);
 
 
         bool isChooseLocationInBoard(int screenX, int screenY);

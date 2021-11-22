@@ -48,17 +48,13 @@ int Game::getWinner() {
 }
 
 bool Game::nextTurn() {
-    /*cout << endl;
-    cout << "Round " << round << endl;*/
 
     int mouseEvent, leftButton, middleButton, rightButton;
     int screenX, screenY;
 
     int playerIndex = currPlayer->getIndex();
-    /*cout << "Current Player: " << currPlayer->getName() << endl;*/
 
     vector<Position*> placesOfPieces = board->getPlacesOfPieces(playerIndex);
-    /*showAvaliablePlaces(placesOfPieces);*/
 
     Piece* piece = nullptr;
     Piece* eliminatedPiece = nullptr;
@@ -66,23 +62,20 @@ bool Game::nextTurn() {
     Position* currentPos = board->getChooseLoc();
 
     if (!isChoosePiece) {
-        //cout << "not choose Piece" << endl;
         for (auto validPos : placesOfPieces) {
             if (currentPos != nullptr && *currentPos == *validPos) {
                 isChoosePiece = !isChoosePiece;
                 originalPos = currentPos;
-                /*cout << "Choose a Piece" << currentPos->getX() << "  " << currentPos->getY() << endl;*/
                 break;
             }
         }
     }
     else {
-        /*cout << "choose a piece, ready to move" << endl;*/
         piece = board->getPiece(originalPos);
         vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
-        /*showAvaliablePlaces(avaliablePlaces);*/
         bool validDest = false;
 
+        board->drawNodes(avaliablePlaces);
         for (auto validPos : avaliablePlaces) {
             if (currentPos != nullptr && *currentPos == *validPos) {
                 validDest = true;
@@ -90,7 +83,6 @@ bool Game::nextTurn() {
             }
         }
         if (validDest) {
-            /*cout << "case1" << endl;*/
             eliminatedPiece = setPiece(currentPos, piece);
             int eliminatedPieceIndex = -1;
             if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
@@ -108,9 +100,7 @@ bool Game::nextTurn() {
         else {
             for (auto validPos : placesOfPieces) {
                 if (currentPos != nullptr && *currentPos == *validPos) {
-                    /*cout << "case 2, change piece" << endl;*/
                     originalPos = currentPos;
-                    /*cout << "new Piece" << "Choose a Piece" << currentPos->getX() << "  " << currentPos->getY() << endl;*/
                     break;
                 }
             }
@@ -170,6 +160,7 @@ void Game::draw()
     board->drawBoard();
     board->drawPieces(mode);
     board->drawCurrentFrame();
+    board->drawPlayerFrame(currPlayer->getIndex());
     board->drawModeChooseFrame();
 }
 

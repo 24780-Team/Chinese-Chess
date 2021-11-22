@@ -43,5 +43,5 @@ class Game {
         void repentPrevTurn(); // Need to be implemented.
 
         void showAvaliablePlaces(std::vector<Position*> avaliablePlaces); // Need to be changed.
-        void draw(); // Need to be changed.
+        void draw(); 
 };

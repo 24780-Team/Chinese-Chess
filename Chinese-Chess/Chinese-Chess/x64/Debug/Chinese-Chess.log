@@ -1,10 +1,14 @@
 ﻿  Board.cpp
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(135,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(175,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(136,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
 C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(176,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(178,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(762,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(777,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(801,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(823,54): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(177,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(179,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(199,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(202,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(204,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(207,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(826,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(841,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(865,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(887,54): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
   Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\gitrepo\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe
