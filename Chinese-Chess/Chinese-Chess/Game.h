@@ -8,10 +8,13 @@
 
 #include "Player.h"
 #include "Board.h"
+#include "AIPlayer.h"
 
 class Game {
     private:
         Board *board;
+        AIPlayer *ai;
+
         std::vector<Player*> players;
         Player *currPlayer;
         int round;
@@ -22,6 +25,10 @@ class Game {
 
         Position* originalPos = nullptr;
 
+        bool haveAI = true;
+        bool AILevel = 0; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
+        int aiIndex = -1; // AI's player index
+
         /**
          * @brief record player's actions
          * @param pieceIndex index of Piece moved by player
@@ -31,14 +38,14 @@ class Game {
         */
         void writeLog(int pieceIndex, Position* originPos, Position* newPos, int eliminatedPieceIndex);
 
+        bool nextTurnWithoutAI();
         void redo();
 
     public:
         std::string getPlayerName(Player *player) { return player->getName(); }
         void startGame();
-        int getWinner();
+        bool getWinner(int playerIndex);
         bool nextTurn();
-        Position* getPosition(std::vector<Position*> positions); // Need to be changed.
         Piece* setPiece(Position* pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
 

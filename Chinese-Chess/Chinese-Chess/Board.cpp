@@ -264,6 +264,42 @@ bool Board::isChooseLocationInChangePattern(int screenX, int screenY)
 	return false;
 }
 
+int Board::calcScore(int playerIndex)
+{	
+	int score = 0; 
+	unordered_map<int, Piece*> deadPieces;
+	if (playerIndex == 0) {
+		deadPieces = player0Dead;
+	}
+	else {
+		deadPieces = player1Dead;
+	}
+	
+	for (auto pair : deadPieces) {
+		Piece* piece = pair.second;
+		switch (piece->getType()) {
+		case pieceType::SOLDIER:
+			score -= 1;
+			break;
+		case pieceType::ADVISOR:
+		case pieceType::ELEPHANT:
+			score -= 2;
+			break;
+		case pieceType::HORSE:
+		case pieceType::CANNON:
+			score -= 3;
+			break;
+		case pieceType::CHARIOT:
+			score -= 5;
+			break;
+		case pieceType::GENERAL:
+			score -= 10;
+			break;
+		}
+	}
+	return score;
+}
+
 vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 {
 	vector<Position*> positions = piece->getAvaliablePlace(width, height);
@@ -328,14 +364,18 @@ Piece* Board::getDeadPieceByIndex(int index)
 	return nullptr;
 }
 
-int Board::getWinner()
+bool Board::getWinner(int playerIndex)
 {
-	// General of player0 is dead
-	if (player0Dead.find(general0Index) != player0Dead.end()) return 1;
-
-	// General of player1 is dead
-	if (player1Dead.find(general1Index) != player1Dead.end()) return 0;
-	return -1;
+	if (playerIndex == 0) {
+		if (player1Dead.find(general1Index) != player1Dead.end())
+			return true;
+		return false;
+	}
+	else {
+		if (player0Dead.find(general0Index) != player0Dead.end())
+			return true;
+		return false;
+	}
 }
 
 void Board::draw()

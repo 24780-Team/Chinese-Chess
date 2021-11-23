@@ -58,7 +58,7 @@ class Board {
         std::vector<Position*> getAvaliblePlaces(Piece *piece);
         Piece* getAlivePieceByIndex(int index);
         Piece* getDeadPieceByIndex(int index);
-        int getWinner();
+        bool getWinner(int playerIndex);
 
         void draw(); // Need to be changed.
         void drawBoard();
@@ -87,7 +87,15 @@ class Board {
             return chooseLoc;
         }
 
+        void setChooseLoc(Position* pos) {
+            this->isChoose = true;
+            chooseLoc = pos;
+        }
+
         Position* getChooseLocation(int screenX, int screenY);
 
         bool isChooseLocationInChangePattern(int screenX, int screenY);
+
+        // Calculate score for AI
+        int calcScore(int playerIndex);
 };

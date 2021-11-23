@@ -41,13 +41,44 @@ void Game::startGame() {
     }
     currPlayer = players[0];
     round = 1;
+    if (haveAI){
+        aiIndex = 1;
+        ai = new AIPlayer(board, aiIndex, 0);
+    }
 }
 
-int Game::getWinner() {
-    return board->getWinner();
+bool Game::getWinner(int playerIndex) {
+    return board->getWinner(playerIndex);
 }
 
-bool Game::nextTurn() {
+bool Game::nextTurn()
+{
+    int playerIndex = currPlayer->getIndex();
+    if (playerIndex == aiIndex) {
+        Move* move = ai->getNextMove();
+        Piece *piece = board->getPiece(move->origin);
+        board->setPiece(move->dest, piece);
+        board->setChooseLoc(move->dest);
+
+        if (playerIndex == 1) {
+            round += 1;
+        }
+        currPlayer = players[1 - playerIndex];
+
+        if (getWinner(playerIndex)) {
+            cout << endl;
+            cout << "Game End." << endl;
+            cout << getPlayerName(players[playerIndex]) << " win!" << endl;
+            return true;
+        }
+    }
+    else {
+        if (nextTurnWithoutAI()) return true;
+    }
+    return false;
+}
+
+bool Game::nextTurnWithoutAI() {
 
     int mouseEvent, leftButton, middleButton, rightButton;
     int screenX, screenY;
@@ -107,11 +138,10 @@ bool Game::nextTurn() {
         }
     }
 
-    int winner;
-    if ((winner = getWinner()) != -1) {
+    if (getWinner(playerIndex)) {
         cout << endl;
         cout << "Game End." << endl;
-        cout << getPlayerName(players[winner]) << " win!" << endl;
+        cout << getPlayerName(players[playerIndex]) << " win!" << endl;
         return true;
     }
 
