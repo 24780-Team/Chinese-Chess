@@ -26,7 +26,7 @@ void Game::redo()
         setPiece(originPos, redoPiece);
         if (log[5] != -1) {
             Piece* eliminatedPiece = board->getDeadPieceByIndex(log[5]);
-            setPiece(newPos, eliminatedPiece);
+            board->setAlive(eliminatedPiece);
         }
     }
 }
@@ -43,12 +43,12 @@ void Game::startGame() {
     round = 1;
     if (haveAI){
         aiIndex = 1;
-        ai = new AIPlayer(board, aiIndex, 0);
+        ai = new AIPlayer(board, aiIndex, aiLevel);
     }
 }
 
 bool Game::getWinner(int playerIndex) {
-    return board->getWinner(playerIndex);
+    return board->lossGeneral(playerIndex);
 }
 
 bool Game::nextTurn()
@@ -68,7 +68,7 @@ bool Game::nextTurn()
         if (getWinner(playerIndex)) {
             cout << endl;
             cout << "Game End." << endl;
-            cout << getPlayerName(players[playerIndex]) << " win!" << endl;
+            cout << "Player" << playerIndex << " win!" << endl;
             return true;
         }
     }
@@ -141,7 +141,7 @@ bool Game::nextTurnWithoutAI() {
     if (getWinner(playerIndex)) {
         cout << endl;
         cout << "Game End." << endl;
-        cout << getPlayerName(players[playerIndex]) << " win!" << endl;
+        cout << "Player" << playerIndex << " win!" << endl;
         return true;
     }
 

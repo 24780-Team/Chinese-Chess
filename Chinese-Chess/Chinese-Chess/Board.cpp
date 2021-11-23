@@ -44,12 +44,14 @@ Piece* Board::setPiece(Position* pos, Piece* piece)
 
 	if (piece->getType() == pieceType::SOLDIER && !piece->crossRiver()) {
 		int playerIndex = piece->getPlayerIndex();
-		if (playerIndex == 0 && pos->getY() > 4) {
-			piece->setCrossRiver();
+		if (playerIndex == 0) {
+			if (pos->getY() > 4) piece->setCrossRiver(true);
+			else piece->setCrossRiver(false);
 		}
 
-		if (playerIndex == 1 && pos->getY() < 5) {
-			piece->setCrossRiver();
+		if (playerIndex == 1) {
+			if (pos->getY() < 5) piece->setCrossRiver(true);
+			else piece->setCrossRiver(false);
 		}
 	}
 
@@ -264,6 +266,24 @@ bool Board::isChooseLocationInChangePattern(int screenX, int screenY)
 	return false;
 }
 
+void Board::setAlive(Piece* piece)
+{
+	Position* pos = piece->getPos();
+	int x = pos->getX();
+	int y = pos->getY();
+	posToPiece[x][y] = piece;
+	int playerIndex = piece->getPlayerIndex();
+	int pieceIndex = piece->getPieceIndex();
+	if (playerIndex == 1) {
+		player1Dead.erase(pieceIndex);
+		player1Alive[pieceIndex] = piece;
+	}
+	else {
+		player0Dead.erase(pieceIndex);
+		player0Alive[pieceIndex] = piece;
+	}
+}
+
 int Board::calcScore(int playerIndex)
 {	
 	int score = 0; 
@@ -279,21 +299,22 @@ int Board::calcScore(int playerIndex)
 		Piece* piece = pair.second;
 		switch (piece->getType()) {
 		case pieceType::SOLDIER:
-			score -= 1;
+			score += 1;
 			break;
 		case pieceType::ADVISOR:
 		case pieceType::ELEPHANT:
-			score -= 2;
+			score += 2;
 			break;
 		case pieceType::HORSE:
+			score += 3;
 		case pieceType::CANNON:
-			score -= 3;
+			score += 3;
 			break;
 		case pieceType::CHARIOT:
-			score -= 5;
+			score += 5;
 			break;
 		case pieceType::GENERAL:
-			score -= 10;
+			score += 10;
 			break;
 		}
 	}
@@ -364,7 +385,7 @@ Piece* Board::getDeadPieceByIndex(int index)
 	return nullptr;
 }
 
-bool Board::getWinner(int playerIndex)
+bool Board::lossGeneral(int playerIndex)
 {
 	if (playerIndex == 0) {
 		if (player1Dead.find(general1Index) != player1Dead.end())

@@ -44,8 +44,8 @@ public:
 	pieceType getType() { return type; };
 	virtual vector<Position*> getAvaliablePlace(int width, int height);
 	virtual bool onBoard(Position* pos);
-	void setCrossRiver() {
-		this->isCrossRiver = true;
+	void setCrossRiver(bool isCrossRiver) {
+		this->isCrossRiver = isCrossRiver;
 	}
 
 	bool crossRiver() {

@@ -58,7 +58,7 @@ class Board {
         std::vector<Position*> getAvaliblePlaces(Piece *piece);
         Piece* getAlivePieceByIndex(int index);
         Piece* getDeadPieceByIndex(int index);
-        bool getWinner(int playerIndex);
+        bool lossGeneral(int playerIndex);
 
         void draw(); // Need to be changed.
         void drawBoard();
@@ -73,7 +73,6 @@ class Board {
         void drawPlayerFrame(int currPlayerIndex);
 
         void drawNodes(vector<Position*> avaliablePlaces);
-
 
         bool isChooseLocationInBoard(int screenX, int screenY);
 
@@ -98,4 +97,6 @@ class Board {
 
         // Calculate score for AI
         int calcScore(int playerIndex);
+
+        void setAlive(Piece* piece);
 };
