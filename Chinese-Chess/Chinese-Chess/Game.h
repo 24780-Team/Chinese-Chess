@@ -25,8 +25,8 @@ class Game {
 
         Position* originalPos = nullptr;
 
-        bool haveAI = true;
-        bool aiLevel = 1; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
+        bool hasAI = true;
+        int aiLevel = 2; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
         int aiIndex = -1; // AI's player index
 
         /**

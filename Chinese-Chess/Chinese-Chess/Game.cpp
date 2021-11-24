@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <algorithm>
 #include "Game.h"
 using namespace std;
@@ -41,7 +42,18 @@ void Game::startGame() {
     }
     currPlayer = players[0];
     round = 1;
-    if (haveAI){
+    string judge;
+    cout << "Do you want AI? (Y/N): ";
+    cin >> judge;
+    if (judge == "Y" || judge == "Yes" || judge == "y") {
+        hasAI = true;
+    }
+    else {
+        hasAI = false;
+    }
+    if (hasAI){
+        cout << "Set AI level (0 to 2): ";
+        cin >> aiLevel;
         aiIndex = 1;
         ai = new AIPlayer(board, aiIndex, aiLevel);
     }
