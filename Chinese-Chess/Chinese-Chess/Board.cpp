@@ -42,7 +42,7 @@ Piece* Board::getPiece(Position* pos)
 Piece* Board::setPiece(Position* pos, Piece* piece)
 {
 
-	if (piece->getType() == pieceType::SOLDIER && !piece->crossRiver()) {
+	if (piece->getType() == pieceType::SOLDIER) {
 		int playerIndex = piece->getPlayerIndex();
 		if (playerIndex == 0) {
 			if (pos->getY() > 4) piece->setCrossRiver(true);
@@ -308,7 +308,7 @@ int Board::calcScore(int playerIndex)
 		case pieceType::HORSE:
 			score += 3;
 		case pieceType::CANNON:
-			score += 3;
+			score += 4;
 			break;
 		case pieceType::CHARIOT:
 			score += 5;
