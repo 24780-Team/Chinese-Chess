@@ -11,6 +11,11 @@ struct Move {
 		this->dest = dest;
 		this->score = score;
 	}
+	Move(const Move* move) {
+		origin = move->origin;
+		dest = move->dest;
+		score = move->score;
+	}
 };
 
 struct TreeNode {
@@ -18,6 +23,15 @@ struct TreeNode {
 	vector<TreeNode*> leaves;
 	TreeNode(Move* move) {
 		this->move = move;
+	}
+	~TreeNode() { 
+		delete move;
+		if (this->leaves.size() != 0) {
+			for (auto leaf : leaves) {
+				delete leaf;
+			}
+			vector<TreeNode*>().swap(leaves);
+		}
 	}
 };
 

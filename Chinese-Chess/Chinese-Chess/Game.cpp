@@ -52,7 +52,7 @@ void Game::startGame() {
         hasAI = false;
     }
     if (hasAI){
-        cout << "Set AI level (0 to 2): ";
+        cout << "Set AI level (0 to 4): ";
         cin >> aiLevel;
         aiIndex = 1;
         ai = new AIPlayer(board, aiIndex, aiLevel);
@@ -71,6 +71,7 @@ bool Game::nextTurn()
         Piece *piece = board->getPiece(move->origin);
         board->setPiece(move->dest, piece);
         board->setChooseLoc(move->dest);
+        delete move;
 
         if (playerIndex == 1) {
             round += 1;
@@ -97,7 +98,8 @@ bool Game::nextTurnWithoutAI() {
 
     int playerIndex = currPlayer->getIndex();
 
-    vector<Position*> placesOfPieces = board->getPlacesOfPieces(playerIndex);
+    vector<Position*> placesOfPieces;
+    board->getPlacesOfPieces(playerIndex, placesOfPieces);
 
     Piece* piece = nullptr;
     Piece* eliminatedPiece = nullptr;
@@ -115,7 +117,8 @@ bool Game::nextTurnWithoutAI() {
     }
     else {
         piece = board->getPiece(originalPos);
-        vector<Position*> avaliablePlaces = board->getAvaliblePlaces(piece);
+        vector<Position*> avaliablePlaces;
+        board->getAvaliblePlaces(piece, avaliablePlaces);
         bool validDest = false;
 
         board->drawNodes(avaliablePlaces);

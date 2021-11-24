@@ -15,16 +15,17 @@ AIPlayer::AIPlayer(Board* board, int playerIndex, int searchLevel)
 }
 
 Move* AIPlayer::getRandomMove() {
-	srand(time(NULL));
-	vector<Position*> placesOfPieces = currBoard->getPlacesOfPieces(playerIndex);
+	vector<Position*> placesOfPieces;
+	currBoard->getPlacesOfPieces(playerIndex, placesOfPieces);
 	int index = rand() % placesOfPieces.size();
 	Position* origin = placesOfPieces[index];
 	bool canMove = false;
 	Piece* piece;
+
 	vector<Position*> avaliablePlaces;
 	while (!canMove) {
 		piece = currBoard->getPiece(origin);
-		avaliablePlaces = currBoard->getAvaliblePlaces(piece);
+		currBoard->getAvaliblePlaces(piece, avaliablePlaces);
 		if (avaliablePlaces.size() > 0) {
 			canMove = true;
 		}
@@ -36,30 +37,33 @@ Move* AIPlayer::getRandomMove() {
 
 void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 	counter += 1;
-	if (currLevel == 0 || currBoard->lossGeneral(currPlayerIndex)) {
+	if (currBoard->lossGeneral(currPlayerIndex)) {
+		if (currPlayerIndex == playerIndex) {
+			currNode->move->score = INT_MIN;
+		}
+		else {
+			currNode->move->score = calcScore();
+		}
+		return;
+	}
+	if (currLevel == 0) {
 		currNode->move->score = calcScore();
 		return;
 	}
 
-	int nextLevel;
-	if (currPlayerIndex == playerIndex) {
-		nextLevel = currLevel;
-	}
-	else {
-		nextLevel = currLevel - 1;
-	}
-
-	vector<Position*> placesOfPieces = currBoard->getPlacesOfPieces(currPlayerIndex);
+	vector<Position*> placesOfPieces;
+	currBoard->getPlacesOfPieces(currPlayerIndex, placesOfPieces);
 	for (auto origin : placesOfPieces) {
 		Piece* piece = currBoard->getPiece(origin);
-		vector<Position*> avaliablePlaces = currBoard->getAvaliblePlaces(piece);
+		vector<Position*> avaliablePlaces;
+		currBoard->getAvaliblePlaces(piece, avaliablePlaces);
 
 		for (auto dest : avaliablePlaces) {
 			Piece* eliminatedPiece = currBoard->setPiece(dest, piece);
 			Move* move = new Move(origin, dest, 0);
 			TreeNode* leafNode = new TreeNode(move);
 			currNode->leaves.push_back(leafNode);
-			dfs(nextLevel, leafNode, 1 - currPlayerIndex);
+			dfs(currLevel - 1, leafNode, 1 - currPlayerIndex);
 			currBoard->setPiece(origin, piece);
 			if (eliminatedPiece != nullptr) {
 				currBoard->setAlive(eliminatedPiece);
@@ -86,19 +90,23 @@ void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 
 Move* AIPlayer::getNextMove()
 {
+	srand(time(NULL));
 	if (searchLevel == 0) return getRandomMove();
 	counter = 0;
 	Move* move = new Move(nullptr, nullptr, 0);
 	TreeNode* root = new TreeNode(move);
 	dfs(searchLevel, root, playerIndex);
 	cout << counter << " times dfs" << endl;
-	int maxScore = INT_MIN;
+	int maxScore = move->score;
+	vector<Move*> choices;
 	for (auto leaf : root->leaves) {
-		if (leaf->move->score > maxScore) {
-			maxScore = leaf->move->score;
-			move = leaf->move;
+		if (leaf->move->score == maxScore) {
+			choices.push_back(leaf->move);
 		}
 	}
+	int index = rand() % choices.size();
+	move = new Move(choices[index]);
+	delete root;
 	return move;
 }
 

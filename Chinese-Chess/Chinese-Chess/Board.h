@@ -54,8 +54,8 @@ class Board {
         Board();
         Piece* getPiece(Position* pos);
         Piece* setPiece(Position* pos, Piece* piece);
-        std::vector<Position*> getPlacesOfPieces(int playerIndex);
-        std::vector<Position*> getAvaliblePlaces(Piece *piece);
+        void getPlacesOfPieces(int playerIndex, vector<Position*>& places);
+        void getAvaliblePlaces(Piece *piece, vector<Position*>& places);
         Piece* getAlivePieceByIndex(int index);
         Piece* getDeadPieceByIndex(int index);
         bool lossGeneral(int playerIndex);
@@ -72,7 +72,7 @@ class Board {
 
         void drawPlayerFrame(int currPlayerIndex);
 
-        void drawNodes(vector<Position*> avaliablePlaces);
+        void drawNodes(const vector<Position*>& avaliablePlaces);
 
         bool isChooseLocationInBoard(int screenX, int screenY);
 

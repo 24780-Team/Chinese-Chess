@@ -238,7 +238,7 @@ void Board::drawPlayerFrame(int currPlayerIndex)
 	glFlush();
 }
 
-void Board::drawNodes(vector<Position*> avaliablePlaces)
+void Board::drawNodes(const vector<Position*>& avaliablePlaces)
 {
 	const double PI = 3.1415927;
 	for (auto pos : avaliablePlaces) {
@@ -307,11 +307,12 @@ int Board::calcScore(int playerIndex)
 			break;
 		case pieceType::HORSE:
 			score += 3;
+			break;
 		case pieceType::CANNON:
 			score += 4;
 			break;
 		case pieceType::CHARIOT:
-			score += 5;
+			score += 6;
 			break;
 		case pieceType::GENERAL:
 			score += 10;
@@ -321,10 +322,10 @@ int Board::calcScore(int playerIndex)
 	return score;
 }
 
-vector<Position*> Board::getAvaliblePlaces(Piece* piece)
+void Board::getAvaliblePlaces(Piece* piece, vector<Position*>& places)
 {
+	vector<Position*>().swap(places);
 	vector<Position*> positions = piece->getAvaliablePlace(width, height);
-	vector<Position*> avaliblePlaces;
 	int currPlayerIndex = piece->getPlayerIndex();
 
 	// Handle four special cases
@@ -355,10 +356,8 @@ vector<Position*> Board::getAvaliblePlaces(Piece* piece)
 			continue;
 		}
 
-		avaliblePlaces.push_back(pos);
+		places.push_back(pos);
 	}
-	/*avaliblePlaces.push_back(piece->getPos());*/
-	return avaliblePlaces;
 }
 
 Piece* Board::getAlivePieceByIndex(int index)
@@ -435,9 +434,9 @@ void Board::draw()
 	}
 }
 
-vector<Position*> Board::getPlacesOfPieces(int playerIndex)
+void Board::getPlacesOfPieces(int playerIndex, vector<Position*>& places)
 {
-	vector<Position*> places;
+	vector<Position*>().swap(places);
 	if (playerIndex == 0) {
 		for (auto v : player0Alive) {
 			places.push_back(v.second->getPos());
@@ -448,7 +447,6 @@ vector<Position*> Board::getPlacesOfPieces(int playerIndex)
 			places.push_back(v.second->getPos());
 		}
 	}
-	return places;
 }
 
 void Board::initializeGeneral(int& index)
