@@ -22,8 +22,8 @@ int main() {
         case FSKEY_ESC:
             break;
         }
-        game->draw();
         terminate = game->nextTurn();
+        game->draw();
         FsSwapBuffers();
         FsSleep(20);
     }

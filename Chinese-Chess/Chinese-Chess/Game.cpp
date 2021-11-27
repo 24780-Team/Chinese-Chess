@@ -117,11 +117,9 @@ bool Game::nextTurnWithoutAI() {
     }
     else {
         piece = board->getPiece(originalPos);
-        vector<Position*> avaliablePlaces;
         board->getAvaliblePlaces(piece, avaliablePlaces);
         bool validDest = false;
 
-        board->drawNodes(avaliablePlaces);
         for (auto validPos : avaliablePlaces) {
             if (currentPos != nullptr && *currentPos == *validPos) {
                 validDest = true;
@@ -141,7 +139,7 @@ bool Game::nextTurnWithoutAI() {
                 round += 1;
             }
             currPlayer = players[1 - playerIndex];
-
+            avaliablePlaces.clear();
         }
         else {
             for (auto validPos : placesOfPieces) {
@@ -207,6 +205,7 @@ void Game::draw()
     board->drawCurrentFrame();
     board->drawPlayerFrame(currPlayer->getIndex());
     board->drawModeChooseFrame();
+    board->drawNodes(avaliablePlaces);
 }
 
 

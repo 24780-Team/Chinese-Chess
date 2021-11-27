@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AIPlayer.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="DrawingUtilNG.h" />
     <ClInclude Include="fssimplewindow.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="yssimplesound.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIPlayer.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DrawingUtilNG.cpp" />
     <ClCompile Include="fssimplewindow.cpp" />

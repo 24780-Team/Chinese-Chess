@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe</FullPath>
+      <FullPath>C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Release\Chinese-Chess.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

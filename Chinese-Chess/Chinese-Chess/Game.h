@@ -25,6 +25,8 @@ class Game {
 
         Position* originalPos = nullptr;
 
+        vector<Position*> avaliablePlaces;
+
         bool hasAI = true;
         int aiLevel = 0; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
         int aiIndex = -1; // AI's player index

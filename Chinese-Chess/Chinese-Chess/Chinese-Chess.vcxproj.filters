@@ -48,6 +48,9 @@
     <ClInclude Include="DrawingUtilNG.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AIPlayer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="fssimplewindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AIPlayer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
