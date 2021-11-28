@@ -15,14 +15,14 @@ AIPlayer::AIPlayer(Board* board, int playerIndex, int searchLevel)
 }
 
 Move* AIPlayer::getRandomMove() {
-	vector<Position*> placesOfPieces;
+	vector<shared_ptr<Position>> placesOfPieces;
 	currBoard->getPlacesOfPieces(playerIndex, placesOfPieces);
 	int index = rand() % placesOfPieces.size();
-	Position* origin = placesOfPieces[index];
+	shared_ptr<Position> origin = placesOfPieces[index];
 	bool canMove = false;
 	Piece* piece;
 
-	vector<Position*> avaliablePlaces;
+	vector<shared_ptr<Position>> avaliablePlaces;
 	while (!canMove) {
 		piece = currBoard->getPiece(origin);
 		currBoard->getAvaliblePlaces(piece, avaliablePlaces);
@@ -31,7 +31,7 @@ Move* AIPlayer::getRandomMove() {
 		}
 	}
 	index = rand() % avaliablePlaces.size();
-	Position* dest = avaliablePlaces[index];
+	shared_ptr<Position> dest = avaliablePlaces[index];
 	return new Move(origin, dest, 0);
 }
 
@@ -45,11 +45,11 @@ void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 		return;
 	}
 
-	vector<Position*> placesOfPieces;
+	vector<shared_ptr<Position>> placesOfPieces;
 	currBoard->getPlacesOfPieces(currPlayerIndex, placesOfPieces);
 	for (auto origin : placesOfPieces) {
 		Piece* piece = currBoard->getPiece(origin);
-		vector<Position*> avaliablePlaces;
+		vector<shared_ptr<Position>> avaliablePlaces;
 		currBoard->getAvaliblePlaces(piece, avaliablePlaces);
 
 		for (auto dest : avaliablePlaces) {

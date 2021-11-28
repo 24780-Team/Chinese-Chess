@@ -29,14 +29,14 @@ Board::Board() {
 	initializeSoldier(index);
 }
 
-Piece* Board::getPiece(Position* pos)
+Piece* Board::getPiece(shared_ptr<Position> pos)
 {
 	int x = pos->getX();
 	int y = pos->getY();
 	return posToPiece[x][y];
 }
 
-Piece* Board::setPiece(Position* pos, Piece* piece)
+Piece* Board::setPiece(shared_ptr<Position> pos, Piece* piece)
 {
 
 	if (piece->getType() == pieceType::SOLDIER) {
@@ -52,7 +52,7 @@ Piece* Board::setPiece(Position* pos, Piece* piece)
 		}
 	}
 
-	Position *prevPos = piece->getPos();
+	shared_ptr<Position> prevPos = piece->getPos();
 	int x = pos->getX();
 	int y = pos->getY();
 	int prevX = prevPos->getX();
@@ -121,14 +121,14 @@ void Board::changeChooseState(int screenX, int screenY)
 	}
 }
 
-Position* Board::getChooseLocation(int screenX, int screenY)
+shared_ptr<Position> Board::getChooseLocation(int screenX, int screenY)
 {
 	int x = (screenX - boardMargin) / gridSize;
 	int y = (screenY - boardMargin) / gridSize;
-	return new Position(x, y);
+	return make_shared<Position>(x, y);
 }
 
-void Board::drawChooseFrame(Position* theLoc)
+void Board::drawChooseFrame(shared_ptr<Position> theLoc)
 {
 	int lineWidth = 3;
 	glColor3ub(0, 0, 255);
@@ -235,7 +235,7 @@ void Board::drawPlayerFrame(int currPlayerIndex)
 	glFlush();
 }
 
-void Board::drawNodes(const vector<Position*>& avaliablePlaces)
+void Board::drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces)
 {
 	const double PI = 3.1415927;
 	for (auto pos : avaliablePlaces) {
@@ -265,7 +265,7 @@ bool Board::isChooseLocationInChangePattern(int screenX, int screenY)
 
 void Board::setAlive(Piece* piece)
 {
-	Position* pos = piece->getPos();
+	shared_ptr<Position> pos = piece->getPos();
 	int x = pos->getX();
 	int y = pos->getY();
 	posToPiece[x][y] = piece;
@@ -319,10 +319,10 @@ int Board::calcScore(int playerIndex)
 	return score;
 }
 
-void Board::getAvaliblePlaces(Piece* piece, vector<Position*>& places)
+void Board::getAvaliblePlaces(Piece* piece, vector<shared_ptr<Position>>& places)
 {
-	vector<Position*>().swap(places);
-	vector<Position*> positions = piece->getAvaliablePlace(width, height);
+	vector<shared_ptr<Position>>().swap(places);
+	vector<shared_ptr<Position>> positions = piece->getAvaliablePlace(width, height);
 	int currPlayerIndex = piece->getPlayerIndex();
 
 	// Handle four special cases
@@ -431,9 +431,9 @@ void Board::draw()
 	}
 }
 
-void Board::getPlacesOfPieces(int playerIndex, vector<Position*>& places)
+void Board::getPlacesOfPieces(int playerIndex, vector<shared_ptr<Position>>& places)
 {
-	vector<Position*>().swap(places);
+	vector<shared_ptr<Position>>().swap(places);
 	if (playerIndex == 0) {
 		for (auto v : player0Alive) {
 			places.push_back(v.second->getPos());
@@ -448,10 +448,10 @@ void Board::getPlacesOfPieces(int playerIndex, vector<Position*>& places)
 
 void Board::initializeGeneral(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
-	pos = new Position(4, 0);
+	pos = make_shared<Position>(4, 0);
 	piece = new General(4, 0, 0, index);
 	piece->addImage("Resources/pieces/red_pic/general.png", "Resources/pieces/red_cn/general.png");
 
@@ -459,7 +459,7 @@ void Board::initializeGeneral(int& index)
 	posToPiece[4][0] = piece;
 	index += 1;
 	
-	pos = new Position(4, 9);
+	pos = make_shared<Position>(4, 9);
 	piece = new General(4, 9, 1, index);
 	piece->addImage("Resources/pieces/black_pic/general.png", "Resources/pieces/black_cn/general.png");
 
@@ -473,11 +473,11 @@ void Board::initializeGeneral(int& index)
 
 void Board::initializeAdvisor(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = -1; i <= 1; i += 2) {
-		pos = new Position(4 + i, 0);
+		pos = make_shared<Position>(4 + i, 0);
 		piece = new Advisor(4 + i, 0, 0, index);
 		piece->addImage("Resources/pieces/red_pic/advisor.png", "Resources/pieces/red_cn/advisor.png");
 
@@ -485,7 +485,7 @@ void Board::initializeAdvisor(int& index)
 		posToPiece[4 + i][0] = piece;
 		index += 1;
 
-		pos = new Position(4 + i, 9);
+		pos = make_shared<Position>(4 + i, 9);
 		piece = new Advisor(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/advisor.png", "Resources/pieces/black_cn/advisor.png");
 
@@ -497,11 +497,11 @@ void Board::initializeAdvisor(int& index)
 
 void Board::initializeElephant(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = -2; i <= 2; i += 4) {
-		pos = new Position(4 + i, 0);
+		pos = make_shared<Position>(4 + i, 0);
 		piece = new Elephant(4 + i, 0, 0, index);
 		piece->addImage("Resources/pieces/red_pic/elephant.png", "Resources/pieces/red_cn/elephant.png");
 
@@ -509,7 +509,7 @@ void Board::initializeElephant(int& index)
 		posToPiece[4 + i][0] = piece;
 		index += 1;
 
-		pos = new Position(4 + i, 9);
+		pos = make_shared<Position>(4 + i, 9);
 		piece = new Elephant(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/elephant.png", "Resources/pieces/black_cn/elephant.png");
 
@@ -521,11 +521,11 @@ void Board::initializeElephant(int& index)
 
 void Board::initializeHorse(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = -3; i <= 3; i += 6) {
-		pos = new Position(4 + i, 0);
+		pos = make_shared<Position>(4 + i, 0);
 		piece = new Horse(4 + i, 0, 0, index);
 		piece->addImage("Resources/pieces/red_pic/horse.png", "Resources/pieces/red_cn/horse.png");
 		
@@ -533,7 +533,7 @@ void Board::initializeHorse(int& index)
 		posToPiece[4 + i][0] = piece;
 		index += 1;
 
-		pos = new Position(4 + i, 9);
+		pos = make_shared<Position>(4 + i, 9);
 		piece = new Horse(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/horse.png", "Resources/pieces/black_cn/horse.png");
 		
@@ -545,11 +545,11 @@ void Board::initializeHorse(int& index)
 
 void Board::initializeChariot(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = -4; i <= 4; i += 8) {
-		pos = new Position(4 + i, 0);
+		pos = make_shared<Position>(4 + i, 0);
 		piece = new Chariot(4 + i, 0, 0, index);
 		piece->addImage("Resources/pieces/red_pic/chariot.png", "Resources/pieces/red_cn/chariot.png");
 
@@ -557,7 +557,7 @@ void Board::initializeChariot(int& index)
 		posToPiece[4 + i][0] = piece;
 		index += 1;
 
-		pos = new Position(4 + i, 9);
+		pos = make_shared<Position>(4 + i, 9);
 		piece = new Chariot(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/chariot.png", "Resources/pieces/black_cn/chariot.png");
 		
@@ -569,11 +569,11 @@ void Board::initializeChariot(int& index)
 
 void Board::initializeCannon(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = -3; i <= 3; i += 6) {
-		pos = new Position(4 + i, 2);
+		pos = make_shared<Position>(4 + i, 2);
 		piece = new Cannon(4 + i, 2, 0, index);
 		piece->addImage("Resources/pieces/red_pic/cannon.png", "Resources/pieces/red_cn/cannon.png");
 		
@@ -581,7 +581,7 @@ void Board::initializeCannon(int& index)
 		posToPiece[4 + i][2] = piece;
 		index += 1;
 
-		pos = new Position(4 + i, 7);
+		pos = make_shared<Position>(4 + i, 7);
 		piece = new Cannon(4 + i, 7, 1, index);
 		piece->addImage("Resources/pieces/black_pic/cannon.png", "Resources/pieces/black_cn/cannon.png");
 		
@@ -593,11 +593,11 @@ void Board::initializeCannon(int& index)
 
 void Board::initializeSoldier(int& index)
 {
-	Position* pos;
+	shared_ptr<Position> pos;
 	Piece* piece;
 
 	for (int i = 0; i < 9; i += 2) {
-		pos = new Position(i, 3);
+		pos = make_shared<Position>(i, 3);
 		piece = new Soldier(i, 3, 0, index);
 		piece->addImage("Resources/pieces/red_pic/soldier.png", "Resources/pieces/red_cn/soldier.png");
 		
@@ -605,7 +605,7 @@ void Board::initializeSoldier(int& index)
 		posToPiece[i][3] = piece;
 		index += 1;
 
-		pos = new Position(i, 6);
+		pos = make_shared<Position>(i, 6);
 		piece = new Soldier(i, 6, 1, index);
 		piece->addImage("Resources/pieces/black_pic/soldier.png", "Resources/pieces/black_cn/soldier.png");
 		
@@ -615,13 +615,13 @@ void Board::initializeSoldier(int& index)
 	}
 }
 
-vector<Position*> Board::checkForElephant(Piece* piece, vector<Position*>& positions)
+vector<shared_ptr<Position>> Board::checkForElephant(Piece* piece, vector<shared_ptr<Position>>& positions)
 {
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
 	
 	for (auto iter = positions.begin(); iter != positions.end();) {
-		Position* pos = *iter;
+		shared_ptr<Position> pos = *iter;
 		int dx = pos->getX() - currX;
 		int dy = pos->getY() - currY;
 		if (posToPiece[currX + dx / 2][currY + dy / 2] != nullptr) {
@@ -634,13 +634,13 @@ vector<Position*> Board::checkForElephant(Piece* piece, vector<Position*>& posit
 	return positions;
 }
 
-vector<Position*> Board::checkForHorse(Piece* piece, vector<Position*>& positions)
+vector<shared_ptr<Position>> Board::checkForHorse(Piece* piece, vector<shared_ptr<Position>>& positions)
 {
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
 
 	for (auto iter = positions.begin(); iter != positions.end();) {
-		Position* pos = *iter;
+		shared_ptr<Position> pos = *iter;
 		int dx = pos->getX() - currX;
 		int dy = pos->getY() - currY;
 		if (posToPiece[currX + dx / 2][currY + dy / 2] != nullptr) {
@@ -653,7 +653,7 @@ vector<Position*> Board::checkForHorse(Piece* piece, vector<Position*>& position
 	return positions;
 }
 
-std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position*>& positions)
+std::vector<shared_ptr<Position>> Board::checkForGeneral(Piece* piece, std::vector<shared_ptr<Position>>& positions)
 {
 	int x = piece->getPos()->getX();
 	int y = piece->getPos()->getY();
@@ -663,7 +663,7 @@ std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position
 			if (posToPiece[x][j] != nullptr) {
 				Piece* piece = posToPiece[x][j];
 				if (piece->getType() == pieceType::GENERAL) {
-					Position* pos = new Position(x, j);
+					shared_ptr<Position> pos(new Position(x, j));
 					positions.push_back(pos);
 				}
 				break;
@@ -675,7 +675,7 @@ std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position
 			if (posToPiece[x][j] != nullptr) {
 				Piece* piece = posToPiece[x][j];
 				if (piece->getType() == pieceType::GENERAL) {
-					Position* pos = new Position(x, j);
+					shared_ptr<Position> pos(new Position(x, j));
 					positions.push_back(pos);
 				}
 				break;
@@ -685,15 +685,15 @@ std::vector<Position*> Board::checkForGeneral(Piece* piece, std::vector<Position
 	return positions;
 }
 
-vector<Position*> Board::checkForChariot(Piece* piece)
+vector<shared_ptr<Position>> Board::checkForChariot(Piece* piece)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	int x = piece->getPos()->getX();
 	int y = piece->getPos()->getY();
 	int playerIndex = piece->getPlayerIndex();
 	for (int i = x + 1; i < width; i++) {
-		Position* pos;
-		pos = new Position(i, y);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(i, y);
 		if (posToPiece[i][y] == nullptr) {
 			avaliablePlace.push_back(pos);
 		}
@@ -707,8 +707,8 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 	}
 
 	for (int i = x - 1; i >= 0; i--) {
-		Position* pos;
-		pos = new Position(i, y);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(i, y);
 		if (posToPiece[i][y] == nullptr) {
 			avaliablePlace.push_back(pos);
 		}
@@ -722,8 +722,8 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 	}
 
 	for (int j = y + 1; j < height; j++) {
-		Position* pos;
-		pos = new Position(x, j);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(x, j);
 		if (posToPiece[x][j] == nullptr) {
 			avaliablePlace.push_back(pos);
 		}
@@ -737,8 +737,8 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 	}
 
 	for (int j = y - 1; j >= 0; j--) {
-		Position* pos;
-		pos = new Position(x, j);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(x, j);
 		if (posToPiece[x][j] == nullptr) {
 			avaliablePlace.push_back(pos);
 		}
@@ -754,17 +754,17 @@ vector<Position*> Board::checkForChariot(Piece* piece)
 	return avaliablePlace;
 }
 
-vector<Position*> Board::checkForCannon(Piece* piece)
+vector<shared_ptr<Position>> Board::checkForCannon(Piece* piece)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	int x = piece->getPos()->getX();
 	int y = piece->getPos()->getY();
 	int playerIndex = piece->getPlayerIndex();
 	bool meetObstacle = false;
 
 	for (int i = x + 1; i < width; i++) {
-		Position* pos;
-		pos = new Position(i, y);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(i, y);
 		if (posToPiece[i][y] == nullptr) {
 			if (meetObstacle == false) {
 				avaliablePlace.push_back(pos);
@@ -788,8 +788,8 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 	meetObstacle = false;
 
 	for (int i = x - 1; i >= 0; i--) {
-		Position* pos;
-		pos = new Position(i, y);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(i, y);
 		if (posToPiece[i][y] == nullptr) {
 			if (!meetObstacle) {
 				avaliablePlace.push_back(pos);
@@ -813,8 +813,8 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 	meetObstacle = false;
 
 	for (int j = y + 1; j < height; j++) {
-		Position* pos;
-		pos = new Position(x, j);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(x, j);
 		if (posToPiece[x][j] == nullptr) {
 			if (!meetObstacle) {
 				avaliablePlace.push_back(pos);
@@ -838,8 +838,8 @@ vector<Position*> Board::checkForCannon(Piece* piece)
 	meetObstacle = false;
 
 	for (int j = y - 1; j >= 0; j--) {
-		Position* pos;
-		pos = new Position(x, j);
+		shared_ptr<Position> pos;
+		pos = make_shared<Position>(x, j);
 		if (posToPiece[x][j] == nullptr) {
 			if (!meetObstacle) {
 				avaliablePlace.push_back(pos);

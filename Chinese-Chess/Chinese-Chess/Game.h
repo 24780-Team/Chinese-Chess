@@ -25,9 +25,9 @@ class Game {
         int mode = 1;
         bool isChoosePiece = false;
 
-        Position* originalPos = nullptr;
+        shared_ptr<Position> originalPos = nullptr;
 
-        vector<Position*> avaliablePlaces;
+        vector<shared_ptr<Position>> avaliablePlaces;
 
         bool hasAI = true;
         int aiLevel = 0; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
@@ -40,7 +40,7 @@ class Game {
          * @param newPos new position of the piece
          * @param eliminatedPieceIndex index of Piece eliminated by player's Piece, if no elimination, input -1
         */
-        void writeLog(int pieceIndex, Position* originPos, Position* newPos, int eliminatedPieceIndex);
+        void writeLog(int pieceIndex, shared_ptr<Position> originPos, shared_ptr<Position> newPos, int eliminatedPieceIndex);
 
         bool nextTurnWithoutAI();
         void redo();
@@ -50,10 +50,10 @@ class Game {
         void startGame();
         bool getWinner(int playerIndex);
         bool nextTurn();
-        Piece* setPiece(Position* pos, Piece* piece);
+        Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
 
-        void showAvaliablePlaces(std::vector<Position*> avaliablePlaces); // Need to be changed.
+        void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
         void drawStart();
         void draw(); 
 };

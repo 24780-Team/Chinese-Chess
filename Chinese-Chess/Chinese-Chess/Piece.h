@@ -18,7 +18,7 @@ enum class pieceType {BASE, GENERAL, ADVISOR, ELEPHANT, HORSE, CHARIOT, CANNON, 
 
 class Piece {
 protected:
-	Position* pos;
+	shared_ptr<Position> pos;
 	int playerIndex;
 	int pieceIndex;
 	string pieceID;
@@ -30,20 +30,20 @@ protected:
 
 public:
 	Piece(int x, int y, int playerIndex, int pieceIndex) {
-		this->pos = new Position(x, y);
+		this->pos = make_shared<Position>(x, y);
 		this->playerIndex = playerIndex;
 		this->pieceIndex = pieceIndex;
 		this->isCrossRiver = false;
 		this->type = pieceType::BASE;
 	}
 
-	Position* getPos() { return pos; }
-	void setPos(Position* pos) { this->pos = pos; }
+	shared_ptr<Position> getPos() { return pos; }
+	void setPos(shared_ptr<Position> pos) { this->pos = pos; }
 	int getPlayerIndex() { return playerIndex; }
 	int getPieceIndex() { return pieceIndex; }
 	pieceType getType() { return type; };
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
-	virtual bool onBoard(Position* pos);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
+	virtual bool onBoard(shared_ptr<Position> pos);
 	void setCrossRiver(bool isCrossRiver) {
 		this->isCrossRiver = isCrossRiver;
 	}
@@ -68,8 +68,8 @@ public:
 		steps.push_back({ 0, -1 });
 		this->type = pieceType::GENERAL;
 	};
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
-	virtual bool onBoard(Position* pos);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
+	virtual bool onBoard(shared_ptr<Position> pos);
 };
 
 class Advisor : public Piece {
@@ -81,8 +81,8 @@ public:
 		steps.push_back({ -1, -1 });
 		this->type = pieceType::ADVISOR;
 	};
-	virtual bool onBoard(Position* pos);
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
+	virtual bool onBoard(shared_ptr<Position> pos);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
 };
 
 class Elephant : public Piece {
@@ -94,8 +94,8 @@ public:
 		steps.push_back({ -2, -2 });
 		this->type = pieceType::ELEPHANT;
 	};
-	virtual bool onBoard(Position* pos);
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
+	virtual bool onBoard(shared_ptr<Position> pos);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
 };
 
 class Horse : public Piece {
@@ -111,7 +111,7 @@ public:
 		steps.push_back({ 2, -1 });
 		this->type = pieceType::HORSE;
 	};
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
 };
 
 class Chariot : public Piece {
@@ -136,5 +136,5 @@ public:
 		steps.push_back({ -1, 0 });
 		this->type = pieceType::SOLDIER;
 	};
-	virtual vector<Position*> getAvaliablePlace(int width, int height);
+	virtual vector<shared_ptr<Position>> getAvaliablePlace(int width, int height);
 };

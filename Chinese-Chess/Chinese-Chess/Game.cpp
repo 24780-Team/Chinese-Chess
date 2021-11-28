@@ -4,7 +4,7 @@
 #include "Game.h"
 using namespace std;
 
-void Game::writeLog(int pieceIndex, Position* originPos, Position* newPos, int eliminatedPieceIndex)
+void Game::writeLog(int pieceIndex, shared_ptr<Position> originPos, shared_ptr<Position> newPos, int eliminatedPieceIndex)
 {
     vector<int> log;
     log.push_back(pieceIndex);
@@ -22,8 +22,8 @@ void Game::redo()
         vector<int> log = backLog.top();
         backLog.pop();
         Piece* redoPiece = board->getAlivePieceByIndex(log[0]);
-        Position* originPos = new Position(log[1], log[2]);
-        Position* newPos = new Position(log[3], log[4]);
+        shared_ptr<Position> originPos(new Position(log[1], log[2]));
+        shared_ptr<Position> newPos(new Position(log[3], log[4]));
         setPiece(originPos, redoPiece);
         if (log[5] != -1) {
             Piece* eliminatedPiece = board->getDeadPieceByIndex(log[5]);
@@ -98,13 +98,13 @@ bool Game::nextTurnWithoutAI() {
 
     int playerIndex = currPlayer->getIndex();
 
-    vector<Position*> placesOfPieces;
+    vector<shared_ptr<Position>> placesOfPieces;
     board->getPlacesOfPieces(playerIndex, placesOfPieces);
 
     Piece* piece = nullptr;
     Piece* eliminatedPiece = nullptr;
 
-    Position* currentPos = board->getChooseLoc();
+    shared_ptr<Position> currentPos = board->getChooseLoc();
 
     if (!isChoosePiece) {
         for (auto validPos : placesOfPieces) {
@@ -180,7 +180,7 @@ bool Game::nextTurnWithoutAI() {
 }
 
 
-Piece* Game::setPiece(Position* pos, Piece* piece) {
+Piece* Game::setPiece(shared_ptr<Position> pos, Piece* piece) {
     return board->setPiece(pos, piece);
 }
 
@@ -189,7 +189,7 @@ void Game::repentPrevTurn()
     return;
 }
 
-void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
+void Game::showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces)
 {
     cout << "Avaliable positions are:" << endl;
     for (auto pos : avaliablePlaces) {

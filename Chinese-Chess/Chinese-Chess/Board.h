@@ -32,17 +32,17 @@ class Board {
         void initializeCannon(int& index);
         void initializeSoldier(int& index);
 
-        std::vector<Position*> checkForElephant(Piece* piece, std::vector<Position*>& positions);
-        std::vector<Position*> checkForHorse(Piece* piece, std::vector<Position*>& positions);
-        std::vector<Position*> checkForGeneral(Piece* piece, std::vector<Position*>& positions);
-        std::vector<Position*> checkForChariot(Piece* piece);
-        std::vector<Position*> checkForCannon(Piece* piece);
+        std::vector<shared_ptr<Position>> checkForElephant(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+        std::vector<shared_ptr<Position>> checkForHorse(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+        std::vector<shared_ptr<Position>> checkForGeneral(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+        std::vector<shared_ptr<Position>> checkForChariot(Piece* piece);
+        std::vector<shared_ptr<Position>> checkForCannon(Piece* piece);
 
         //void addPiece(const std::string filename, int playerIndex, int startIndex);
 
         // used to show chosen location
         bool isChoose;
-        Position *chooseLoc;
+        shared_ptr<Position> chooseLoc;
 
         // used to show where the pieces can be moved to 
         int rgbr = 135;
@@ -52,10 +52,10 @@ class Board {
     
     public:
         Board();
-        Piece* getPiece(Position* pos);
-        Piece* setPiece(Position* pos, Piece* piece);
-        void getPlacesOfPieces(int playerIndex, vector<Position*>& places);
-        void getAvaliblePlaces(Piece *piece, vector<Position*>& places);
+        Piece* getPiece(shared_ptr<Position> pos);
+        Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
+        void getPlacesOfPieces(int playerIndex, vector<shared_ptr<Position>>& places);
+        void getAvaliblePlaces(Piece *piece, vector<shared_ptr<Position>>& places);
         Piece* getAlivePieceByIndex(int index);
         Piece* getDeadPieceByIndex(int index);
         bool lossGeneral(int playerIndex);
@@ -66,13 +66,13 @@ class Board {
 
         void drawCurrentFrame();
         // draw the choose frame
-        void drawChooseFrame(Position* theLoc);
+        void drawChooseFrame(shared_ptr<Position> theLoc);
 
         void drawModeChooseFrame();
 
         void drawPlayerFrame(int currPlayerIndex);
 
-        void drawNodes(const vector<Position*>& avaliablePlaces);
+        void drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces);
 
         bool isChooseLocationInBoard(int screenX, int screenY);
 
@@ -82,16 +82,16 @@ class Board {
             this->isChoose = isChoose;
         }
 
-        Position* getChooseLoc() {
+        shared_ptr<Position> getChooseLoc() {
             return chooseLoc;
         }
 
-        void setChooseLoc(Position* pos) {
+        void setChooseLoc(shared_ptr<Position> pos) {
             this->isChoose = true;
             chooseLoc = pos;
         }
 
-        Position* getChooseLocation(int screenX, int screenY);
+        shared_ptr<Position> getChooseLocation(int screenX, int screenY);
 
         bool isChooseLocationInChangePattern(int screenX, int screenY);
 

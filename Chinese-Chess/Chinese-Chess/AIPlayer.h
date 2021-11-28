@@ -3,10 +3,10 @@
 #include "Board.h"
 
 struct Move {
-	Position* origin = nullptr;
-	Position* dest = nullptr;
+	shared_ptr<Position> origin = nullptr;
+	shared_ptr<Position> dest = nullptr;
 	int score = 0;
-	Move(Position* origin, Position* dest, int score) {
+	Move(shared_ptr<Position> origin, shared_ptr<Position> dest, int score) {
 		this->origin = origin;
 		this->dest = dest;
 		this->score = score;

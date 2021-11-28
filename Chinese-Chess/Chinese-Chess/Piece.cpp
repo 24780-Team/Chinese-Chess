@@ -11,12 +11,12 @@
 #define gridSize 100
 #define pieceSize 80
 
-vector<Position*> Piece::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> Piece::getAvaliablePlace(int width, int height)
 {
-	return vector<Position*>();
+	return vector<shared_ptr<Position>>();
 }
 
-bool Piece::onBoard(Position* pos)
+bool Piece::onBoard(shared_ptr<Position> pos)
 {
 	if (pos->getX() < 0 || pos->getX() > 8 || pos->getY() < 0 || pos->getY() > 9) {
 		return false;
@@ -52,11 +52,11 @@ void Piece::draw(int mode)
 }
 
 
-vector<Position*> General::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> General::getAvaliablePlace(int width, int height)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
+		shared_ptr<Position> dest(new Position(pos->getX() + step[0], pos->getY() + step[1]));
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -65,7 +65,7 @@ vector<Position*> General::getAvaliablePlace(int width, int height)
 	return avaliablePlace;
 }
 
-bool General::onBoard(Position* pos)
+bool General::onBoard(shared_ptr<Position> pos)
 {
 	if (playerIndex == 0) {
 		if (pos->getX() < 3 || pos->getX() > 5 || pos->getY() < 0 || pos->getY() > 2) {
@@ -80,7 +80,7 @@ bool General::onBoard(Position* pos)
 	return true;
 }
 
-bool Advisor::onBoard(Position* pos)
+bool Advisor::onBoard(shared_ptr<Position> pos)
 {
 	if (playerIndex == 0) {
 		if (pos->getX() < 3 || pos->getX() > 5 || pos->getY() < 0 || pos->getY() > 2) {
@@ -95,11 +95,11 @@ bool Advisor::onBoard(Position* pos)
 	return true;
 }
 
-vector<Position*> Advisor::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> Advisor::getAvaliablePlace(int width, int height)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
+		shared_ptr<Position> dest(new Position(pos->getX() + step[0], pos->getY() + step[1]));
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -108,7 +108,7 @@ vector<Position*> Advisor::getAvaliablePlace(int width, int height)
 	return avaliablePlace;
 }
 
-bool Elephant::onBoard(Position* pos)
+bool Elephant::onBoard(shared_ptr<Position> pos)
 {
 	if (playerIndex == 0) {
 		if (pos->getX() < 0 || pos->getX() > 8 || pos->getY() < 0 || pos->getY() > 4) {
@@ -123,11 +123,11 @@ bool Elephant::onBoard(Position* pos)
 	return true;
 }
 
-vector<Position*> Elephant::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> Elephant::getAvaliablePlace(int width, int height)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
+		shared_ptr<Position> dest(new Position(pos->getX() + step[0], pos->getY() + step[1]));
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -137,11 +137,11 @@ vector<Position*> Elephant::getAvaliablePlace(int width, int height)
 	return avaliablePlace;
 }
 
-vector<Position*> Horse::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> Horse::getAvaliablePlace(int width, int height)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	for (auto step : steps) {
-		Position* dest = new Position(pos->getX() + step[0], pos->getY() + step[1]);
+		shared_ptr<Position> dest(new Position(pos->getX() + step[0], pos->getY() + step[1]));
 		if (!onBoard(dest)) {
 			continue;
 		}
@@ -151,12 +151,12 @@ vector<Position*> Horse::getAvaliablePlace(int width, int height)
 	return avaliablePlace;
 }
 
-vector<Position*> Soldier::getAvaliablePlace(int width, int height)
+vector<shared_ptr<Position>> Soldier::getAvaliablePlace(int width, int height)
 {
-	vector<Position*> avaliablePlace;
+	vector<shared_ptr<Position>> avaliablePlace;
 	if (isCrossRiver) {
 		for (auto step : steps) {
-			Position* dest = new Position(0, 0);
+			shared_ptr<Position> dest(new Position(0, 0));
 			if (playerIndex == 0) {
 				dest->setX(pos->getX() + step[0]);
 				dest->setY(pos->getY() + step[1]);
@@ -173,7 +173,7 @@ vector<Position*> Soldier::getAvaliablePlace(int width, int height)
 		}
 	}
 	else {
-		Position* dest = new Position(0, 0);
+		shared_ptr<Position> dest(new Position(0, 0));
 		if (playerIndex == 0) {
 			dest->setX(pos->getX() + steps[0][0]);
 			dest->setY(pos->getY() + steps[0][1]);
