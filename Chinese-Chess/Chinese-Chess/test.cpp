@@ -10,6 +10,7 @@ int main() {
     FsOpenWindow(16, 16, width, height, 1, "Chinese-Chess (Twisted Fate)"); // use double buffer
 
     Game *game = new Game();
+    //game->drawStart();
     game->startGame();
     bool terminate = false;
     while (!terminate) {

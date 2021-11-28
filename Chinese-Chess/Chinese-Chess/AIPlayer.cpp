@@ -37,17 +37,11 @@ Move* AIPlayer::getRandomMove() {
 
 void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 	counter += 1;
-	if (currBoard->lossGeneral(currPlayerIndex)) {
-		if (currPlayerIndex == playerIndex) {
-			currNode->move->score = INT_MIN;
-		}
-		else {
-			currNode->move->score = calcScore();
-		}
-		return;
-	}
-	if (currLevel == 0) {
+	if (currLevel == 0 || currBoard->lossGeneral(currPlayerIndex)) {
 		currNode->move->score = calcScore();
+		if (currBoard->lossGeneral(playerIndex)) {
+			currNode->move->score -= 10;
+		}
 		return;
 	}
 
@@ -62,7 +56,7 @@ void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 			Piece* eliminatedPiece = currBoard->setPiece(dest, piece);
 			Move* move = new Move(origin, dest, 0);
 			TreeNode* leafNode = new TreeNode(move);
-			currNode->leaves.push_back(leafNode);
+			currNode->children.push_back(leafNode);
 			dfs(currLevel - 1, leafNode, 1 - currPlayerIndex);
 			currBoard->setPiece(origin, piece);
 			if (eliminatedPiece != nullptr) {
@@ -73,15 +67,15 @@ void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 
 	if (currPlayerIndex == playerIndex) {
 		int maxScore = INT_MIN;
-		for (auto leaf : currNode->leaves) {
-			maxScore = max(maxScore, leaf->move->score);
+		for (auto child : currNode->children) {
+			maxScore = max(maxScore, child->move->score);
 		}
 		currNode->move->score = maxScore;
 	}
 	else {
 		int minScore = INT_MAX;
-		for (auto leaf : currNode->leaves) {
-			minScore = min(minScore, leaf->move->score);
+		for (auto child : currNode->children) {
+			minScore = min(minScore, child->move->score);
 		}
 		currNode->move->score = minScore;
 	}
@@ -99,9 +93,9 @@ Move* AIPlayer::getNextMove()
 	cout << counter << " times dfs" << endl;
 	int maxScore = move->score;
 	vector<Move*> choices;
-	for (auto leaf : root->leaves) {
-		if (leaf->move->score == maxScore) {
-			choices.push_back(leaf->move);
+	for (auto child : root->children) {
+		if (child->move->score == maxScore) {
+			choices.push_back(child->move);
 		}
 	}
 	int index = rand() % choices.size();

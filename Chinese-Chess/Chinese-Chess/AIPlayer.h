@@ -20,17 +20,18 @@ struct Move {
 
 struct TreeNode {
 	Move* move = nullptr;
-	vector<TreeNode*> leaves;
+	vector<TreeNode*> children;
 	TreeNode(Move* move) {
 		this->move = move;
 	}
 	~TreeNode() { 
 		delete move;
-		if (this->leaves.size() != 0) {
-			for (auto leaf : leaves) {
-				delete leaf;
+		if (this->children.size() != 0) {
+			for (auto child : children) {
+				delete child;
 			}
-			vector<TreeNode*>().swap(leaves);
+			//children.clear();
+			vector<TreeNode*>().swap(children);
 		}
 	}
 };

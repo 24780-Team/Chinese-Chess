@@ -198,6 +198,67 @@ void Game::showAvaliablePlaces(std::vector<Position*> avaliablePlaces)
     cout << endl;
 }
 
+void Game::drawStart()
+{
+    int mouseEvent, leftButton, middleButton, rightButton;
+    int screenX, screenY;
+    bool terminate = false;
+    YsRawPngDecoder chineseChess, pvp, pve, exit;
+    chineseChess.Decode("Resources/words/ChineseChess.png");
+    chineseChess.Flip();
+    pvp.Decode("Resources/words/pvp.png");
+    pvp.Flip();
+    pve.Decode("Resources/words/pve.png");
+    pve.Flip();
+    exit.Decode("Resources/words/exit.png");
+    exit.Flip();
+
+    int chineseChessX = width / 2 - 550, chineseChessY = height / 2 - 100, pvpX = width / 2 - 110, pvpY = height / 2 + 50;
+
+
+    while (!terminate) {
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+        glColor3ub(238, 197, 145);
+        glBegin(GL_QUADS);
+        glVertex2i(0, 0);
+        glVertex2i(0, height);
+        glVertex2i(width, height);
+        glVertex2i(width, 0);
+        glEnd();
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(chineseChessX, chineseChessY);
+        glDrawPixels(chineseChess.wid, chineseChess.hei, GL_RGBA, GL_UNSIGNED_BYTE, chineseChess.rgba);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(pvpX, pvpY);
+        glDrawPixels(pvp.wid, pvp.hei, GL_RGBA, GL_UNSIGNED_BYTE, pvp.rgba);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(width / 2 - 110, height / 2 + 200);
+        glDrawPixels(pve.wid, pve.hei, GL_RGBA, GL_UNSIGNED_BYTE, pve.rgba);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(width / 2 - 120, height / 2 + 350);
+        glDrawPixels(exit.wid, exit.hei, GL_RGBA, GL_UNSIGNED_BYTE, exit.rgba);
+
+        mouseEvent = FsGetMouseEvent(leftButton, middleButton,
+            rightButton, screenX, screenY);
+
+        //if (screenX >  ) {
+
+        //}
+
+        FsSwapBuffers();
+        FsSleep(20);
+    }
+}
+
 void Game::draw()
 {
     board->drawBoard();

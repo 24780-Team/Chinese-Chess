@@ -10,6 +10,8 @@
 #include "Board.h"
 #include "AIPlayer.h"
 
+const int width = 1400, height = 1200;
+
 class Game {
     private:
         Board *board;
@@ -52,5 +54,6 @@ class Game {
         void repentPrevTurn(); // Need to be implemented.
 
         void showAvaliablePlaces(std::vector<Position*> avaliablePlaces); // Need to be changed.
+        void drawStart();
         void draw(); 
 };

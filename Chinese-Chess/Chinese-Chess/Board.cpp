@@ -27,9 +27,6 @@ Board::Board() {
 	initializeChariot(index);
 	initializeCannon(index);
 	initializeSoldier(index);
-
-	//addPiece("redpieces.txt", 0, 0);
-	//addPiece("blackpieces.txt", 1, 16);
 }
 
 Piece* Board::getPiece(Position* pos)
@@ -456,7 +453,7 @@ void Board::initializeGeneral(int& index)
 
 	pos = new Position(4, 0);
 	piece = new General(4, 0, 0, index);
-	piece->addImage("pieces/red_pic/general.png", "pieces/red_cn/general.png");
+	piece->addImage("Resources/pieces/red_pic/general.png", "Resources/pieces/red_cn/general.png");
 
 	player0Alive[index] = piece;
 	posToPiece[4][0] = piece;
@@ -464,7 +461,7 @@ void Board::initializeGeneral(int& index)
 	
 	pos = new Position(4, 9);
 	piece = new General(4, 9, 1, index);
-	piece->addImage("pieces/black_pic/general.png", "pieces/black_cn/general.png");
+	piece->addImage("Resources/pieces/black_pic/general.png", "Resources/pieces/black_cn/general.png");
 
 	player1Alive[index] = piece;
 	posToPiece[4][9] = piece;
@@ -482,7 +479,7 @@ void Board::initializeAdvisor(int& index)
 	for (int i = -1; i <= 1; i += 2) {
 		pos = new Position(4 + i, 0);
 		piece = new Advisor(4 + i, 0, 0, index);
-		piece->addImage("pieces/red_pic/advisor.png", "pieces/red_cn/advisor.png");
+		piece->addImage("Resources/pieces/red_pic/advisor.png", "Resources/pieces/red_cn/advisor.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -490,7 +487,7 @@ void Board::initializeAdvisor(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Advisor(4 + i, 9, 1, index);
-		piece->addImage("pieces/black_pic/advisor.png", "pieces/black_cn/advisor.png");
+		piece->addImage("Resources/pieces/black_pic/advisor.png", "Resources/pieces/black_cn/advisor.png");
 
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -506,7 +503,7 @@ void Board::initializeElephant(int& index)
 	for (int i = -2; i <= 2; i += 4) {
 		pos = new Position(4 + i, 0);
 		piece = new Elephant(4 + i, 0, 0, index);
-		piece->addImage("pieces/red_pic/elephant.png", "pieces/red_cn/elephant.png");
+		piece->addImage("Resources/pieces/red_pic/elephant.png", "Resources/pieces/red_cn/elephant.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -514,7 +511,7 @@ void Board::initializeElephant(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Elephant(4 + i, 9, 1, index);
-		piece->addImage("pieces/black_pic/elephant.png", "pieces/black_cn/elephant.png");
+		piece->addImage("Resources/pieces/black_pic/elephant.png", "Resources/pieces/black_cn/elephant.png");
 
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -530,7 +527,7 @@ void Board::initializeHorse(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 0);
 		piece = new Horse(4 + i, 0, 0, index);
-		piece->addImage("pieces/red_pic/horse.png", "pieces/red_cn/horse.png");
+		piece->addImage("Resources/pieces/red_pic/horse.png", "Resources/pieces/red_cn/horse.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -538,7 +535,7 @@ void Board::initializeHorse(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Horse(4 + i, 9, 1, index);
-		piece->addImage("pieces/black_pic/horse.png", "pieces/black_cn/horse.png");
+		piece->addImage("Resources/pieces/black_pic/horse.png", "Resources/pieces/black_cn/horse.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -554,7 +551,7 @@ void Board::initializeChariot(int& index)
 	for (int i = -4; i <= 4; i += 8) {
 		pos = new Position(4 + i, 0);
 		piece = new Chariot(4 + i, 0, 0, index);
-		piece->addImage("pieces/red_pic/chariot.png", "pieces/red_cn/chariot.png");
+		piece->addImage("Resources/pieces/red_pic/chariot.png", "Resources/pieces/red_cn/chariot.png");
 
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
@@ -562,7 +559,7 @@ void Board::initializeChariot(int& index)
 
 		pos = new Position(4 + i, 9);
 		piece = new Chariot(4 + i, 9, 1, index);
-		piece->addImage("pieces/black_pic/chariot.png", "pieces/black_cn/chariot.png");
+		piece->addImage("Resources/pieces/black_pic/chariot.png", "Resources/pieces/black_cn/chariot.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
@@ -578,7 +575,7 @@ void Board::initializeCannon(int& index)
 	for (int i = -3; i <= 3; i += 6) {
 		pos = new Position(4 + i, 2);
 		piece = new Cannon(4 + i, 2, 0, index);
-		piece->addImage("pieces/red_pic/cannon.png", "pieces/red_cn/cannon.png");
+		piece->addImage("Resources/pieces/red_pic/cannon.png", "Resources/pieces/red_cn/cannon.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[4 + i][2] = piece;
@@ -586,7 +583,7 @@ void Board::initializeCannon(int& index)
 
 		pos = new Position(4 + i, 7);
 		piece = new Cannon(4 + i, 7, 1, index);
-		piece->addImage("pieces/black_pic/cannon.png", "pieces/black_cn/cannon.png");
+		piece->addImage("Resources/pieces/black_pic/cannon.png", "Resources/pieces/black_cn/cannon.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[4 + i][7] = piece;
@@ -602,7 +599,7 @@ void Board::initializeSoldier(int& index)
 	for (int i = 0; i < 9; i += 2) {
 		pos = new Position(i, 3);
 		piece = new Soldier(i, 3, 0, index);
-		piece->addImage("pieces/red_pic/soldier.png", "pieces/red_cn/soldier.png");
+		piece->addImage("Resources/pieces/red_pic/soldier.png", "Resources/pieces/red_cn/soldier.png");
 		
 		player0Alive[index] = piece;
 		posToPiece[i][3] = piece;
@@ -610,7 +607,7 @@ void Board::initializeSoldier(int& index)
 
 		pos = new Position(i, 6);
 		piece = new Soldier(i, 6, 1, index);
-		piece->addImage("pieces/black_pic/soldier.png", "pieces/black_cn/soldier.png");
+		piece->addImage("Resources/pieces/black_pic/soldier.png", "Resources/pieces/black_cn/soldier.png");
 		
 		player1Alive[index] = piece;
 		posToPiece[i][6] = piece;
