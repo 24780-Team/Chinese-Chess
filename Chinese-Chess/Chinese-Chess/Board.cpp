@@ -384,12 +384,12 @@ Piece* Board::getDeadPieceByIndex(int index)
 bool Board::lossGeneral(int playerIndex)
 {
 	if (playerIndex == 0) {
-		if (player1Dead.find(general1Index) != player1Dead.end())
+		if (player0Dead.find(general0Index) != player0Dead.end())
 			return true;
 		return false;
 	}
 	else {
-		if (player0Dead.find(general0Index) != player0Dead.end())
+		if (player1Dead.find(general1Index) != player1Dead.end())
 			return true;
 		return false;
 	}

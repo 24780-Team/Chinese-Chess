@@ -39,9 +39,6 @@ void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
 	counter += 1;
 	if (currLevel == 0 || currBoard->lossGeneral(currPlayerIndex)) {
 		currNode->move->score = calcScore();
-		if (currBoard->lossGeneral(playerIndex)) {
-			currNode->move->score -= 10;
-		}
 		return;
 	}
 

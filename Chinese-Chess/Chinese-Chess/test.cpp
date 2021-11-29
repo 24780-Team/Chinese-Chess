@@ -10,8 +10,11 @@ int main() {
     FsOpenWindow(16, 16, width, height, 1, "Chinese-Chess (Twisted Fate)"); // use double buffer
 
     Game *game = new Game();
-    //game->drawStart();
-    game->startGame();
+    bool quit = game->startGame();
+    if (quit) {
+        return 0;
+    }
+    
     bool terminate = false;
     while (!terminate) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -28,4 +31,6 @@ int main() {
         FsSwapBuffers();
         FsSleep(20);
     }
+
+    return 0;
 }

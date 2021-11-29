@@ -44,16 +44,17 @@ class Game {
 
         bool nextTurnWithoutAI();
         void redo();
+        bool startStage1();
+        void startStage2();
 
     public:
         std::string getPlayerName(Player *player) { return player->getName(); }
-        void startGame();
+        bool startGame();
         bool getWinner(int playerIndex);
         bool nextTurn();
         Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
 
         void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
-        void drawStart();
         void draw(); 
 };
