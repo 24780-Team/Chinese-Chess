@@ -9,6 +9,6 @@ private:
 public:
     std::string getName() { return name; }
     int getIndex() { return index; }
-    void setName(); // Need to be changed.
+    void setName(const std::string& name) { this->name = name; }
     void setIndex(int index) { this->index = index; }
 };
