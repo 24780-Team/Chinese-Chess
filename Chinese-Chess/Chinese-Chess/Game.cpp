@@ -33,6 +33,12 @@ void Game::redo()
 }
 
 bool Game::startGame() {
+    char bgmPath[] = "Resources/sound/bgm.wav";
+    bgm.LoadWav(bgmPath);
+    char movePath[] = "Resources/sound/piecemove.wav";
+    move.LoadWav(movePath);
+    movePlayer.Start();
+
     bool quit = startStage1();
     if (quit) {
         return true;
@@ -158,8 +164,32 @@ bool Game::nextTurnWithoutAI() {
 
     if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
         board->changeChooseState(screenX, screenY);
-        if (board->isChooseLocationInChangePattern(screenX, screenY)) {
-            mode = 1 - mode;
+
+        // #6 Background
+        // Background color button
+        if (board->isInButtons(screenX, screenY) == 1) {
+            board->changeBackgroundColor();
+        }
+        // Background texture button
+        else if (board->isInButtons(screenX, screenY) == 2) {
+            playMove();
+            board->changeBackgroundPic();
+        }
+        // Piece display pattern
+        else if (board->isInButtons(screenX, screenY) == 3) {
+            board->changePiecePattern();
+        }
+        // music control button
+        else if (board->isInButtons(screenX, screenY) == 4) {
+            if (musicState) {
+                pauseBGM();
+                musicState = false;
+            }
+            else {
+                resumeBGM();
+                musicState = true;
+            }
+            board->changeMusicButton();
         }
     }
 
@@ -368,10 +398,11 @@ void Game::startStage2()
 void Game::draw()
 {
     board->drawBoard();
-    board->drawPieces(mode);
+    board->drawButtons();
+    board->drawPieces();
+    board->drawTimer();
     board->drawCurrentFrame();
     board->drawPlayerFrame(currPlayer->getIndex());
-    board->drawModeChooseFrame();
     board->drawNodes(avaliablePlaces);
 }
 

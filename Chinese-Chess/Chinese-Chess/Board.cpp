@@ -80,17 +80,6 @@ Piece* Board::setPiece(shared_ptr<Position> pos, Piece* piece)
 	return otherPiece;
 }
 
-void Board::drawPieces(int mode)
-{
-	
-	for (auto pair : player0Alive) {
-		pair.second->draw(mode);
-	}
-	for (auto pair : player1Alive) {
-		pair.second->draw(mode);
-	}
-}
-
 void Board::drawCurrentFrame()
 {
 	if (!isChoose) {
@@ -168,28 +157,6 @@ void Board::drawChooseFrame(shared_ptr<Position> theLoc)
 	glFlush();
 }
 
-void Board::drawModeChooseFrame()
-{
-	glColor3ub(238, 197, 145);
-	glBegin(GL_QUADS);
-	int x1 = gridMargin + 9.5 * gridSize;
-	int x2 = gridMargin + 12.5 * gridSize;
-	int y1 = boardMargin + 4 * gridSize;
-	int y2 = boardMargin + 4.5 * gridSize;
-	glVertex2i(x1, y1);
-	glVertex2i(x1, y2);
-	glVertex2i(x2, y2);
-	glVertex2i(x2, y1);
-	glEnd();
-	glFlush();
-
-	glColor3ub(0, 0, 0);
-	glRasterPos2i(x1 + pieceSize / 8, y1 + pieceSize / 2);
-	string p1 = "change pattern";
-	const char* h1 = p1.c_str();
-	YsGlDrawFontBitmap20x32(h1);
-	glFlush();
-}
 
 void Board::drawPlayerFrame(int currPlayerIndex)
 {
@@ -204,7 +171,7 @@ void Board::drawPlayerFrame(int currPlayerIndex)
 	int p1x2 = gridMargin + 11 * gridSize;
 	int p1y1 = boardMargin + 6 * gridSize;
 	int p1y2 = boardMargin + 6.5 * gridSize;
-	
+
 	if (currPlayerIndex == 0) {
 		glVertex2i(p0x1, p0y1);
 		glVertex2i(p0x1, p0y2);
@@ -217,7 +184,7 @@ void Board::drawPlayerFrame(int currPlayerIndex)
 		glVertex2i(p1x2, p1y2);
 		glVertex2i(p1x2, p1y1);
 	}
-	
+
 	glEnd();
 	glFlush();
 
@@ -254,14 +221,6 @@ void Board::drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces)
 	}
 }
 
-bool Board::isChooseLocationInChangePattern(int screenX, int screenY)
-{
-	if (screenX >= gridMargin + 9.5 * gridSize && screenX <= gridMargin + 12.5 * gridSize
-		&& screenY >= boardMargin + 4 * gridSize && screenY <= boardMargin + 4.5 * gridSize) {
-		return true;
-	}
-	return false;
-}
 
 void Board::setAlive(Piece* piece)
 {
@@ -280,10 +239,326 @@ void Board::setAlive(Piece* piece)
 		player0Alive[pieceIndex] = piece;
 	}
 }
+// #5 Timer
+void Board::drawTimer()
+{
+	const char* boardButtonPath = "Resources/background/board.png";
+	YsRawPngDecoder pngBoard;
+	if (YSOK == pngBoard.Decode(boardButtonPath)) {
+		pngBoard.Flip();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(gridMargin + 9.2 * gridSize, gridMargin + 4 * gridSize);
+		glDrawPixels(pngBoard.wid, pngBoard.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngBoard.rgba);
+	}
+}
+
+// #6 Background
+void Board::drawBoard()
+{
+	// board background
+	// glColor3ub(255, 248, 220);
+	// #6 Background
+
+	setBackgroundColor();
+	glBegin(GL_QUADS);
+	glVertex2i(boardMargin, boardMargin);
+	glVertex2i(boardMargin, 3 * boardMargin + boardSize);
+	glVertex2i(boardMargin + boardSize, 3 * boardMargin + boardSize);
+	glVertex2i(boardMargin + boardSize, boardMargin);
+	glEnd();
+	glFlush();
+
+	setBackgroundPic();
+	// board grid
+	int lineWidth = 3;
+	// horizontal lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	for (int i = 0; i <= 9; i++) {
+		int x1 = gridMargin;
+		int y1 = gridMargin + gridSize * i;
+		int x2 = gridMargin + gridSize * 8;
+		int y2 = gridMargin + gridSize * i;
+		glVertex2i(x1, y1);
+		glVertex2i(x2, y2);
+	}
+	glEnd();
+	glFlush();
+
+	// vertical lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	for (int i = 0; i <= 8; i++) {
+		int x = gridMargin + gridSize * i;
+		int y1 = gridMargin;
+		int y2 = gridMargin + gridSize * 4;
+		int y3 = gridMargin + gridSize * 5;
+		int y4 = gridMargin + gridSize * 9;
+		if (i == 0 || i == 8) {
+			glVertex2i(x, y1);
+			glVertex2i(x, y4);
+		}
+		else {
+			glVertex2i(x, y1);
+			glVertex2i(x, y2);
+			glVertex2i(x, y3);
+			glVertex2i(x, y4);
+		}
+	}
+	glEnd();
+	glFlush();
+
+	// diagonal lines
+	glColor3ub(0, 0, 0);
+	glLineWidth(lineWidth);
+	glBegin(GL_LINES);
+	int x1 = gridMargin + gridSize * 3;
+	int y1 = gridMargin;
+	int x2 = gridMargin + gridSize * 5;
+	int y2 = gridMargin + gridSize * 2;
+	int x3 = gridMargin + gridSize * 5;
+	int y3 = gridMargin;
+	int x4 = gridMargin + gridSize * 3;
+	int y4 = gridMargin + gridSize * 2;
+	glVertex2i(x1, y1);
+	glVertex2i(x2, y2);
+	glVertex2i(x3, y3);
+	glVertex2i(x4, y4);
+	glVertex2i(x1, y1 + 7 * gridSize);
+	glVertex2i(x2, y2 + 7 * gridSize);
+	glVertex2i(x3, y3 + 7 * gridSize);
+	glVertex2i(x4, y4 + 7 * gridSize);
+	glEnd();
+	glFlush();
+
+	// river 
+	glRasterPos2i(gridMargin + 3 * gridSize, gridMargin + 4.6 * gridSize);
+	glColor3ub(0, 0, 0);
+	string header = "The river";
+	const char* h = header.c_str();
+	YsGlDrawFontBitmap20x32(h);
+	glFlush();
+}
+
+// #6 Background
+void Board::setBackgroundColor()
+{
+	switch (backgroundColor) {
+		// 
+	case 1:
+		glColor3ub(238, 197, 145);
+		break;
+	case 2:
+		// Cornsilk
+		glColor3ub(255, 248, 220);
+		break;
+	case 3:
+		// GhostWhite
+		glColor3ub(248, 248, 255);
+		break;
+
+	}
+}
+
+// #6 Background
+void Board::setBackgroundPic()
+{
+	if (backgroundPic == 0) {
+		// do nothing
+		;
+	}
+	else {
+		YsRawPngDecoder pngTexture;
+		if (backgroundPic == 1) {
+			const char* texture1Path = "Resources/background/texture.png";
+			if (YSOK == pngTexture.Decode(texture1Path)) {
+				pngTexture.Flip();
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
+				glDrawPixels(pngTexture.wid, pngTexture.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngTexture.rgba);
+			}
+		}
+
+		else if (backgroundPic == 2) {
+			const char* texture2Path = "Resources/background/texture2.png";
+			if (YSOK == pngTexture.Decode(texture2Path)) {
+				pngTexture.Flip();
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
+				glDrawPixels(pngTexture.wid, pngTexture.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngTexture.rgba);
+			}
+		}
+	}
+}
+
+// #6 Background
+void Board::changeBackgroundColor()
+{
+	backgroundColor++;
+	if (backgroundColor > 3)
+		backgroundColor = 1;
+}
+
+// #6 Background
+void Board::changeBackgroundPic()
+{
+	backgroundPic++;
+	if (backgroundPic > 2)
+		backgroundPic = 0;
+}
+
+// #6 Background
+void Board::drawButtons()
+{
+	//setBackgroundColor();
+	glColor3ub(0, 0, 0);
+	int iconSize = 50;
+	int x11 = gridMargin + 9.2 * gridSize;
+	int y11 = boardMargin + 0 * gridSize;
+	int x12 = gridMargin + 9.2 * gridSize + iconSize;
+	int y12 = boardMargin + 0 * gridSize + iconSize;
+	// draw for icon boarder
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(x11, y11);
+	glVertex2i(x11, y12);
+	glVertex2i(x12, y12);
+	glVertex2i(x12, y11);
+	glEnd();
+	glFlush();
+	const char* colorButtonPath = "Resources/buttons/background.png";
+	YsRawPngDecoder pngColor;
+	if (YSOK == pngColor.Decode(colorButtonPath)) {
+		pngColor.Flip();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(x11 + 5, y11 + iconSize - 5);
+		glDrawPixels(pngColor.wid, pngColor.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngColor.rgba);
+	}
+
+
+	int x21 = x11 + 0.8 * gridSize;
+	int y21 = boardMargin + 0 * gridSize;
+	int x22 = x11 + 0.8 * gridSize + iconSize;
+	int y22 = boardMargin + 0 * gridSize + iconSize;
+	// draw for icon boarder
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(x21, y21);
+	glVertex2i(x21, y22);
+	glVertex2i(x22, y22);
+	glVertex2i(x22, y21);
+	glEnd();
+	glFlush();
+	const char* picButtonPath = "Resources/buttons/picture.png";
+	YsRawPngDecoder pngPic;
+	if (YSOK == pngPic.Decode(picButtonPath)) {
+		pngPic.Flip();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(x21 + 5, y21 + iconSize - 5);
+		glDrawPixels(pngPic.wid, pngPic.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngPic.rgba);
+	}
+
+	int x31 = x21 + 0.8 * gridSize;
+	int y31 = boardMargin + 0 * gridSize;
+	int x32 = x21 + 0.8 * gridSize + iconSize;
+	int y32 = boardMargin + 0 * gridSize + iconSize;
+	// draw for icon boarder
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(x31, y31);
+	glVertex2i(x31, y32);
+	glVertex2i(x32, y32);
+	glVertex2i(x32, y31);
+	glEnd();
+	glFlush();
+	const char* pieceButtonPath = "Resources/buttons/piece.png";
+	YsRawPngDecoder pngPiece;
+	if (YSOK == pngPiece.Decode(pieceButtonPath)) {
+		pngPiece.Flip();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(x31 + 5, y31 + iconSize - 5);
+		glDrawPixels(pngPiece.wid, pngPiece.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngPiece.rgba);
+	}
+
+	int x41 = x31 + 0.8 * gridSize;
+	int y41 = boardMargin + 0 * gridSize;
+	int x42 = x31 + 0.8 * gridSize + iconSize;
+	int y42 = boardMargin + 0 * gridSize + iconSize;
+	// draw for icon boarder
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(x41, y41);
+	glVertex2i(x41, y42);
+	glVertex2i(x42, y42);
+	glVertex2i(x42, y41);
+	glEnd();
+	glFlush();
+	const char* musicButtonPath;
+	if (music_on)
+		musicButtonPath = "Resources/buttons/musicon.png";
+	else
+		musicButtonPath = "Resources/buttons/musicoff.png";
+	YsRawPngDecoder pngMusic;
+	if (YSOK == pngMusic.Decode(musicButtonPath)) {
+		pngMusic.Flip();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(x41 + 5, y41 + iconSize - 5);
+		glDrawPixels(pngMusic.wid, pngMusic.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngMusic.rgba);
+	}
+}
+
+// #6 Background 
+int Board::isInButtons(int screenX, int screenY)
+{
+	int iconSize = 50;
+
+	int x11 = gridMargin + 9.2 * gridSize;
+	int y11 = boardMargin;
+	int x12 = gridMargin + 9.2 * gridSize + iconSize;
+	int y12 = boardMargin + iconSize;
+	int x21 = x11 + 0.8 * gridSize;
+	int y21 = y11;
+	int x22 = x11 + 0.8 * gridSize + iconSize;
+	int y22 = y11 + iconSize;
+	int x31 = x21 + 0.8 * gridSize;
+	int y31 = y11;
+	int x32 = x21 + 0.8 * gridSize + iconSize;
+	int y32 = y11 + iconSize;
+	int x41 = x31 + 0.8 * gridSize;
+	int y41 = y11;
+	int x42 = x31 + 0.8 * gridSize + iconSize;
+	int y42 = y11 + iconSize;
+
+	if (screenX >= x11 && screenX <= x12 && screenY >= y11 && screenY <= y12)
+		return 1;
+	if (screenX >= x21 && screenX <= x22 && screenY >= y21 && screenY <= y22)
+		return 2;
+	if (screenX >= x31 && screenX <= x32 && screenY >= y31 && screenY <= y32)
+		return 3;
+	if (screenX >= x41 && screenX <= x42 && screenY >= y41 && screenY <= y42)
+		return 4;
+	return -1;
+}
+
+// #6 Background 
+void Board::drawPieces()
+{
+	for (auto pair : player0Alive) {
+		pair.second->draw(piecesPattern);
+	}
+	for (auto pair : player1Alive) {
+		pair.second->draw(piecesPattern);
+	}
+}
 
 int Board::calcScore(int playerIndex)
-{	
-	int score = 0; 
+{
+	int score = 0;
 	unordered_map<int, Piece*> deadPieces;
 	if (playerIndex == 0) {
 		deadPieces = player0Dead;
@@ -291,7 +566,7 @@ int Board::calcScore(int playerIndex)
 	else {
 		deadPieces = player1Dead;
 	}
-	
+
 	for (auto pair : deadPieces) {
 		Piece* piece = pair.second;
 		switch (piece->getType()) {
@@ -362,7 +637,7 @@ Piece* Board::getAlivePieceByIndex(int index)
 	if (player0Alive.count(index) != 0) {
 		return player0Alive[index];
 	}
-	
+
 	if (player1Alive.count(index) != 0) {
 		return player1Alive[index];
 	}
@@ -383,13 +658,13 @@ Piece* Board::getDeadPieceByIndex(int index)
 
 bool Board::lossGeneral(int playerIndex)
 {
-	if (playerIndex == 0) {
-		if (player0Dead.find(general0Index) != player0Dead.end())
+	if (playerIndex == 1) {
+		if (player1Dead.find(general1Index) != player1Dead.end())
 			return true;
 		return false;
 	}
 	else {
-		if (player1Dead.find(general1Index) != player1Dead.end())
+		if (player0Dead.find(general0Index) != player0Dead.end())
 			return true;
 		return false;
 	}
@@ -458,7 +733,7 @@ void Board::initializeGeneral(int& index)
 	player0Alive[index] = piece;
 	posToPiece[4][0] = piece;
 	index += 1;
-	
+
 	pos = make_shared<Position>(4, 9);
 	piece = new General(4, 9, 1, index);
 	piece->addImage("Resources/pieces/black_pic/general.png", "Resources/pieces/black_cn/general.png");
@@ -528,7 +803,7 @@ void Board::initializeHorse(int& index)
 		pos = make_shared<Position>(4 + i, 0);
 		piece = new Horse(4 + i, 0, 0, index);
 		piece->addImage("Resources/pieces/red_pic/horse.png", "Resources/pieces/red_cn/horse.png");
-		
+
 		player0Alive[index] = piece;
 		posToPiece[4 + i][0] = piece;
 		index += 1;
@@ -536,7 +811,7 @@ void Board::initializeHorse(int& index)
 		pos = make_shared<Position>(4 + i, 9);
 		piece = new Horse(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/horse.png", "Resources/pieces/black_cn/horse.png");
-		
+
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
 		index += 1;
@@ -560,7 +835,7 @@ void Board::initializeChariot(int& index)
 		pos = make_shared<Position>(4 + i, 9);
 		piece = new Chariot(4 + i, 9, 1, index);
 		piece->addImage("Resources/pieces/black_pic/chariot.png", "Resources/pieces/black_cn/chariot.png");
-		
+
 		player1Alive[index] = piece;
 		posToPiece[4 + i][9] = piece;
 		index += 1;
@@ -576,7 +851,7 @@ void Board::initializeCannon(int& index)
 		pos = make_shared<Position>(4 + i, 2);
 		piece = new Cannon(4 + i, 2, 0, index);
 		piece->addImage("Resources/pieces/red_pic/cannon.png", "Resources/pieces/red_cn/cannon.png");
-		
+
 		player0Alive[index] = piece;
 		posToPiece[4 + i][2] = piece;
 		index += 1;
@@ -584,7 +859,7 @@ void Board::initializeCannon(int& index)
 		pos = make_shared<Position>(4 + i, 7);
 		piece = new Cannon(4 + i, 7, 1, index);
 		piece->addImage("Resources/pieces/black_pic/cannon.png", "Resources/pieces/black_cn/cannon.png");
-		
+
 		player1Alive[index] = piece;
 		posToPiece[4 + i][7] = piece;
 		index += 1;
@@ -600,7 +875,7 @@ void Board::initializeSoldier(int& index)
 		pos = make_shared<Position>(i, 3);
 		piece = new Soldier(i, 3, 0, index);
 		piece->addImage("Resources/pieces/red_pic/soldier.png", "Resources/pieces/red_cn/soldier.png");
-		
+
 		player0Alive[index] = piece;
 		posToPiece[i][3] = piece;
 		index += 1;
@@ -608,7 +883,7 @@ void Board::initializeSoldier(int& index)
 		pos = make_shared<Position>(i, 6);
 		piece = new Soldier(i, 6, 1, index);
 		piece->addImage("Resources/pieces/black_pic/soldier.png", "Resources/pieces/black_cn/soldier.png");
-		
+
 		player1Alive[index] = piece;
 		posToPiece[i][6] = piece;
 		index += 1;
@@ -619,7 +894,7 @@ vector<shared_ptr<Position>> Board::checkForElephant(Piece* piece, vector<shared
 {
 	int currX = piece->getPos()->getX();
 	int currY = piece->getPos()->getY();
-	
+
 	for (auto iter = positions.begin(); iter != positions.end();) {
 		shared_ptr<Position> pos = *iter;
 		int dx = pos->getX() - currX;
@@ -863,90 +1138,10 @@ vector<shared_ptr<Position>> Board::checkForCannon(Piece* piece)
 	return avaliablePlace;
 }
 
-void Board::drawBoard()
-{
-	// board background
-	glColor3ub(238, 197, 145);
-	glBegin(GL_QUADS);
-	glVertex2i(boardMargin, boardMargin);
-	glVertex2i(boardMargin, 3 * boardMargin + boardSize);
-	glVertex2i(boardMargin + boardSize, 3 * boardMargin + boardSize);
-	glVertex2i(boardMargin + boardSize, boardMargin);
-	glEnd();
-	glFlush();
 
-	// board grid
-	int lineWidth = 3;
-	// horizontal lines
-	glColor3ub(0, 0, 0);
-	glLineWidth(lineWidth);
-	glBegin(GL_LINES);
-	for (int i = 0; i <= 9; i++) {
-		int x1 = gridMargin;
-		int y1 = gridMargin + gridSize * i;
-		int x2 = gridMargin + gridSize * 8;
-		int y2 = gridMargin + gridSize * i;
-		glVertex2i(x1, y1);
-		glVertex2i(x2, y2);
-	}
-	glEnd();
-	glFlush();
 
-	// vertical lines
-	glColor3ub(0, 0, 0);
-	glLineWidth(lineWidth);
-	glBegin(GL_LINES);
-	for (int i = 0; i <= 8; i++) {
-		int x = gridMargin + gridSize * i;
-		int y1 = gridMargin;
-		int y2 = gridMargin + gridSize * 4;
-		int y3 = gridMargin + gridSize * 5;
-		int y4 = gridMargin + gridSize * 9;
-		if (i == 0 || i == 8) {
-			glVertex2i(x, y1);
-			glVertex2i(x, y4);
-		}
-		else {
-			glVertex2i(x, y1);
-			glVertex2i(x, y2);
-			glVertex2i(x, y3);
-			glVertex2i(x, y4);
-		}
-	}
-	glEnd();
-	glFlush();
 
-	// diagonal lines
-	glColor3ub(0, 0, 0);
-	glLineWidth(lineWidth);
-	glBegin(GL_LINES);
-	int x1 = gridMargin + gridSize * 3;
-	int y1 = gridMargin;
-	int x2 = gridMargin + gridSize * 5;
-	int y2 = gridMargin + gridSize * 2;
-	int x3 = gridMargin + gridSize * 5;
-	int y3 = gridMargin;
-	int x4 = gridMargin + gridSize * 3;
-	int y4 = gridMargin + gridSize * 2;
-	glVertex2i(x1, y1);
-	glVertex2i(x2, y2);
-	glVertex2i(x3, y3);
-	glVertex2i(x4, y4);
-	glVertex2i(x1, y1 + 7 * gridSize);
-	glVertex2i(x2, y2 + 7 * gridSize);
-	glVertex2i(x3, y3 + 7 * gridSize);
-	glVertex2i(x4, y4 + 7 * gridSize);
-	glEnd();
-	glFlush();
 
-	// river 
-	glRasterPos2i(gridMargin + 3 * gridSize, gridMargin + 4.6 * gridSize);
-	glColor3ub(0, 0, 0);
-	string header = "The river";
-	const char* h = header.c_str();
-	YsGlDrawFontBitmap20x32(h);
-	glFlush();
-}
 
 //void Board::addPiece(const string filename, int playerIndex, int startIndex)
 //{

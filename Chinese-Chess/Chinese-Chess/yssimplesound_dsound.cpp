@@ -40,7 +40,7 @@ public:
 		*/
 		static HWND Find(HWND hExcludeWnd = nullptr);
 	private:
-		static void SearchTopLevelWindow(HWND &hWndLargest, int &largestWndArea, HWND hWnd, DWORD procId, HWND hWndExclude);
+		static void SearchTopLevelWindow(HWND& hWndLargest, int& largestWndArea, HWND hWnd, DWORD procId, HWND hWndExclude);
 	};
 
 
@@ -71,7 +71,7 @@ public:
 	~APISpecificDataPerSoundData();
 	void CleanUp(void);
 
-	void CreateBuffer(LPDIRECTSOUND8 dSound8, SoundData &dat);
+	void CreateBuffer(LPDIRECTSOUND8 dSound8, SoundData& dat);
 };
 
 
@@ -88,7 +88,7 @@ HWND YsSoundPlayer::APISpecificData::MainWindowFinder::Find(HWND hExcludeWnd)
 	SearchTopLevelWindow(hWndLargest, wndArea, NULL, GetCurrentProcessId(), hExcludeWnd);
 	return hWndLargest;
 }
-void YsSoundPlayer::APISpecificData::MainWindowFinder::SearchTopLevelWindow(HWND &hWndLargest, int &largestWndArea, HWND hWnd, DWORD procId, HWND hWndExclude)
+void YsSoundPlayer::APISpecificData::MainWindowFinder::SearchTopLevelWindow(HWND& hWndLargest, int& largestWndArea, HWND hWnd, DWORD procId, HWND hWndExclude)
 {
 	if (nullptr != hWndExclude && hWnd == hWndExclude)
 	{
@@ -107,7 +107,7 @@ void YsSoundPlayer::APISpecificData::MainWindowFinder::SearchTopLevelWindow(HWND
 		RECT rc;
 		GetWindowRect(hWnd, &rc);
 
-		int area = ((rc.right - rc.left)*(rc.bottom - rc.top));
+		int area = ((rc.right - rc.left) * (rc.bottom - rc.top));
 		if (0 > area)
 		{
 			area = -area;
@@ -200,11 +200,11 @@ void YsSoundPlayer::APISpecificData::RefetchMainWindowHandle(void)
 
 ////////////////////////////////////////////////////////////
 
-YsSoundPlayer::APISpecificData *YsSoundPlayer::CreateAPISpecificData(void)
+YsSoundPlayer::APISpecificData* YsSoundPlayer::CreateAPISpecificData(void)
 {
 	return new APISpecificData;
 }
-void YsSoundPlayer::DeleteAPISpecificData(APISpecificData *ptr)
+void YsSoundPlayer::DeleteAPISpecificData(APISpecificData* ptr)
 {
 	delete ptr;
 }
@@ -220,7 +220,28 @@ YSRESULT YsSoundPlayer::EndAPISpecific(void)
 	return YSOK;
 }
 
-YSRESULT YsSoundPlayer::PlayOneShotAPISpecific(SoundData &dat)
+void YsSoundPlayer::SetVolumeAPISpecific(SoundData& dat, float vol)
+{
+	if (nullptr != dat.api->dSoundBuf)
+	{
+		vol = sqrt(vol);
+
+		float dB = (float)DSBVOLUME_MAX * vol + (float)DSBVOLUME_MIN * (1.0 - vol);
+		long atten = (long)dB;
+		if (DSBVOLUME_MAX < atten)
+		{
+			atten = DSBVOLUME_MAX;
+		}
+		if (atten < DSBVOLUME_MIN)
+		{
+			atten = DSBVOLUME_MIN;
+		}
+		// printf("%d\n",atten);
+		dat.api->dSoundBuf->SetVolume(atten);
+	}
+}
+
+YSRESULT YsSoundPlayer::PlayOneShotAPISpecific(SoundData& dat)
 {
 	if (nullptr == api->hWndMain && nullptr != api->hOwnWnd)
 	{
@@ -229,6 +250,7 @@ YSRESULT YsSoundPlayer::PlayOneShotAPISpecific(SoundData &dat)
 
 	if (nullptr != dat.api->dSoundBuf)
 	{
+		SetVolumeAPISpecific(dat, dat.playBackVolume);
 		dat.api->dSoundBuf->SetCurrentPosition(0);
 		dat.api->dSoundBuf->Play(0, 0xc0000000, 0);
 		return YSOK;
@@ -236,7 +258,7 @@ YSRESULT YsSoundPlayer::PlayOneShotAPISpecific(SoundData &dat)
 	return YSERR;
 }
 
-YSRESULT YsSoundPlayer::PlayBackgroundAPISpecific(SoundData &dat, bool justOnce)
+YSRESULT YsSoundPlayer::PlayBackgroundAPISpecific(SoundData& dat)
 {
 	if (nullptr == api->hWndMain && nullptr != api->hOwnWnd)
 	{
@@ -247,25 +269,24 @@ YSRESULT YsSoundPlayer::PlayBackgroundAPISpecific(SoundData &dat, bool justOnce)
 	{
 		DWORD sta;
 		dat.api->dSoundBuf->GetStatus(&sta);
-		if (0 == (sta&DSBSTATUS_PLAYING))
+		if (0 == (sta & DSBSTATUS_PLAYING))
 		{
-			if (justOnce)
-				dat.api->dSoundBuf->Play(0, 0xc0000000, DSBPLAY_TERMINATEBY_TIME);
-			else
-				dat.api->dSoundBuf->Play(0, 0xc0000000, DSBPLAY_LOOPING);
+			SetVolumeAPISpecific(dat, dat.playBackVolume);
+			dat.api->dSoundBuf->SetCurrentPosition(0);
+			dat.api->dSoundBuf->Play(0, 0xc0000000, DSBPLAY_LOOPING);
 		}
 		return YSOK;
 	}
 	return YSERR;
 }
 
-YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
+YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData& dat) const
 {
 	if (nullptr != dat.api->dSoundBuf)
 	{
 		DWORD sta;
 		dat.api->dSoundBuf->GetStatus(&sta);
-		if (0 != (sta&DSBSTATUS_PLAYING))
+		if (0 != (sta & DSBSTATUS_PLAYING))
 		{
 			return YSTRUE;
 		}
@@ -273,7 +294,37 @@ YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
 	return YSFALSE;
 }
 
-void YsSoundPlayer::StopAPISpecific(SoundData &dat)
+void YsSoundPlayer::PauseAPISpecific(SoundData& dat)
+{
+	if (nullptr != dat.api->dSoundBuf)
+	{
+		dat.api->dSoundBuf->Stop();
+	}
+}
+void YsSoundPlayer::ResumeAPISpecific(SoundData& dat)
+{
+	if (nullptr == api->hWndMain && nullptr != api->hOwnWnd)
+	{
+		api->RefetchMainWindowHandle();
+	}
+	if (nullptr != dat.api->dSoundBuf)
+	{
+		dat.api->dSoundBuf->Play(0, 0xc0000000, 0);
+	}
+}
+
+double YsSoundPlayer::GetCurrentPositionAPISpecific(const SoundData& dat) const
+{
+	DWORD playCursor, writeCursor;
+	if (nullptr != dat.api->dSoundBuf && DS_OK == dat.api->dSoundBuf->GetCurrentPosition(&playCursor, &writeCursor))
+	{
+		playCursor /= (dat.BytePerSample() * dat.GetNumChannel());
+		return ((double)playCursor) / (double)dat.PlayBackRate();
+	}
+	return 0.0;
+}
+
+void YsSoundPlayer::StopAPISpecific(SoundData& dat)
 {
 	if (nullptr != dat.api->dSoundBuf)
 	{
@@ -308,13 +359,13 @@ void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CleanUp(void)
 	}
 }
 
-void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CreateBuffer(LPDIRECTSOUND8 dSound8, SoundData &dat)
+void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CreateBuffer(LPDIRECTSOUND8 dSound8, SoundData& dat)
 {
 	CleanUp();
 
 	const int nChannels = dat.GetNumChannel();
 	const int nBlockAlign = nChannels * dat.BitPerSample() / 8;
-	const int nAvgBytesPerSec = dat.PlayBackRate()*nBlockAlign;
+	const int nAvgBytesPerSec = dat.PlayBackRate() * nBlockAlign;
 
 	WAVEFORMATEX fmt;
 	fmt.cbSize = sizeof(fmt);
@@ -330,8 +381,15 @@ void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CreateBuffer(LPDIREC
 
 	DSBUFFERDESC desc;
 	desc.dwSize = sizeof(desc);
-	desc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_LOCDEFER;
+	// Finally!  I found it!
+	// https://stackoverflow.com/questions/25829935/play-background-music-with-directsound
+	// I can play sound when the window loses focus!
+	desc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_LOCDEFER | DSBCAPS_GLOBALFOCUS;
 	desc.dwBufferBytes = dat.SizeInByte();
+	if (DSBSIZE_MAX < desc.dwBufferBytes)
+	{
+		desc.dwBufferBytes = DSBSIZE_MAX;
+	}
 	desc.dwReserved = 0;
 	desc.lpwfxFormat = &fmt;
 	desc.guid3DAlgorithm = GUID_NULL;
@@ -340,11 +398,11 @@ void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CreateBuffer(LPDIREC
 		auto datPtr = dat.DataPointer();
 
 		DWORD writeBufSize1, writeBufSize2;
-		unsigned char *writeBuf1, *writeBuf2;
-		if (dSoundBuf->Lock(0, 0, (LPVOID *)&writeBuf1, &writeBufSize1, (LPVOID *)&writeBuf2, &writeBufSize2, DSBLOCK_ENTIREBUFFER) == DS_OK &&
+		unsigned char* writeBuf1, * writeBuf2;
+		if (dSoundBuf->Lock(0, 0, (LPVOID*)&writeBuf1, &writeBufSize1, (LPVOID*)&writeBuf2, &writeBufSize2, DSBLOCK_ENTIREBUFFER) == DS_OK &&
 			NULL != writeBuf1)
 		{
-			printf("Buffer Locked\n");
+			// printf("Buffer Locked\n");
 
 			for (int i = 0; i < (int)dat.SizeInByte() && i < (int)writeBufSize1; i++)
 			{
@@ -364,16 +422,16 @@ void YsSoundPlayer::SoundData::APISpecificDataPerSoundData::CreateBuffer(LPDIREC
 
 ////////////////////////////////////////////////////////////
 
-YsSoundPlayer::SoundData::APISpecificDataPerSoundData *YsSoundPlayer::SoundData::CreateAPISpecificData(void)
+YsSoundPlayer::SoundData::APISpecificDataPerSoundData* YsSoundPlayer::SoundData::CreateAPISpecificData(void)
 {
 	return new APISpecificDataPerSoundData;
 }
-void YsSoundPlayer::SoundData::DeleteAPISpecificData(APISpecificDataPerSoundData *ptr)
+void YsSoundPlayer::SoundData::DeleteAPISpecificData(APISpecificDataPerSoundData* ptr)
 {
 	delete ptr;
 }
 
-YSRESULT YsSoundPlayer::SoundData::PreparePlay(YsSoundPlayer &player)
+YSRESULT YsSoundPlayer::SoundData::PreparePlay(YsSoundPlayer& player)
 {
 	if (nullptr != api->dSoundBuf)
 	{
@@ -431,7 +489,7 @@ void YsSoundPlayer::APISpecificData::OpenDummyWindow(void)
 		int wid = rc.right - rc.left + 1;
 		int hei = rc.bottom - rc.top + 1;
 
-		const wchar_t *WINTITLE = L"DummyWindowForFailedAPIDesignOfDirectSound";
+		const wchar_t* WINTITLE = L"DummyWindowForFailedAPIDesignOfDirectSound";
 		hOwnWnd = CreateWindowW(WINCLASS, WINTITLE, WINSTYLE, 0, 0, wid, hei, NULL, NULL, inst, NULL);
 
 		ShowWindow(hOwnWnd, SW_SHOWNORMAL);

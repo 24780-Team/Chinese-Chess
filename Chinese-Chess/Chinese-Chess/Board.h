@@ -7,96 +7,124 @@
 #include "StringPlus.h"
 #include "yspng.h"
 #include "DrawingUtilNG.h"
+#include "yssimplesound.h"
 
 #include "Piece.h"
 
 class Board {
-    private:
-        std::vector<std::vector<Piece*>> posToPiece;
-        int width = 9;
-        int height = 10;
+private:
+    std::vector<std::vector<Piece*>> posToPiece;
+    int width = 9;
+    int height = 10;
 
-        int general0Index;
-        int general1Index;
+    int general0Index;
+    int general1Index;
 
-        std::unordered_map<int, Piece*> player0Alive;
-        std::unordered_map<int, Piece*> player1Alive;
-        std::unordered_map<int, Piece*> player0Dead;
-        std::unordered_map<int, Piece*> player1Dead;
+    // #6 Background
+    int backgroundColor = 1;
+    int backgroundPic = 1;
+    // 0 for Picture, 1 for Chinese
+    int piecesPattern = 1;
+    bool music_on = true;
 
-        void initializeGeneral(int &index);
-        void initializeAdvisor(int& index);
-        void initializeElephant(int& index);
-        void initializeHorse(int& index);
-        void initializeChariot(int& index);
-        void initializeCannon(int& index);
-        void initializeSoldier(int& index);
+    std::unordered_map<int, Piece*> player0Alive;
+    std::unordered_map<int, Piece*> player1Alive;
+    std::unordered_map<int, Piece*> player0Dead;
+    std::unordered_map<int, Piece*> player1Dead;
 
-        std::vector<shared_ptr<Position>> checkForElephant(Piece* piece, std::vector<shared_ptr<Position>>& positions);
-        std::vector<shared_ptr<Position>> checkForHorse(Piece* piece, std::vector<shared_ptr<Position>>& positions);
-        std::vector<shared_ptr<Position>> checkForGeneral(Piece* piece, std::vector<shared_ptr<Position>>& positions);
-        std::vector<shared_ptr<Position>> checkForChariot(Piece* piece);
-        std::vector<shared_ptr<Position>> checkForCannon(Piece* piece);
+    void initializeGeneral(int& index);
+    void initializeAdvisor(int& index);
+    void initializeElephant(int& index);
+    void initializeHorse(int& index);
+    void initializeChariot(int& index);
+    void initializeCannon(int& index);
+    void initializeSoldier(int& index);
 
-        //void addPiece(const std::string filename, int playerIndex, int startIndex);
+    std::vector<shared_ptr<Position>> checkForElephant(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+    std::vector<shared_ptr<Position>> checkForHorse(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+    std::vector<shared_ptr<Position>> checkForGeneral(Piece* piece, std::vector<shared_ptr<Position>>& positions);
+    std::vector<shared_ptr<Position>> checkForChariot(Piece* piece);
+    std::vector<shared_ptr<Position>> checkForCannon(Piece* piece);
 
-        // used to show chosen location
-        bool isChoose;
-        shared_ptr<Position> chooseLoc;
 
-        // used to show where the pieces can be moved to 
-        int rgbr = 135;
-        int rgbg = 205;
-        int rgbb = 235;
-        int update = -1;
-    
-    public:
-        Board();
-        Piece* getPiece(shared_ptr<Position> pos);
-        Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
-        void getPlacesOfPieces(int playerIndex, vector<shared_ptr<Position>>& places);
-        void getAvaliblePlaces(Piece *piece, vector<shared_ptr<Position>>& places);
-        Piece* getAlivePieceByIndex(int index);
-        Piece* getDeadPieceByIndex(int index);
-        bool lossGeneral(int playerIndex);
+    // used to show chosen location
+    bool isChoose;
+    shared_ptr<Position> chooseLoc;
 
-        void draw(); // Need to be changed.
-        void drawBoard();
-        void drawPieces(int mode);
+    // used to show where the pieces can be moved to 
+    int rgbr = 135;
+    int rgbg = 205;
+    int rgbb = 235;
+    int update = -1;
 
-        void drawCurrentFrame();
-        // draw the choose frame
-        void drawChooseFrame(shared_ptr<Position> theLoc);
+public:
+    Board();
+    Piece* getPiece(shared_ptr<Position> pos);
+    Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
+    void getPlacesOfPieces(int playerIndex, vector<shared_ptr<Position>>& places);
+    void getAvaliblePlaces(Piece* piece, vector<shared_ptr<Position>>& places);
+    Piece* getAlivePieceByIndex(int index);
+    Piece* getDeadPieceByIndex(int index);
+    bool lossGeneral(int playerIndex);
 
-        void drawModeChooseFrame();
+    void draw(); // Need to be changed.
 
-        void drawPlayerFrame(int currPlayerIndex);
+    // #5 Timer
+    void drawTimer();
 
-        void drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces);
+    void drawBoard();
 
-        bool isChooseLocationInBoard(int screenX, int screenY);
+    // #6 Background
+    void drawPieces();
 
-        void changeChooseState(int screenX, int screenY);
+    void drawCurrentFrame();
+    // draw the choose frame
+    void drawChooseFrame(shared_ptr<Position> theLoc);
 
-        void setIsChoose(bool isChoose) {
-            this->isChoose = isChoose;
-        }
+    void drawModeChooseFrame();
 
-        shared_ptr<Position> getChooseLoc() {
-            return chooseLoc;
-        }
+    void drawPlayerFrame(int currPlayerIndex);
 
-        void setChooseLoc(shared_ptr<Position> pos) {
-            this->isChoose = true;
-            chooseLoc = pos;
-        }
+    void drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces);
 
-        shared_ptr<Position> getChooseLocation(int screenX, int screenY);
+    bool isChooseLocationInBoard(int screenX, int screenY);
 
-        bool isChooseLocationInChangePattern(int screenX, int screenY);
+    void changeChooseState(int screenX, int screenY);
 
-        // Calculate score for AI
-        int calcScore(int playerIndex);
+    void setIsChoose(bool isChoose) {
+        this->isChoose = isChoose;
+    }
 
-        void setAlive(Piece* piece);
+    shared_ptr<Position> getChooseLoc() {
+        return chooseLoc;
+    }
+
+    void setChooseLoc(shared_ptr<Position> pos) {
+        this->isChoose = true;
+        chooseLoc = pos;
+    }
+
+    shared_ptr<Position> getChooseLocation(int screenX, int screenY);
+
+    // Calculate score for AI
+    int calcScore(int playerIndex);
+
+    void setAlive(Piece* piece);
+
+    // #6 Background
+    void setBackgroundColor();
+
+    void setBackgroundPic();
+
+    void changeBackgroundColor();
+
+    void changeBackgroundPic();
+
+    void changePiecePattern() { piecesPattern = 1 - piecesPattern; }
+
+    void changeMusicButton() { music_on = !music_on; }
+
+    void drawButtons();
+
+    int isInButtons(int screenX, int screenY);
 };

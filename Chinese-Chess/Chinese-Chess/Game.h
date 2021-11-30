@@ -33,6 +33,12 @@ class Game {
         int aiLevel = 0; // The higher, the smarter. Level 0 means randomly choose a piece and a destination.
         int aiIndex = -1; // AI's player index
 
+        bool musicState = true;
+        YsSoundPlayer bgmPlayer;
+        YsSoundPlayer::SoundData bgm;
+        YsSoundPlayer movePlayer;
+        YsSoundPlayer::SoundData move;
+
         /**
          * @brief record player's actions
          * @param pieceIndex index of Piece moved by player
@@ -57,4 +63,20 @@ class Game {
 
         void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
         void draw(); 
+
+        // #7 BGM
+        void playBGM() {
+            bgmPlayer.Start();
+            bgmPlayer.PlayBackground(bgm);
+        }
+
+        void pauseBGM() { bgmPlayer.Pause(bgm); }
+
+        void resumeBGM() { bgmPlayer.Resume(bgm); }
+
+        void playMove() {
+
+            movePlayer.PlayOneShot(move);
+            // movePlayer.End();
+        }
 };

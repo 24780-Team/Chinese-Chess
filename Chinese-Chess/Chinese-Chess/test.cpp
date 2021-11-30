@@ -14,7 +14,8 @@ int main() {
     if (quit) {
         return 0;
     }
-    
+    game->playBGM();
+
     bool terminate = false;
     while (!terminate) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
