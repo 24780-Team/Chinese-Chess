@@ -52,10 +52,12 @@ class Game {
         void redo();
         bool startStage1();
         void startStage2();
+        void getPlayerNameFromScreen(YsRawPngDecoder& chineseChess);
 
     public:
         std::string getPlayerName(Player *player) { return player->getName(); }
         bool startGame();
+        bool endGame(int playerIndex);
         bool getWinner(int playerIndex);
         bool nextTurn();
         Piece* setPiece(shared_ptr<Position> pos, Piece* piece);

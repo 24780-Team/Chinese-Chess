@@ -200,19 +200,19 @@ void Board::drawChooseFrame(shared_ptr<Position> theLoc)
 }
 
 
-void Board::drawPlayerFrame(int currPlayerIndex)
+void Board::drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP1)
 {
 	glColor3ub(0, 0, 0);
 	glBegin(GL_LINE_LOOP);
 	int p0x1 = gridMargin + 9.5 * gridSize;
-	int p0x2 = gridMargin + 11 * gridSize;
-	int p0y1 = boardMargin + 2 * gridSize;
-	int p0y2 = boardMargin + 2.5 * gridSize;
+	int p0x2 = gridMargin + 12 * gridSize;
+	int p0y1 = boardMargin + 6 * gridSize;
+	int p0y2 = boardMargin + 6.5 * gridSize;
 
 	int p1x1 = gridMargin + 9.5 * gridSize;
-	int p1x2 = gridMargin + 11 * gridSize;
-	int p1y1 = boardMargin + 6 * gridSize;
-	int p1y2 = boardMargin + 6.5 * gridSize;
+	int p1x2 = gridMargin + 12 * gridSize;
+	int p1y1 = boardMargin + 2 * gridSize;
+	int p1y2 = boardMargin + 2.5 * gridSize;
 
 	if (currPlayerIndex == 0) {
 		glVertex2i(p0x1, p0y1);
@@ -232,15 +232,11 @@ void Board::drawPlayerFrame(int currPlayerIndex)
 
 	glColor3ub(255, 0, 0);
 	glRasterPos2i(p0x1 + pieceSize / 8, p0y1 + pieceSize / 2);
-	string p1 = "Player1";
-	const char* h1 = p1.c_str();
-	YsGlDrawFontBitmap20x32(h1);
+	YsGlDrawFontBitmap20x32(nameOfP0.c_str());
 
 	glColor3ub(0, 0, 0);
 	glRasterPos2i(p1x1 + pieceSize / 8, p1y1 + pieceSize / 2);
-	string p2 = "Player2";
-	const char* h2 = p2.c_str();
-	YsGlDrawFontBitmap20x32(h2);
+	YsGlDrawFontBitmap20x32(nameOfP1.c_str());
 	glFlush();
 }
 

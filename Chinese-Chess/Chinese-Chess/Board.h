@@ -92,7 +92,7 @@ public:
 
     void drawModeChooseFrame();
 
-    void drawPlayerFrame(int currPlayerIndex);
+    void drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP1);
 
     void drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces);
 
