@@ -62,9 +62,6 @@
     <ClCompile Include="Board.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Piece.cpp">
       <Filter>源文件</Filter>
     </ClCompile>

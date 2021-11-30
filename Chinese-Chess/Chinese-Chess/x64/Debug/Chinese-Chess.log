@@ -1,4 +1,1 @@
-﻿  Game.cpp
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(250,9): warning C4101: 'key': unreferenced local variable
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(326,9): warning C4101: 'key': unreferenced local variable
-  Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe
+﻿  Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe
