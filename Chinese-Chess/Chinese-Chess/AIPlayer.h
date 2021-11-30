@@ -30,7 +30,6 @@ struct TreeNode {
 			for (auto child : children) {
 				delete child;
 			}
-			//children.clear();
 			vector<TreeNode*>().swap(children);
 		}
 	}

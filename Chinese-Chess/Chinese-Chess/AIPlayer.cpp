@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int counter = 0;
+//int counter = 0;
 
 AIPlayer::AIPlayer(Board* board, int playerIndex, int searchLevel)
 {
@@ -36,7 +36,7 @@ Move* AIPlayer::getRandomMove() {
 }
 
 void AIPlayer::dfs(int currLevel, TreeNode* currNode, int currPlayerIndex) {
-	counter += 1;
+	//counter += 1;
 	if (currLevel == 0 || currBoard->lossGeneral(currPlayerIndex)) {
 		currNode->move->score = calcScore();
 		return;
@@ -83,11 +83,11 @@ Move* AIPlayer::getNextMove()
 {
 	srand(time(NULL));
 	if (searchLevel == 0) return getRandomMove();
-	counter = 0;
+	//counter = 0;
 	Move* move = new Move(nullptr, nullptr, 0);
 	TreeNode* root = new TreeNode(move);
 	dfs(searchLevel, root, playerIndex);
-	cout << counter << " times dfs" << endl;
+	//cout << counter << " times dfs" << endl;
 	int maxScore = move->score;
 	vector<Move*> choices;
 	for (auto child : root->children) {

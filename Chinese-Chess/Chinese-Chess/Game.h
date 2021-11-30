@@ -14,11 +14,11 @@ const int width = 1400, height = 1200;
 
 class Game {
     private:
-        Board *board;
-        AIPlayer *ai;
+        Board* board;
+        AIPlayer* ai;
 
         std::vector<Player*> players;
-        Player *currPlayer;
+        Player*currPlayer;
         int round;
         int countdown;
         stack<vector<int>> backLog;
@@ -62,6 +62,7 @@ class Game {
         bool nextTurn();
         Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
+        void restart();
 
         void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
         void draw(); 

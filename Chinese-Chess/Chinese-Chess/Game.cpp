@@ -67,9 +67,68 @@ bool Game::startGame() {
 
 bool Game::endGame(int playerIndex)
 {
-    cout << endl;
-    cout << "Game End." << endl;
-    cout << players[playerIndex]->getName() << " win!" << endl;
+    int mouseEvent, leftButton, middleButton, rightButton;
+    int screenX, screenY;
+    int key;
+    bool terminate = false;
+    YsRawPngDecoder gameOver, restart, exit;
+    gameOver.Decode("Resources/words/gameover.png");
+    gameOver.Flip();
+    restart.Decode("Resources/words/restart.png");
+    restart.Flip();
+    exit.Decode("Resources/words/exit.png");
+    exit.Flip();
+
+    int gameOverX = width / 2 - 550, gameOverY = height / 2 - 150, restartX = width / 2 - 450, 
+        restartY = height / 2 + 200, exitX = width / 2 + 100, exitY = height / 2 + 200;
+    string winInfo = "Winner: " + players[playerIndex]->getName();
+
+    while (!terminate) {
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glColor3ub(238, 197, 145);
+        drawRectangle(0, 0, width, height, true);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(gameOverX, gameOverY);
+        glDrawPixels(gameOver.wid, gameOver.hei, GL_RGBA, GL_UNSIGNED_BYTE, gameOver.rgba);
+
+        glColor3ub(0, 0, 0);
+        glRasterPos2i(width / 2 - winInfo.size() * 10, height / 2 - 100);
+        YsGlDrawFontBitmap20x32(winInfo.c_str());
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(restartX, restartY);
+        glDrawPixels(restart.wid, restart.hei, GL_RGBA, GL_UNSIGNED_BYTE, restart.rgba);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glRasterPos2i(exitX, exitY);
+        glDrawPixels(exit.wid, exit.hei, GL_RGBA, GL_UNSIGNED_BYTE, exit.rgba);
+
+        FsPollDevice();
+        mouseEvent = FsGetMouseEvent(leftButton, middleButton,
+            rightButton, screenX, screenY);
+
+        glColor3ub(0, 0, 0);
+        if (screenX > restartX && screenX < restartX + restart.wid && screenY > restartY - restart.hei && screenY < restartY) {
+            drawRectangle(restartX + 10, restartY - 170, restart.wid - 10, restart.hei / 2 - 5, false);
+            if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
+                this->restart();
+                return false;
+            }
+        }
+        else if (screenX > exitX && screenX < exitX + exit.wid * 2 / 3 && screenY > exitY - exit.hei && screenY < exitY) {
+            drawRectangle(exitX + 12, exitY - 165, exit.wid * 2 / 3, exit.hei / 2, false);
+            if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
+                return true;
+            }
+        }
+
+        FsSwapBuffers();
+        FsSleep(20);
+    }
     return true;
 }
 
@@ -227,6 +286,12 @@ void Game::repentPrevTurn()
     return;
 }
 
+void Game::restart()
+{
+    delete board;
+    board = new Board();
+}
+
 void Game::showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces)
 {
     cout << "Avaliable positions are:" << endl;
@@ -255,6 +320,8 @@ bool Game::startStage1()
     int chineseChessX = width / 2 - 550, chineseChessY = height / 2 - 100, pvpX = width / 2 - 110, pvpY = height / 2 + 50,
         pveX = width / 2 - 110, pveY = height / 2 + 200, exitX = width / 2 - 120, exitY = height / 2 + 350;
 
+    glColor3ub(0, 0, 0);
+    glLineWidth(3);
     while (!terminate) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         glColor3ub(238, 197, 145);
@@ -331,7 +398,7 @@ void Game::startStage2()
         hard.Decode("Resources/words/hard.png");
         hard.Flip();
 
-        int easyX = width / 2 - 120, easyY = height / 2 + 50, middumX = width / 2 - 210, 
+        int easyX = width / 2 - 120, easyY = height / 2 + 50, middumX = width / 2 - 220, 
             middumY = height / 2 + 200, hardX = width / 2 - 140, hardY = height / 2 + 350;
 
         while (!terminate) {
@@ -399,6 +466,7 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
 {
     int adjustLetter;
     int key;
+    int maxLength = 10;
     string playerName1 = "";
     int chineseChessX = width / 2 - 550, chineseChessY = height / 2 - 100;
     int p1X = 750, p1Y = height / 2;
@@ -429,6 +497,11 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
 
         playerName1 += "_"; // add an underscore as prompt
         glRasterPos2i(p1X, p1Y);  // sets position
+        
+        if (playerName1.size() > maxLength + 1) {
+            playerName1 = playerName1.substr(0, playerName1.length() - 1);
+        }
+
         YsGlDrawFontBitmap20x32(playerName1.c_str());
         playerName1 = playerName1.substr(0, playerName1.length() - 1); // remove underscore
 
@@ -474,6 +547,11 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
 
         playerName2 += "_"; // add an underscore as prompt
         glRasterPos2i(p2X, p2Y);  // sets position
+
+        if (playerName2.size() > maxLength + 1) {
+            playerName2 = playerName2.substr(0, playerName2.length() - 1); // remove underscore
+        }
+
         YsGlDrawFontBitmap20x32(playerName2.c_str());
         playerName2 = playerName2.substr(0, playerName2.length() - 1); // remove underscore
 
