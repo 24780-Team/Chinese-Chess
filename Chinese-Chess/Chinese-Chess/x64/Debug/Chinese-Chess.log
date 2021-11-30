@@ -1,35 +1,3 @@
-﻿  AIPlayer.cpp
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\AIPlayer.cpp(84,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Board.cpp
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(166,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(207,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(210,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(212,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(215,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(289,27): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(314,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(329,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(353,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(375,54): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(449,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(451,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(467,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(469,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(485,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(487,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(503,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(505,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(532,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(534,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(536,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(538,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(540,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(542,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(544,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(546,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  Game.cpp
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(245,9): warning C4101: 'key': unreferenced local variable
-C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(321,9): warning C4101: 'key': unreferenced local variable
-  test.cpp
-  Generating Code...
+﻿  Piece.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Piece.cpp(50,42): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
   Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Debug\Chinese-Chess.exe

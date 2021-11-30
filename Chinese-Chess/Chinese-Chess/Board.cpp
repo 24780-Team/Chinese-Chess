@@ -83,12 +83,12 @@ Piece* Board::setPiece(shared_ptr<Position> pos, Piece* piece)
 
 	if (piece->getType() == pieceType::SOLDIER) {
 		int playerIndex = piece->getPlayerIndex();
-		if (playerIndex == 0) {
+		if (playerIndex == 1) {
 			if (pos->getY() > 4) piece->setCrossRiver(true);
 			else piece->setCrossRiver(false);
 		}
 
-		if (playerIndex == 1) {
+		if (playerIndex == 0) {
 			if (pos->getY() < 5) piece->setCrossRiver(true);
 			else piece->setCrossRiver(false);
 		}
@@ -738,20 +738,20 @@ void Board::initializeGeneral(int& index)
 	shared_ptr<Position> pos;
 	Piece* piece;
 
-	pos = make_shared<Position>(4, 0);
-	piece = new General(4, 0, 0, index);
+	pos = make_shared<Position>(4, 9);
+	piece = new General(4, 9, 0, index);
 	piece->addImage("Resources/pieces/red_pic/general.png", "Resources/pieces/red_cn/general.png");
 
 	player0Alive[index] = piece;
-	posToPiece[4][0] = piece;
+	posToPiece[4][9] = piece;
 	index += 1;
 
-	pos = make_shared<Position>(4, 9);
-	piece = new General(4, 9, 1, index);
+	pos = make_shared<Position>(4, 0);
+	piece = new General(4, 0, 1, index);
 	piece->addImage("Resources/pieces/black_pic/general.png", "Resources/pieces/black_cn/general.png");
 
 	player1Alive[index] = piece;
-	posToPiece[4][9] = piece;
+	posToPiece[4][0] = piece;
 	index += 1;
 
 	general0Index = 0;
@@ -764,20 +764,20 @@ void Board::initializeAdvisor(int& index)
 	Piece* piece;
 
 	for (int i = -1; i <= 1; i += 2) {
-		pos = make_shared<Position>(4 + i, 0);
-		piece = new Advisor(4 + i, 0, 0, index);
+		pos = make_shared<Position>(4 + i, 9);
+		piece = new Advisor(4 + i, 9, 0, index);
 		piece->addImage("Resources/pieces/red_pic/advisor.png", "Resources/pieces/red_cn/advisor.png");
 
 		player0Alive[index] = piece;
-		posToPiece[4 + i][0] = piece;
+		posToPiece[4 + i][9] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(4 + i, 9);
-		piece = new Advisor(4 + i, 9, 1, index);
+		pos = make_shared<Position>(4 + i, 0);
+		piece = new Advisor(4 + i, 0, 1, index);
 		piece->addImage("Resources/pieces/black_pic/advisor.png", "Resources/pieces/black_cn/advisor.png");
 
 		player1Alive[index] = piece;
-		posToPiece[4 + i][9] = piece;
+		posToPiece[4 + i][0] = piece;
 		index += 1;
 	}
 }
@@ -788,20 +788,20 @@ void Board::initializeElephant(int& index)
 	Piece* piece;
 
 	for (int i = -2; i <= 2; i += 4) {
-		pos = make_shared<Position>(4 + i, 0);
-		piece = new Elephant(4 + i, 0, 0, index);
+		pos = make_shared<Position>(4 + i, 9);
+		piece = new Elephant(4 + i, 9, 0, index);
 		piece->addImage("Resources/pieces/red_pic/elephant.png", "Resources/pieces/red_cn/elephant.png");
 
 		player0Alive[index] = piece;
-		posToPiece[4 + i][0] = piece;
+		posToPiece[4 + i][9] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(4 + i, 9);
-		piece = new Elephant(4 + i, 9, 1, index);
+		pos = make_shared<Position>(4 + i, 0);
+		piece = new Elephant(4 + i, 0, 1, index);
 		piece->addImage("Resources/pieces/black_pic/elephant.png", "Resources/pieces/black_cn/elephant.png");
 
 		player1Alive[index] = piece;
-		posToPiece[4 + i][9] = piece;
+		posToPiece[4 + i][0] = piece;
 		index += 1;
 	}
 }
@@ -812,20 +812,20 @@ void Board::initializeHorse(int& index)
 	Piece* piece;
 
 	for (int i = -3; i <= 3; i += 6) {
-		pos = make_shared<Position>(4 + i, 0);
-		piece = new Horse(4 + i, 0, 0, index);
+		pos = make_shared<Position>(4 + i, 9);
+		piece = new Horse(4 + i, 9, 0, index);
 		piece->addImage("Resources/pieces/red_pic/horse.png", "Resources/pieces/red_cn/horse.png");
 
 		player0Alive[index] = piece;
-		posToPiece[4 + i][0] = piece;
+		posToPiece[4 + i][9] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(4 + i, 9);
-		piece = new Horse(4 + i, 9, 1, index);
+		pos = make_shared<Position>(4 + i, 0);
+		piece = new Horse(4 + i, 0, 1, index);
 		piece->addImage("Resources/pieces/black_pic/horse.png", "Resources/pieces/black_cn/horse.png");
 
 		player1Alive[index] = piece;
-		posToPiece[4 + i][9] = piece;
+		posToPiece[4 + i][0] = piece;
 		index += 1;
 	}
 }
@@ -836,20 +836,20 @@ void Board::initializeChariot(int& index)
 	Piece* piece;
 
 	for (int i = -4; i <= 4; i += 8) {
-		pos = make_shared<Position>(4 + i, 0);
-		piece = new Chariot(4 + i, 0, 0, index);
+		pos = make_shared<Position>(4 + i, 9);
+		piece = new Chariot(4 + i, 9, 0, index);
 		piece->addImage("Resources/pieces/red_pic/chariot.png", "Resources/pieces/red_cn/chariot.png");
 
 		player0Alive[index] = piece;
-		posToPiece[4 + i][0] = piece;
+		posToPiece[4 + i][9] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(4 + i, 9);
-		piece = new Chariot(4 + i, 9, 1, index);
+		pos = make_shared<Position>(4 + i, 0);
+		piece = new Chariot(4 + i, 0, 1, index);
 		piece->addImage("Resources/pieces/black_pic/chariot.png", "Resources/pieces/black_cn/chariot.png");
 
 		player1Alive[index] = piece;
-		posToPiece[4 + i][9] = piece;
+		posToPiece[4 + i][0] = piece;
 		index += 1;
 	}
 }
@@ -860,20 +860,20 @@ void Board::initializeCannon(int& index)
 	Piece* piece;
 
 	for (int i = -3; i <= 3; i += 6) {
-		pos = make_shared<Position>(4 + i, 2);
-		piece = new Cannon(4 + i, 2, 0, index);
+		pos = make_shared<Position>(4 + i, 7);
+		piece = new Cannon(4 + i, 7, 0, index);
 		piece->addImage("Resources/pieces/red_pic/cannon.png", "Resources/pieces/red_cn/cannon.png");
 
 		player0Alive[index] = piece;
-		posToPiece[4 + i][2] = piece;
+		posToPiece[4 + i][7] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(4 + i, 7);
-		piece = new Cannon(4 + i, 7, 1, index);
+		pos = make_shared<Position>(4 + i, 2);
+		piece = new Cannon(4 + i, 2, 1, index);
 		piece->addImage("Resources/pieces/black_pic/cannon.png", "Resources/pieces/black_cn/cannon.png");
 
 		player1Alive[index] = piece;
-		posToPiece[4 + i][7] = piece;
+		posToPiece[4 + i][2] = piece;
 		index += 1;
 	}
 }
@@ -884,20 +884,20 @@ void Board::initializeSoldier(int& index)
 	Piece* piece;
 
 	for (int i = 0; i < 9; i += 2) {
-		pos = make_shared<Position>(i, 3);
-		piece = new Soldier(i, 3, 0, index);
+		pos = make_shared<Position>(i, 6);
+		piece = new Soldier(i, 6, 0, index);
 		piece->addImage("Resources/pieces/red_pic/soldier.png", "Resources/pieces/red_cn/soldier.png");
 
 		player0Alive[index] = piece;
-		posToPiece[i][3] = piece;
+		posToPiece[i][6] = piece;
 		index += 1;
 
-		pos = make_shared<Position>(i, 6);
-		piece = new Soldier(i, 6, 1, index);
+		pos = make_shared<Position>(i, 3);
+		piece = new Soldier(i, 3, 1, index);
 		piece->addImage("Resources/pieces/black_pic/soldier.png", "Resources/pieces/black_cn/soldier.png");
 
 		player1Alive[index] = piece;
-		posToPiece[i][6] = piece;
+		posToPiece[i][3] = piece;
 		index += 1;
 	}
 }
@@ -945,7 +945,7 @@ std::vector<shared_ptr<Position>> Board::checkForGeneral(Piece* piece, std::vect
 	int x = piece->getPos()->getX();
 	int y = piece->getPos()->getY();
 	int playerIndex = piece->getPlayerIndex();
-	if (playerIndex == 0) {
+	if (playerIndex == 1) {
 		for (int j = y + 1; j < height; j++) {
 			if (posToPiece[x][j] != nullptr) {
 				Piece* piece = posToPiece[x][j];

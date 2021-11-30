@@ -67,7 +67,7 @@ vector<shared_ptr<Position>> General::getAvaliablePlace(int width, int height)
 
 bool General::onBoard(shared_ptr<Position> pos)
 {
-	if (playerIndex == 0) {
+	if (playerIndex == 1) {
 		if (pos->getX() < 3 || pos->getX() > 5 || pos->getY() < 0 || pos->getY() > 2) {
 			return false;
 		} 
@@ -82,7 +82,7 @@ bool General::onBoard(shared_ptr<Position> pos)
 
 bool Advisor::onBoard(shared_ptr<Position> pos)
 {
-	if (playerIndex == 0) {
+	if (playerIndex == 1) {
 		if (pos->getX() < 3 || pos->getX() > 5 || pos->getY() < 0 || pos->getY() > 2) {
 			return false;
 		}
@@ -110,7 +110,7 @@ vector<shared_ptr<Position>> Advisor::getAvaliablePlace(int width, int height)
 
 bool Elephant::onBoard(shared_ptr<Position> pos)
 {
-	if (playerIndex == 0) {
+	if (playerIndex == 1) {
 		if (pos->getX() < 0 || pos->getX() > 8 || pos->getY() < 0 || pos->getY() > 4) {
 			return false;
 		}
@@ -157,7 +157,7 @@ vector<shared_ptr<Position>> Soldier::getAvaliablePlace(int width, int height)
 	if (isCrossRiver) {
 		for (auto step : steps) {
 			shared_ptr<Position> dest(new Position(0, 0));
-			if (playerIndex == 0) {
+			if (playerIndex == 1) {
 				dest->setX(pos->getX() + step[0]);
 				dest->setY(pos->getY() + step[1]);
 			}
@@ -174,7 +174,7 @@ vector<shared_ptr<Position>> Soldier::getAvaliablePlace(int width, int height)
 	}
 	else {
 		shared_ptr<Position> dest(new Position(0, 0));
-		if (playerIndex == 0) {
+		if (playerIndex == 1) {
 			dest->setX(pos->getX() + steps[0][0]);
 			dest->setY(pos->getY() + steps[0][1]);
 		}
