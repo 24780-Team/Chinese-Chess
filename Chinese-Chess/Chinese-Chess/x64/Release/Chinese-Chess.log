@@ -1,7 +1,85 @@
-﻿  Game.cpp
+﻿  AIPlayer.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\AIPlayer.cpp(84,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Board.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(124,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(165,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(168,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(170,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(173,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(251,28): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(277,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(292,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(316,14): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(338,54): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(421,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(423,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(444,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(446,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(466,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(468,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(488,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(490,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(520,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(522,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(524,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(526,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(528,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(530,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(532,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Board.cpp(534,10): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Game.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(245,9): warning C4101: 'key': unreferenced local variable
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Game.cpp(321,9): warning C4101: 'key': unreferenced local variable
+  Piece.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\Piece.cpp(50,42): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+  test.cpp
+  yspng.cpp
+  yssimplesound.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(329,27): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(498,25): warning C4244: '=': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(534,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(559,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(583,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(597,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(639,63): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(646,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(647,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(656,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(657,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(658,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(659,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(692,24): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(712,50): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(712,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(718,25): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(737,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(744,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(768,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(775,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(807,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(813,25): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(989,16): warning C4244: '=': conversion from '__int64' to 'unsigned int', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound.cpp(1088,20): warning C4018: '<': signed/unsigned mismatch
+  yssimplesound_dsound.cpp
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound_dsound.cpp(104,43): warning C4311: 'type cast': pointer truncation from 'HWND' to 'int'
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound_dsound.cpp(104,43): warning C4302: 'type cast': truncation from 'HWND' to 'int'
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound_dsound.cpp(227,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\yssimplesound_dsound.cpp(229,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  ysglfontdata.c
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17140,27): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17150,27): warning C4244: 'function': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17389,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17393,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17393,60): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17397,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17417,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17427,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17446,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17519,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\Chinese-Chess\ysglfontdata.c(17536,32): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  4 of 1052 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    23 functions had inline decision re-evaluated but remain unchanged
+  487 of 1224 functions (39.8%) were compiled, the rest were copied from previous compilation.
+    219 functions were new in current compilation
+    76 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Chinese-Chess.vcxproj -> C:\Users\marui\Documents\24780\Chinese-chess\AIVersion\Chinese-Chess\Chinese-Chess\x64\Release\Chinese-Chess.exe

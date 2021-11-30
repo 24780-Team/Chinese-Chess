@@ -27,6 +27,15 @@ private:
     int piecesPattern = 1;
     bool music_on = true;
 
+    YsRawPngDecoder backgroundTexture1;
+    YsRawPngDecoder backgroundTexture2;
+    YsRawPngDecoder playerInformBoard;
+    YsRawPngDecoder backgroundColorButton;
+    YsRawPngDecoder backgroundPicButton;
+    YsRawPngDecoder piecePatternButton;
+    YsRawPngDecoder musicOnButton;
+    YsRawPngDecoder musicOffButton;
+
     std::unordered_map<int, Piece*> player0Alive;
     std::unordered_map<int, Piece*> player1Alive;
     std::unordered_map<int, Piece*> player0Dead;
@@ -70,7 +79,7 @@ public:
     void draw(); // Need to be changed.
 
     // #5 Timer
-    void drawTimer();
+    void drawPlayerInformation();
 
     void drawBoard();
 

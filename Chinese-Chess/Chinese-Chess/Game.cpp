@@ -400,7 +400,7 @@ void Game::draw()
     board->drawBoard();
     board->drawButtons();
     board->drawPieces();
-    board->drawTimer();
+    board->drawPlayerInformation();
     board->drawCurrentFrame();
     board->drawPlayerFrame(currPlayer->getIndex());
     board->drawNodes(avaliablePlaces);

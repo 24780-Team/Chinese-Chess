@@ -20,6 +20,48 @@ Board::Board() {
 	}
 
 	int index = 0;
+
+	const char* texture1Path = "Resources/background/texture.png";
+	if (YSOK == backgroundTexture1.Decode(texture1Path)) {
+		backgroundTexture1.Flip();
+	}
+
+	const char* texture2Path = "Resources/background/texture2.png";
+	if (YSOK == backgroundTexture2.Decode(texture2Path)) {
+		backgroundTexture2.Flip();
+	}
+
+	const char* playerInformationBoardPath = "Resources/background/board.png";
+	if (YSOK == playerInformBoard.Decode(playerInformationBoardPath)) {
+		playerInformBoard.Flip();
+	}
+
+	const char* backgroundColorButtonPath = "Resources/buttons/background.png";
+	if (YSOK == backgroundColorButton.Decode(backgroundColorButtonPath)) {
+		backgroundColorButton.Flip();
+	}
+
+	const char* backgroundPicButtonPath = "Resources/buttons/picture.png";
+	if (YSOK == backgroundPicButton.Decode(backgroundPicButtonPath)) {
+		backgroundPicButton.Flip();
+	}
+
+	const char* musicOnButtonPath = "Resources/buttons/musicon.png";
+	if (YSOK == musicOnButton.Decode(musicOnButtonPath)) {
+		musicOnButton.Flip();
+	}
+
+	const char* musicOffButtonPath = "Resources/buttons/musicoff.png";
+	if (YSOK == musicOffButton.Decode(musicOffButtonPath)) {
+		musicOffButton.Flip();
+	}
+
+	const char* piecePatternButtonPath = "Resources/buttons/piece.png";
+	if (YSOK == piecePatternButton.Decode(piecePatternButtonPath)) {
+		piecePatternButton.Flip();
+	}
+
+
 	initializeGeneral(index);
 	initializeAdvisor(index);
 	initializeElephant(index);
@@ -239,18 +281,13 @@ void Board::setAlive(Piece* piece)
 		player0Alive[pieceIndex] = piece;
 	}
 }
-// #5 Timer
-void Board::drawTimer()
+
+void Board::drawPlayerInformation()
 {
-	const char* boardButtonPath = "Resources/background/board.png";
-	YsRawPngDecoder pngBoard;
-	if (YSOK == pngBoard.Decode(boardButtonPath)) {
-		pngBoard.Flip();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glRasterPos2i(gridMargin + 9.2 * gridSize, gridMargin + 4 * gridSize);
-		glDrawPixels(pngBoard.wid, pngBoard.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngBoard.rgba);
-	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(gridMargin + 9.2 * gridSize, gridMargin + 4 * gridSize);
+	glDrawPixels(playerInformBoard.wid, playerInformBoard.hei, GL_RGBA, GL_UNSIGNED_BYTE, playerInformBoard.rgba);
 }
 
 // #6 Background
@@ -371,27 +408,18 @@ void Board::setBackgroundPic()
 		;
 	}
 	else {
-		YsRawPngDecoder pngTexture;
 		if (backgroundPic == 1) {
-			const char* texture1Path = "Resources/background/texture.png";
-			if (YSOK == pngTexture.Decode(texture1Path)) {
-				pngTexture.Flip();
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
-				glDrawPixels(pngTexture.wid, pngTexture.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngTexture.rgba);
-			}
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
+			glDrawPixels(backgroundTexture1.wid, backgroundTexture1.hei, GL_RGBA, GL_UNSIGNED_BYTE, backgroundTexture1.rgba);
 		}
 
 		else if (backgroundPic == 2) {
-			const char* texture2Path = "Resources/background/texture2.png";
-			if (YSOK == pngTexture.Decode(texture2Path)) {
-				pngTexture.Flip();
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
-				glDrawPixels(pngTexture.wid, pngTexture.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngTexture.rgba);
-			}
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glRasterPos2i(boardMargin, boardMargin + 10 * gridSize);
+			glDrawPixels(backgroundTexture2.wid, backgroundTexture2.hei, GL_RGBA, GL_UNSIGNED_BYTE, backgroundTexture2.rgba);
 		}
 	}
 }
@@ -429,16 +457,11 @@ void Board::drawButtons()
 	glVertex2i(x12, y12);
 	glVertex2i(x12, y11);
 	glEnd();
-	glFlush();
-	const char* colorButtonPath = "Resources/buttons/background.png";
-	YsRawPngDecoder pngColor;
-	if (YSOK == pngColor.Decode(colorButtonPath)) {
-		pngColor.Flip();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glRasterPos2i(x11 + 5, y11 + iconSize - 5);
-		glDrawPixels(pngColor.wid, pngColor.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngColor.rgba);
-	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(x11 + 5, y11 + iconSize - 5);
+	glDrawPixels(backgroundColorButton.wid, backgroundColorButton.hei, GL_RGBA, GL_UNSIGNED_BYTE, backgroundColorButton.rgba);
 
 
 	int x21 = x11 + 0.8 * gridSize;
@@ -452,16 +475,12 @@ void Board::drawButtons()
 	glVertex2i(x22, y22);
 	glVertex2i(x22, y21);
 	glEnd();
-	glFlush();
-	const char* picButtonPath = "Resources/buttons/picture.png";
-	YsRawPngDecoder pngPic;
-	if (YSOK == pngPic.Decode(picButtonPath)) {
-		pngPic.Flip();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glRasterPos2i(x21 + 5, y21 + iconSize - 5);
-		glDrawPixels(pngPic.wid, pngPic.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngPic.rgba);
-	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(x21 + 5, y21 + iconSize - 5);
+	glDrawPixels(backgroundPicButton.wid, backgroundPicButton.hei, GL_RGBA, GL_UNSIGNED_BYTE, backgroundPicButton.rgba);
+
 
 	int x31 = x21 + 0.8 * gridSize;
 	int y31 = boardMargin + 0 * gridSize;
@@ -474,16 +493,12 @@ void Board::drawButtons()
 	glVertex2i(x32, y32);
 	glVertex2i(x32, y31);
 	glEnd();
-	glFlush();
-	const char* pieceButtonPath = "Resources/buttons/piece.png";
-	YsRawPngDecoder pngPiece;
-	if (YSOK == pngPiece.Decode(pieceButtonPath)) {
-		pngPiece.Flip();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glRasterPos2i(x31 + 5, y31 + iconSize - 5);
-		glDrawPixels(pngPiece.wid, pngPiece.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngPiece.rgba);
-	}
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(x31 + 5, y31 + iconSize - 5);
+	glDrawPixels(piecePatternButton.wid, piecePatternButton.hei, GL_RGBA, GL_UNSIGNED_BYTE, piecePatternButton.rgba);
+
 
 	int x41 = x31 + 0.8 * gridSize;
 	int y41 = boardMargin + 0 * gridSize;
@@ -496,23 +511,20 @@ void Board::drawButtons()
 	glVertex2i(x42, y42);
 	glVertex2i(x42, y41);
 	glEnd();
-	glFlush();
-	const char* musicButtonPath;
-	if (music_on)
-		musicButtonPath = "Resources/buttons/musicon.png";
-	else
-		musicButtonPath = "Resources/buttons/musicoff.png";
-	YsRawPngDecoder pngMusic;
-	if (YSOK == pngMusic.Decode(musicButtonPath)) {
-		pngMusic.Flip();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glRasterPos2i(x41 + 5, y41 + iconSize - 5);
-		glDrawPixels(pngMusic.wid, pngMusic.hei, GL_RGBA, GL_UNSIGNED_BYTE, pngMusic.rgba);
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(x41 + 5, y41 + iconSize - 5);
+	if (music_on) {
+		glDrawPixels(musicOnButton.wid, musicOnButton.hei, GL_RGBA, GL_UNSIGNED_BYTE, musicOnButton.rgba);
 	}
+	else {
+		glDrawPixels(musicOffButton.wid, musicOffButton.hei, GL_RGBA, GL_UNSIGNED_BYTE, musicOffButton.rgba);
+	}
+
 }
 
-// #6 Background 
+
 int Board::isInButtons(int screenX, int screenY)
 {
 	int iconSize = 50;
@@ -1137,41 +1149,3 @@ vector<shared_ptr<Position>> Board::checkForCannon(Piece* piece)
 
 	return avaliablePlace;
 }
-
-
-
-
-
-
-//void Board::addPiece(const string filename, int playerIndex, int startIndex)
-//{
-//	ifstream inFile;
-//	string datafilename;
-//	int index = startIndex;
-//
-//	datafilename = filename;
-//	if (datafilename.find(".txt") == string::npos)
-//		datafilename += ".txt";     // allows user to omit extension
-//	inFile.open(datafilename);
-//
-//	if (inFile.is_open()) { // may not have found file
-//		string wholeLineString;
-//
-//		while (!inFile.eof()) {
-//			// read the whole line
-//			getline(inFile, wholeLineString);
-//			if (wholeLineString.find("Piece:") != string::npos) {
-//				Piece* newPiece = new Piece(0, 0, playerIndex, index);
-//				newPiece->load(inFile);
-//				if (playerIndex == 0)
-//					player0Alive[index] = (newPiece);
-//				else
-//					player0Alive[index] = (newPiece);
-//			}
-//			index += 1;
-//		}
-//		inFile.close();
-//	}
-//	else
-//		cout << "\nError reading file. Please check data and try again." << endl;
-//}
