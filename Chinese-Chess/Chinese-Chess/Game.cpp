@@ -112,6 +112,7 @@ bool Game::nextTurnWithoutAI() {
             if (currentPos != nullptr && *currentPos == *validPos) {
                 isChoosePiece = !isChoosePiece;
                 originalPos = currentPos;
+                playMove();
                 break;
             }
         }
@@ -128,6 +129,7 @@ bool Game::nextTurnWithoutAI() {
             }
         }
         if (validDest) {
+            playMove();
             eliminatedPiece = setPiece(currentPos, piece);
             int eliminatedPieceIndex = -1;
             if (eliminatedPiece != nullptr) eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
@@ -144,8 +146,9 @@ bool Game::nextTurnWithoutAI() {
         }
         else {
             for (auto validPos : placesOfPieces) {
-                if (currentPos != nullptr && *currentPos == *validPos) {
+                if (currentPos != nullptr && *currentPos == *validPos && !(*currentPos == *originalPos)) {
                     originalPos = currentPos;
+                    playMove();
                     break;
                 }
             }
@@ -198,6 +201,8 @@ bool Game::nextTurnWithoutAI() {
             isChoosePiece = false;
             originalPos = nullptr;
             board->changeChooseState(-1, -1);
+            avaliablePlaces.clear();
+            playMove();
         }
     }
 
