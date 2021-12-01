@@ -95,9 +95,8 @@ void Game::endGame(int playerIndex)
         glRasterPos2i(gameOverX, gameOverY);
         glDrawPixels(gameOver.wid, gameOver.hei, GL_RGBA, GL_UNSIGNED_BYTE, gameOver.rgba);
 
-        glColor3ub(0, 0, 0);
-        glRasterPos2i(width / 2 - winInfo.size() * 10, height / 2 - 100);
-        YsGlDrawFontBitmap20x32(winInfo.c_str());
+        comicsans.setColorRGB(0, 0, 0);
+        comicsans.drawText(winInfo, width / 2 - winInfo.size() * 12, height / 2 - 100, 0.5);
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -330,19 +329,12 @@ void Game::restart()
 {
     delete board;
     board = new Board();
+    ai->changeBoard(board);
     originalPos = nullptr;
     round = 0;
+    isChoosePiece = false;
     stack<vector<int>>().swap(backLog);
     avaliablePlaces.clear();
-}
-
-void Game::showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces)
-{
-    cout << "Avaliable positions are:" << endl;
-    for (auto pos : avaliablePlaces) {
-        cout << "(" << pos->getX() << "," << pos->getY() << ") ";
-    }
-    cout << endl;
 }
 
 bool Game::startStage1()
@@ -510,7 +502,7 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
 {
     int adjustLetter;
     int key;
-    int maxLength = 10;
+    int maxLength = 12;
     string playerName1 = "";
     int chineseChessX = width / 2 - 550, chineseChessY = height / 2 - 100;
     int p1X = 750, p1Y = height / 2;
@@ -528,25 +520,23 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
         glRasterPos2i(chineseChessX, chineseChessY);
         glDrawPixels(chineseChess.wid, chineseChess.hei, GL_RGBA, GL_UNSIGNED_BYTE, chineseChess.rgba);
 
-        glColor3ub(0, 0, 0);
-        glRasterPos2i(p1X - 400, p1Y - 5);
-        YsGlDrawFontBitmap20x32("Name of Player1:");
-        glRasterPos2i(p2X - 400, p2Y - 5);
-        YsGlDrawFontBitmap20x32("Name of Player2:");
-        drawRectangle(p1X - 20, p1Y - 45, 300, 50, false);
-        drawRectangle(p2X - 20, p2Y - 45, 300, 50, false);
+        comicsans.setColorHSV(0, 0, 0, 1);
+        comicsans.drawText("Name of Player1:", p1X - 450, p1Y + 5, 0.5);
+        comicsans.drawText("Name of Player2:", p2X - 450, p2Y + 5, 0.5);
+
+        drawRectangle(p1X - 20, p1Y - 55, 350, 60, false);
+        drawRectangle(p2X - 20, p2Y - 55, 350, 60, false);
 
         // build filename from keyboard entry, letter by letter
         buildStringFromFsInkey(key, playerName1);
 
         playerName1 += "_"; // add an underscore as prompt
-        glRasterPos2i(p1X, p1Y);  // sets position
-        
         if (playerName1.size() > maxLength + 1) {
             playerName1 = playerName1.substr(0, playerName1.length() - 1);
         }
 
-        YsGlDrawFontBitmap20x32(playerName1.c_str());
+        comicsans.drawText(playerName1.c_str(), p1X, p1Y, 0.45);
+
         playerName1 = playerName1.substr(0, playerName1.length() - 1); // remove underscore
 
         FsSwapBuffers();
@@ -576,27 +566,21 @@ void Game::getPlayerNameFromScreen(YsRawPngDecoder& chineseChess)
         glRasterPos2i(chineseChessX, chineseChessY);
         glDrawPixels(chineseChess.wid, chineseChess.hei, GL_RGBA, GL_UNSIGNED_BYTE, chineseChess.rgba);
 
-        // ask for file name from the graphics window
-        glColor3ub(0, 0, 0);
-        glRasterPos2i(p1X - 400, p1Y - 5);
-        YsGlDrawFontBitmap20x32("Name of Player1:");
-        glRasterPos2i(p1X, p1Y);
-        YsGlDrawFontBitmap20x32(playerName1.c_str());
-        glRasterPos2i(p2X - 400, p2Y - 5);
-        YsGlDrawFontBitmap20x32("Name of Player2:");
-        drawRectangle(p2X - 20, p2Y - 45, 300, 50, false);
+        comicsans.setColorHSV(0, 0, 0, 1);
+        comicsans.drawText("Name of Player1:", p1X - 450, p1Y + 5, 0.5);
+        comicsans.drawText(playerName1.c_str(), p1X, p1Y, 0.45);
+        comicsans.drawText("Name of Player2:", p2X - 450, p2Y + 5, 0.5);
+        drawRectangle(p2X - 20, p2Y - 55, 350, 60, false);
 
-        // build filename from keyboard entry, letter by letter
         buildStringFromFsInkey(key, playerName2);
 
         playerName2 += "_"; // add an underscore as prompt
-        glRasterPos2i(p2X, p2Y);  // sets position
 
         if (playerName2.size() > maxLength + 1) {
             playerName2 = playerName2.substr(0, playerName2.length() - 1); // remove underscore
         }
 
-        YsGlDrawFontBitmap20x32(playerName2.c_str());
+        comicsans.drawText(playerName2.c_str(), p2X, p2Y, 0.45);
         playerName2 = playerName2.substr(0, playerName2.length() - 1); // remove underscore
 
         FsSwapBuffers();

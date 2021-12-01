@@ -39,6 +39,7 @@ class Game {
         YsSoundPlayer::SoundData bgm;
         YsSoundPlayer movePlayer;
         YsSoundPlayer::SoundData move;
+        ComicSansFont comicsans;
 
         /**
          * @brief record player's actions
@@ -66,7 +67,6 @@ class Game {
         void restart();
         bool isTerminated() { return this->isTerminate; }
 
-        void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
         void draw(); 
 
         // #7 BGM

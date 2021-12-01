@@ -8,6 +8,7 @@
 #include "yspng.h"
 #include "DrawingUtilNG.h"
 #include "yssimplesound.h"
+#include "GraphicFont.h"
 
 #include "Piece.h"
 
@@ -37,6 +38,7 @@ private:
     YsRawPngDecoder musicOffButton;
     YsRawPngDecoder surrenderText;
     YsRawPngDecoder retractText;
+    ComicSansFont comicsans;
 
     std::unordered_map<int, Piece*> player0Alive;
     std::unordered_map<int, Piece*> player1Alive;

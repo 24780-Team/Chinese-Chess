@@ -258,16 +258,13 @@ void Board::drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP
 	}
 
 	glEnd();
-	glFlush();
 
-	glColor3ub(255, 0, 0);
-	glRasterPos2i(p0x1 + pieceSize / 8, p0y2 + pieceSize / 2 + 10);
-	YsGlDrawFontBitmap20x32(nameOfP0.c_str());
+	comicsans.setColorRGB(1, 0, 0);
+	comicsans.drawText(nameOfP0.c_str(), p0x1 + pieceSize / 8, p0y2 + pieceSize / 2 + 20, 0.5);
 
-	glColor3ub(0, 0, 0);
-	glRasterPos2i(p1x1 + pieceSize / 8, p1y2 + pieceSize / 2 + 10);
-	YsGlDrawFontBitmap20x32(nameOfP1.c_str());
-	glFlush();
+	comicsans.setColorRGB(0, 0, 0);
+	comicsans.drawText(nameOfP1.c_str(), p1x1 + pieceSize / 8, p1y2 + pieceSize / 2 + 20, 0.5);
+
 }
 
 void Board::drawNodes(const vector<shared_ptr<Position>>& avaliablePlaces)
@@ -419,15 +416,11 @@ void Board::drawBoard()
 	glVertex2i(x3, y3 + 7 * gridSize);
 	glVertex2i(x4, y4 + 7 * gridSize);
 	glEnd();
-	glFlush();
 
 	// river 
-	glRasterPos2i(gridMargin + 3 * gridSize, gridMargin + 4.6 * gridSize);
-	glColor3ub(0, 0, 0);
 	string header = "The river";
-	const char* h = header.c_str();
-	YsGlDrawFontBitmap20x32(h);
-	glFlush();
+	comicsans.setColorHSV(0, 0, 0, 1);
+	comicsans.drawText(header, gridMargin + 3 * gridSize, gridMargin + 4.8 * gridSize, 0.5);
 }
 
 // #6 Background

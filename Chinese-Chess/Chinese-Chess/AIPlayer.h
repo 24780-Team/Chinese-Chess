@@ -47,5 +47,6 @@ private:
 public:
 	AIPlayer(Board* board, int playerIndex, int searchLevel);
 	Move* getNextMove();
+	void changeBoard(Board* board) { this->currBoard = board; }
 };
 
