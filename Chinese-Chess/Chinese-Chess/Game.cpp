@@ -18,7 +18,7 @@ void Game::writeLog(int pieceIndex, shared_ptr<Position> originPos, shared_ptr<P
     backLog.push(log);
 }
 
-void Game::redo()
+bool Game::redo()
 {
     if (!backLog.empty()) {
         vector<int> log = backLog.top();
@@ -31,7 +31,9 @@ void Game::redo()
             Piece* eliminatedPiece = board->getDeadPieceByIndex(log[5]);
             board->setAlive(eliminatedPiece);
         }
+        return true;
     }
+    return false;
 }
 
 bool Game::startGame() {
@@ -65,7 +67,7 @@ bool Game::startGame() {
     return false;
 }
 
-bool Game::endGame(int playerIndex)
+void Game::endGame(int playerIndex)
 {
     int mouseEvent, leftButton, middleButton, rightButton;
     int screenX, screenY;
@@ -116,20 +118,21 @@ bool Game::endGame(int playerIndex)
             drawRectangle(restartX + 10, restartY - 170, restart.wid - 10, restart.hei / 2 - 5, false);
             if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
                 this->restart();
-                return false;
+                break;
             }
         }
         else if (screenX > exitX && screenX < exitX + exit.wid * 2 / 3 && screenY > exitY - exit.hei && screenY < exitY) {
             drawRectangle(exitX + 12, exitY - 165, exit.wid * 2 / 3, exit.hei / 2, false);
             if (mouseEvent == FSMOUSEEVENT_LBUTTONDOWN) {
-                return true;
+                isTerminate = true;
+                break;
             }
         }
 
         FsSwapBuffers();
         FsSleep(20);
     }
-    return true;
+    currPlayer = players[0];
 }
 
 bool Game::getWinner(int playerIndex) {
@@ -142,8 +145,16 @@ bool Game::nextTurn()
     if (playerIndex == aiIndex) {
         Move* move = ai->getNextMove();
         Piece *piece = board->getPiece(move->origin);
-        board->setPiece(move->dest, piece);
+        Piece* eliminatedPiece = board->setPiece(move->dest, piece);
         board->setChooseLoc(move->dest);
+        int eliminatedPieceIndex;
+        if (eliminatedPiece == nullptr) {
+            eliminatedPieceIndex = -1;
+        }
+        else {
+            eliminatedPieceIndex = eliminatedPiece->getPieceIndex();
+        }
+        writeLog(piece->getPieceIndex(), move->origin, move->dest, eliminatedPieceIndex);
         delete move;
 
         if (playerIndex == 1) {
@@ -152,7 +163,8 @@ bool Game::nextTurn()
       
         currPlayer = players[1 - playerIndex];
         if (getWinner(playerIndex)) {
-            return endGame(playerIndex);
+            endGame(playerIndex);
+            return true;
         }
     }
     else {
@@ -225,7 +237,8 @@ bool Game::nextTurnWithoutAI() {
     }
 
     if (getWinner(playerIndex)) {
-        return endGame(playerIndex);
+        endGame(playerIndex);
+        return true;
     }
 
     mouseEvent = FsGetMouseEvent(leftButton, middleButton,
@@ -262,12 +275,30 @@ bool Game::nextTurnWithoutAI() {
         // retract button
         else if (board->isInButtons(screenX, screenY) == 5) {
             // TODO
-            cout << "retarct" << endl;
+            if (aiIndex != -1) {
+                if (redo()) {
+                    int playerIndex = currPlayer->getIndex();
+                    currPlayer = players[1 - playerIndex];
+                }
+            }
+
+            if (redo()) {
+                int playerIndex = currPlayer->getIndex();
+                currPlayer = players[1 - playerIndex];
+            }
         }
         // surrender button
         else if (board->isInButtons(screenX, screenY) == 6) {
-            // TODO
-            cout << "surrender" << endl;
+            
+            if (currPlayer->getIndex() == 0) {
+                endGame(1);
+            }
+        }
+        else if (board->isInButtons(screenX, screenY) == 7) {
+
+            if (currPlayer->getIndex() == 1) {
+                endGame(0);
+            }
         }
     }
 
@@ -299,6 +330,10 @@ void Game::restart()
 {
     delete board;
     board = new Board();
+    originalPos = nullptr;
+    round = 0;
+    stack<vector<int>>().swap(backLog);
+    avaliablePlaces.clear();
 }
 
 void Game::showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces)

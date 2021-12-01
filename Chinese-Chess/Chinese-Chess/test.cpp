@@ -16,8 +16,7 @@ int main() {
     }
     game->playBGM();
 
-    bool terminate = false;
-    while (!terminate) {
+    while (!game->isTerminated()) {
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         FsPollDevice();
@@ -27,7 +26,7 @@ int main() {
         case FSKEY_ESC:
             break;
         }
-        terminate = game->nextTurn();
+        game->nextTurn();
         game->draw();
         FsSwapBuffers();
         FsSleep(20);

@@ -53,7 +53,7 @@ void Piece::draw(int mode)
 
 YsRawPngDecoder * Piece::getImage(int piecePattern)
 {
-	if (piecePattern == 0) {
+	if (piecePattern == 1) {
 		return &imgCHN;
 	}
 	else {

@@ -211,8 +211,7 @@ void Board::drawChooseFrame(shared_ptr<Position> theLoc)
 
 void Board::drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP1)
 {
-	glColor3ub(0, 0, 0);
-	glBegin(GL_LINE_LOOP);
+	
 	int p0x1 = gridMargin + 9.2 * gridSize;
 	int p0x2 = gridMargin + 12.2 * gridSize;
 	int p0y1 = gridMargin + 8 * gridSize;
@@ -225,23 +224,36 @@ void Board::drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP
 
 	if (currPlayerIndex == 0) {
 		// Frame
+		glColor3ub(255, 0, 0);
+		glBegin(GL_LINE_LOOP);
 		glVertex2i(p0x1, p0y1);
 		glVertex2i(p0x1, p0y2);
 		glVertex2i(p0x2, p0y2);
 		glVertex2i(p0x2, p0y1);
+		glEnd();
 		// General
-		// TODO
-		glRasterPos2i(gridMargin + 10.2 * gridSize, gridMargin + 6 * gridSize);
-		glDrawPixels(player0Alive[general0Index]->getImage(piecesPattern)->wid, player0Alive[general0Index]->getImage(piecesPattern)->hei, GL_RGBA, GL_UNSIGNED_BYTE, player0Alive[general0Index]->getImage(piecesPattern)->rgba);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(gridMargin + 10.7 * gridSize - 40, gridMargin + 6.725 * gridSize + 40);
+		YsRawPngDecoder* generalPic = player0Alive[general0Index]->getImage(piecesPattern);
+		glDrawPixels(generalPic->wid, generalPic->hei, GL_RGBA, GL_UNSIGNED_BYTE, generalPic->rgba);
 		
 	}
 	else {
 		// Frame
+		glColor3ub(0, 0, 0);
+		glBegin(GL_LINE_LOOP);
 		glVertex2i(p1x1, p1y1);
 		glVertex2i(p1x1, p1y2);
 		glVertex2i(p1x2, p1y2);
 		glVertex2i(p1x2, p1y1);
+		glEnd();
 		// General
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glRasterPos2i(gridMargin + 10.7 * gridSize - 40, gridMargin + 2.725 * gridSize + 40);
+		YsRawPngDecoder* generalPic = player1Alive[general1Index]->getImage(piecesPattern);
+		glDrawPixels(generalPic->wid, generalPic->hei, GL_RGBA, GL_UNSIGNED_BYTE, generalPic->rgba);
 
 	}
 
@@ -615,7 +627,8 @@ int Board::isInButtons(int screenX, int screenY)
 	if (screenX >= x61 && screenX <= x62 && screenY >= y61 && screenY <= y62)
 		return 6;
 	if (screenX >= x63 && screenX <= x64 && screenY >= y63 && screenY <= y64)
-		return 6;
+		return 7;
+		
 
 	return -1;
 }
@@ -721,11 +734,11 @@ Piece* Board::getAlivePieceByIndex(int index)
 
 Piece* Board::getDeadPieceByIndex(int index)
 {
-	if (player0Alive.count(index) != 0) {
+	if (player0Dead.count(index) != 0) {
 		return player0Dead[index];
 	}
 
-	if (player1Alive.count(index) != 0) {
+	if (player1Dead.count(index) != 0) {
 		return player1Dead[index];
 	}
 	return nullptr;

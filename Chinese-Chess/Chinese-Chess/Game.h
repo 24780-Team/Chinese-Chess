@@ -17,6 +17,7 @@ class Game {
         Board* board;
         AIPlayer* ai;
 
+        bool isTerminate = false;
         std::vector<Player*> players;
         Player*currPlayer;
         int round;
@@ -49,20 +50,21 @@ class Game {
         void writeLog(int pieceIndex, shared_ptr<Position> originPos, shared_ptr<Position> newPos, int eliminatedPieceIndex);
 
         bool nextTurnWithoutAI();
-        void redo();
+        bool redo();
         bool startStage1();
         void startStage2();
         void getPlayerNameFromScreen(YsRawPngDecoder& chineseChess);
+        void endGame(int playerIndex);
 
     public:
         std::string getPlayerName(Player *player) { return player->getName(); }
         bool startGame();
-        bool endGame(int playerIndex);
         bool getWinner(int playerIndex);
         bool nextTurn();
         Piece* setPiece(shared_ptr<Position> pos, Piece* piece);
         void repentPrevTurn(); // Need to be implemented.
         void restart();
+        bool isTerminated() { return this->isTerminate; }
 
         void showAvaliablePlaces(std::vector<shared_ptr<Position>> avaliablePlaces); // Need to be changed.
         void draw(); 
