@@ -35,6 +35,8 @@ private:
     YsRawPngDecoder piecePatternButton;
     YsRawPngDecoder musicOnButton;
     YsRawPngDecoder musicOffButton;
+    YsRawPngDecoder surrenderText;
+    YsRawPngDecoder retractText;
 
     std::unordered_map<int, Piece*> player0Alive;
     std::unordered_map<int, Piece*> player1Alive;

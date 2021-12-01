@@ -241,7 +241,6 @@ bool Game::nextTurnWithoutAI() {
         }
         // Background texture button
         else if (board->isInButtons(screenX, screenY) == 2) {
-            playMove();
             board->changeBackgroundPic();
         }
         // Piece display pattern
@@ -259,6 +258,16 @@ bool Game::nextTurnWithoutAI() {
                 musicState = true;
             }
             board->changeMusicButton();
+        }
+        // retract button
+        else if (board->isInButtons(screenX, screenY) == 5) {
+            // TODO
+            cout << "retarct" << endl;
+        }
+        // surrender button
+        else if (board->isInButtons(screenX, screenY) == 6) {
+            // TODO
+            cout << "surrender" << endl;
         }
     }
 

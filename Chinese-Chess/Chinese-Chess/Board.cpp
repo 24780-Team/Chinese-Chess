@@ -61,6 +61,15 @@ Board::Board() {
 		piecePatternButton.Flip();
 	}
 
+	const char* surrenderTextPath = "Resources/words/surrender.png";
+	if (YSOK == surrenderText.Decode(surrenderTextPath)) {
+		surrenderText.Flip();
+	}
+
+	const char* retractTextPath = "Resources/words/retract.png";
+	if (YSOK == retractText.Decode(retractTextPath)) {
+		retractText.Flip();
+	}
 
 	initializeGeneral(index);
 	initializeAdvisor(index);
@@ -204,38 +213,47 @@ void Board::drawPlayerFrame(int currPlayerIndex, string nameOfP0, string nameOfP
 {
 	glColor3ub(0, 0, 0);
 	glBegin(GL_LINE_LOOP);
-	int p0x1 = gridMargin + 9.5 * gridSize;
-	int p0x2 = gridMargin + 12 * gridSize;
-	int p0y1 = boardMargin + 6 * gridSize;
-	int p0y2 = boardMargin + 6.5 * gridSize;
+	int p0x1 = gridMargin + 9.2 * gridSize;
+	int p0x2 = gridMargin + 12.2 * gridSize;
+	int p0y1 = gridMargin + 8 * gridSize;
+	int p0y2 = gridMargin + 5.5 * gridSize;
 
-	int p1x1 = gridMargin + 9.5 * gridSize;
-	int p1x2 = gridMargin + 12 * gridSize;
-	int p1y1 = boardMargin + 2 * gridSize;
-	int p1y2 = boardMargin + 2.5 * gridSize;
+	int p1x1 = gridMargin + 9.2 * gridSize;
+	int p1x2 = gridMargin + 12.2 * gridSize;
+	int p1y1 = gridMargin + 4 * gridSize;
+	int p1y2 = gridMargin + 1.5 * gridSize;
 
 	if (currPlayerIndex == 0) {
+		// Frame
 		glVertex2i(p0x1, p0y1);
 		glVertex2i(p0x1, p0y2);
 		glVertex2i(p0x2, p0y2);
 		glVertex2i(p0x2, p0y1);
+		// General
+		// TODO
+		glRasterPos2i(gridMargin + 10.2 * gridSize, gridMargin + 6 * gridSize);
+		glDrawPixels(player0Alive[general0Index]->getImage(piecesPattern)->wid, player0Alive[general0Index]->getImage(piecesPattern)->hei, GL_RGBA, GL_UNSIGNED_BYTE, player0Alive[general0Index]->getImage(piecesPattern)->rgba);
+		
 	}
 	else {
+		// Frame
 		glVertex2i(p1x1, p1y1);
 		glVertex2i(p1x1, p1y2);
 		glVertex2i(p1x2, p1y2);
 		glVertex2i(p1x2, p1y1);
+		// General
+
 	}
 
 	glEnd();
 	glFlush();
 
 	glColor3ub(255, 0, 0);
-	glRasterPos2i(p0x1 + pieceSize / 8, p0y1 + pieceSize / 2);
+	glRasterPos2i(p0x1 + pieceSize / 8, p0y2 + pieceSize / 2 + 10);
 	YsGlDrawFontBitmap20x32(nameOfP0.c_str());
 
 	glColor3ub(0, 0, 0);
-	glRasterPos2i(p1x1 + pieceSize / 8, p1y1 + pieceSize / 2);
+	glRasterPos2i(p1x1 + pieceSize / 8, p1y2 + pieceSize / 2 + 10);
 	YsGlDrawFontBitmap20x32(nameOfP1.c_str());
 	glFlush();
 }
@@ -280,19 +298,41 @@ void Board::setAlive(Piece* piece)
 
 void Board::drawPlayerInformation()
 {
+	// Info background texture
+	// Player 1
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glRasterPos2i(gridMargin + 9.2 * gridSize, gridMargin + 8 * gridSize);
+	glDrawPixels(playerInformBoard.wid, playerInformBoard.hei, GL_RGBA, GL_UNSIGNED_BYTE, playerInformBoard.rgba);
+	// time
+	
+	// surrender button
+	glRasterPos2i(gridMargin + 10.2 * gridSize, gridMargin + 8.4 * gridSize);
+	glDrawPixels(surrenderText.wid, surrenderText.hei, GL_RGBA, GL_UNSIGNED_BYTE, surrenderText.rgba);	
+	// retract button
+	glRasterPos2i(gridMargin + 9 * gridSize, gridMargin + 8.4 * gridSize);
+	glDrawPixels(retractText.wid, retractText.hei, GL_RGBA, GL_UNSIGNED_BYTE, retractText.rgba);
+
+	// Player 2
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glRasterPos2i(gridMargin + 9.2 * gridSize, gridMargin + 4 * gridSize);
 	glDrawPixels(playerInformBoard.wid, playerInformBoard.hei, GL_RGBA, GL_UNSIGNED_BYTE, playerInformBoard.rgba);
+	// time
+
+	// surrender button
+	glRasterPos2i(gridMargin + 10.2 * gridSize, gridMargin + 4.4 * gridSize);
+	glDrawPixels(surrenderText.wid, surrenderText.hei, GL_RGBA, GL_UNSIGNED_BYTE, surrenderText.rgba);
+	// retract button
+	glRasterPos2i(gridMargin + 9 * gridSize, gridMargin + 4.4 * gridSize);
+	glDrawPixels(retractText.wid, retractText.hei, GL_RGBA, GL_UNSIGNED_BYTE, retractText.rgba);
+
+	
 }
 
-// #6 Background
 void Board::drawBoard()
 {
-	// board background
-	// glColor3ub(255, 248, 220);
-	// #6 Background
-
+	// Board color
 	setBackgroundColor();
 	glBegin(GL_QUADS);
 	glVertex2i(boardMargin, boardMargin);
@@ -302,7 +342,9 @@ void Board::drawBoard()
 	glEnd();
 	glFlush();
 
+	// Board picture
 	setBackgroundPic();
+
 	// board grid
 	int lineWidth = 3;
 	// horizontal lines
@@ -541,6 +583,22 @@ int Board::isInButtons(int screenX, int screenY)
 	int y41 = y11;
 	int x42 = x31 + 0.8 * gridSize + iconSize;
 	int y42 = y11 + iconSize;
+	int x51 = gridMargin + 9.5 * gridSize;
+	int y51 = gridMargin + 7.6 * gridSize;
+	int x52 = x51 + 80;
+	int y52 = y51 + 40;
+	int x53 = gridMargin + 9.5 * gridSize;
+	int y53 = gridMargin + 3.6 * gridSize;
+	int x54 = x53 + 130;
+	int y54 = y53 + 40;
+	int x61 = gridMargin + 10.5 * gridSize;
+	int y61 = gridMargin + 7.6 * gridSize;
+	int x62 = x61 + 80;
+	int y62 = y61 + 40;
+	int x63 = gridMargin + 10.5 * gridSize;
+	int y63 = gridMargin + 3.6 * gridSize;
+	int x64 = x63 + 130;
+	int y64 = y63 + 40;
 
 	if (screenX >= x11 && screenX <= x12 && screenY >= y11 && screenY <= y12)
 		return 1;
@@ -550,6 +608,15 @@ int Board::isInButtons(int screenX, int screenY)
 		return 3;
 	if (screenX >= x41 && screenX <= x42 && screenY >= y41 && screenY <= y42)
 		return 4;
+	if (screenX >= x51 && screenX <= x52 && screenY >= y51 && screenY <= y52)
+		return 5;
+	if (screenX >= x53 && screenX <= x54 && screenY >= y53 && screenY <= y54)
+		return 5;
+	if (screenX >= x61 && screenX <= x62 && screenY >= y61 && screenY <= y62)
+		return 6;
+	if (screenX >= x63 && screenX <= x64 && screenY >= y63 && screenY <= y64)
+		return 6;
+
 	return -1;
 }
 

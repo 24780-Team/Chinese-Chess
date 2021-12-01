@@ -51,6 +51,16 @@ void Piece::draw(int mode)
 	glDrawPixels(png->wid, png->hei, GL_RGBA, GL_UNSIGNED_BYTE, png->rgba);
 }
 
+YsRawPngDecoder * Piece::getImage(int piecePattern)
+{
+	if (piecePattern == 0) {
+		return &imgCHN;
+	}
+	else {
+		return &imgPIC;
+	}
+}
+
 
 vector<shared_ptr<Position>> General::getAvaliablePlace(int width, int height)
 {

@@ -55,7 +55,9 @@ public:
 
 	//// reads data from a file over-riding any existing data
 	//void load(std::ifstream& inFile);
-	void draw(int mode);
+	void draw(int piecePattern);
+
+	YsRawPngDecoder * getImage(int piecePattern);
 };
 
 
